@@ -25,8 +25,6 @@ public class User {
 
     private Integer age;
 
-    private String address;
-
     public String getName() {
         return name;
     }
