@@ -8,6 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>training-appointment-start</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>training-appointment-start</name>
     <description>入口模块，引导工程启动以及基础配置</description>
     <dependencies>
@@ -26,10 +27,12 @@
         <dependency>
             <groupId>com.myfitnessapp</groupId>
             <artifactId>training-appointment-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.myfitnessapp</groupId>
             <artifactId>training-appointment-web</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
