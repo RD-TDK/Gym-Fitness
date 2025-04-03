@@ -1,2 +1,2 @@
 # module description
-web 模块，对应 MVC 的 V 概念，存放视图层的逻辑
+web module, which corresponds to the V concept of MVC and holds the logic of the view layer.
