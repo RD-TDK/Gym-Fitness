@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myfitnessapp.service.appointment.mapper.SessionInfoMapper;
 import com.myfitnessapp.service.appointment.model.SessionInfo;
 import com.myfitnessapp.service.appointment.service.SessionInfoService;
+import com.myfitnessapp.service.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class SessionInfoServiceImpl implements SessionInfoService {
         SessionInfo session = sessionInfoMapper.selectById(sessionId);
         if (session == null) {
             log.warn("训练会话记录 {} 不存在", sessionId);
-            return false;
+            throw new ResourceNotFoundException("训练会话记录 " + sessionId + " 不存在");
         }
         session.setStatus(status);
         if (goalDescription != null && !goalDescription.isEmpty()) {
@@ -59,7 +60,7 @@ public class SessionInfoServiceImpl implements SessionInfoService {
         SessionInfo session = sessionInfoMapper.selectById(sessionId);
         if (session == null) {
             log.warn("训练会话记录 {} 不存在", sessionId);
-            return false;
+            throw new ResourceNotFoundException("训练会话记录 " + sessionId + " 不存在");
         }
         session.setDuration(duration);
         session.setNextSessionDatetime(nextSessionDatetime);
@@ -80,7 +81,7 @@ public class SessionInfoServiceImpl implements SessionInfoService {
         SessionInfo session = sessionInfoMapper.selectById(sessionId);
         if (session == null) {
             log.warn("训练会话记录 {} 不存在，无法取消", sessionId);
-            return false;
+            throw new ResourceNotFoundException("训练会话记录 " + sessionId + " 不存在");
         }
         session.setStatus("CANCELED");
         int rows = sessionInfoMapper.updateById(session);
