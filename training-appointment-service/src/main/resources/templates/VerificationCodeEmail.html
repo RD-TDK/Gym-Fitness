@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+    <style>
+        /* 通用重置与布局 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: "Arial", sans-serif;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 顶部图片区域 */
+        .header-image {
+            width: 100%;
+            display: block;
+        }
+
+        /* 内部内容区域 */
+        .content {
+            padding: 20px 30px;
+            text-align: left;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333333;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666666;
+        }
+        .verification-code {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #4CAF50;
+            color: #ffffff;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- 顶部展示大图，可换为你想要的图片URL -->
+    <img class="header-image"
+         src="https://oursportinglife.co.uk/wp-content/uploads/2021/05/rsz_danielle-cerullo-cqfnt66ttzm-unsplash.jpg"
+         alt="MyFitness" />
+
+    <div class="content">
+        <h1>Welcome!</h1>
+        <p>Thank you for joining us! </p>
+        <p>Unleash your potential. Train hard, stay strong, and transform your body—because greatness starts with a single workout.</p>
+        <p>Your verification code is:</p>
+        <div class="verification-code">
+            ${verificationCode}
+        </div>
+        <p>Please enter this code in the app or website to confirm your account. This code will expire in 5 minutes.</p>
+
+        <div class="footer">
+            <p>© 2025 MyFitness App. All rights reserved.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
