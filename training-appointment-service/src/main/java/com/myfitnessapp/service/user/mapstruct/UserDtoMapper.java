@@ -1,4 +1,4 @@
-package com.myfitnessapp.service.user.mapper;
+package com.myfitnessapp.service.user.mapstruct;
 
 import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.dto.*;
@@ -14,6 +14,7 @@ public interface UserDtoMapper {
 
     // DTO -> Entity: 更新邮箱时，将 newEmail 映射到 email 字段
     @Mapping(source = "newEmail", target = "email")
+    @Mapping(target = "password", ignore = true)
     void userEmailUpdateDTOtoUser(UserEmailUpdateDTO userEmailUpdateDTO, @MappingTarget User user);
 
     // DTO -> Entity: 更新密码时，将 newPassword 映射到 password 字段

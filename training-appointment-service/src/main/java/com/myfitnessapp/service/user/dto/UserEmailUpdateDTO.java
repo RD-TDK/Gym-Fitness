@@ -27,5 +27,5 @@ public class UserEmailUpdateDTO {
     private String newEmail;
 
     @NotBlank(message = "The verification code cannot be empty")
-    private String verfiticationCode;
+    private String verifiticationCode;
 }

@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(scanBasePackages = {"com.myfitnessapp"})
-@MapperScan("com.myfitnessapp.service.appointment.mapper")
+//@MapperScan("com.myfitnessapp.service.appointment.mapper")
+@MapperScan({"com.myfitnessapp.service.appointment.mapper", "com.myfitnessapp.service.user.mapper", "com.myfitnessapp.service.user.handler"})
+@ComponentScan(basePackages = {"com.myfitnessapp.trainingappointment","com.myfitnessapp.trainingappointment.demos.web.controller","com.myfitnessapp.service.appointment.service", "com.myfitnessapp.service.user.*"})
 public class TrainingAppointmentApplication {
 
     public static void main(String[] args) {

@@ -22,6 +22,8 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     private final RedisTemplate redisTemplate;
     private final EmailService emailService;
 
+    private static final String VERIFICATION_CODE_KEY_PREFIX = "verification_code:";
+
     @Autowired
     public VerificationCodeServiceImpl(StringRedisTemplate stringRedisTemplate, StringRedisTemplate stringRedisTemplate1,
                                        @Qualifier("redisTemplate") RedisTemplate redisTemplate,
@@ -32,7 +34,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     }
 
     @Override
-    public String generateAndSend(String destinationEmail) {
+    public void generateAndSend(String destinationEmail) {
 
         // 调用频率限制部分：
         String rateLimitKey = "verification_code:limit:" + destinationEmail;
@@ -48,7 +50,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         String verificationCode = String.format("%06d", random.nextInt(1000000));
 
         // Construct the Redis key and store the code with a 5-minute expiration
-        String redisKey = getRedisKey(destinationEmail);
+        String redisKey = VERIFICATION_CODE_KEY_PREFIX + destinationEmail;
         stringRedisTemplate.opsForValue().set(redisKey, verificationCode, 300, TimeUnit.SECONDS);
 
         // Load the HTML email template
@@ -68,15 +70,14 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
         String subject = "Your Verification Code";
         emailService.sendEmail(destinationEmail, subject, mailContent);
 
-        return verificationCode;
     }
 
     @Override
     public boolean validateVerificationCode(String destinationEmail, String inputVerificationCode) {
-        String redisKey = getRedisKey(destinationEmail);
-        String verificationCode = (String) redisTemplate.opsForValue().get(redisKey);
+        String redisKey = VERIFICATION_CODE_KEY_PREFIX + destinationEmail;
+        String verificationCode = stringRedisTemplate.opsForValue().get(redisKey);
         if (verificationCode != null && verificationCode.equals(inputVerificationCode)) {
-            redisTemplate.delete(redisKey);
+            stringRedisTemplate.delete(redisKey);
             return true;
         }
         return false;

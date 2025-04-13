@@ -22,4 +22,6 @@ spring:
             enable: true
         auth: true
       debug: true
-
+mybatis:
+mybatis-plus:
+  type-handlers-package: com.myfitnessapp.service.user.handler
