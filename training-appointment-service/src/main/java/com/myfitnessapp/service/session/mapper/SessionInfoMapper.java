@@ -1,7 +1,7 @@
-package com.myfitnessapp.service.appointment.mapper;
+package com.myfitnessapp.service.session.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.myfitnessapp.service.appointment.model.SessionInfo;
+import com.myfitnessapp.service.session.model.SessionInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

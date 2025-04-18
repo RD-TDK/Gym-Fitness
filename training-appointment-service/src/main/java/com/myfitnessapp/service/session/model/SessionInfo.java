@@ -1,4 +1,4 @@
-package com.myfitnessapp.service.appointment.model;
+package com.myfitnessapp.service.session.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
