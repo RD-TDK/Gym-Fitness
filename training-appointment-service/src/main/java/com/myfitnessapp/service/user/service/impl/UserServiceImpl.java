@@ -2,6 +2,7 @@ package com.myfitnessapp.service.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myfitnessapp.service.exception.DuplicationEmailException;
+import com.myfitnessapp.service.user.domain.Role;
 import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.domain.UserStatus;
 import com.myfitnessapp.service.user.dto.*;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
         boolean validCode = verificationCodeService.validateVerificationCode(
                 userRegistrationDTO.getEmail(),
-                userRegistrationDTO.getVerifiticationCode()
+                userRegistrationDTO.getVerificationCode()
         );
         if (!validCode) {
             throw new IllegalArgumentException("Invalid verification code");
@@ -58,6 +59,10 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(userRegistrationDTO.getEmail());
         newUser.setName(userRegistrationDTO.getName());
         newUser.setGender(userRegistrationDTO.getGender());
+        newUser.setRole(Role.VISITOR);
+        newUser.setPhone(userRegistrationDTO.getPhoneNumber());
+        newUser.setAddress(userRegistrationDTO.getAddress());
+        newUser.setBirthday(userRegistrationDTO.getBirthday());
 
         // Encrypt password and save it to avoid plain text
         newUser.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
@@ -67,6 +72,7 @@ public class UserServiceImpl implements UserService {
 
         return userDtoMapper.toUserResponseDTO(newUser);
     }
+
     @Override
     public UserResponseDTO loginUser(UserLoginDTO loginDTO) {
         // 根据邮箱构造查询条件，确保找到对应的用户
@@ -175,7 +181,7 @@ public class UserServiceImpl implements UserService {
         // 5. 调用验证码服务，使用新邮箱和验证码进行验证
         boolean validCode = verificationCodeService.validateVerificationCode(
                 userEmailUpdateDTO.getNewEmail(),
-                userEmailUpdateDTO.getVerifiticationCode()  // 注意字段名要与 DTO 保持一致
+                userEmailUpdateDTO.getVerificationCode()  // 注意字段名要与 DTO 保持一致
         );
         if (!validCode) {
             throw new IllegalArgumentException("Invalid verification code for new email.");
@@ -200,5 +206,12 @@ public class UserServiceImpl implements UserService {
         // 软删除：将状态设置为 INACTIVE 表示账号取消
         user.setUserStatus(UserStatus.INACTIVE);
         userMapper.updateById(user);
+    }
+
+    @Override
+    public User loadDomainUserByEmail(String email) {
+        QueryWrapper<User> query = new QueryWrapper<>();
+        query.eq("email", email);
+        return userMapper.selectOne(query);
     }
 }

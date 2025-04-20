@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,6 +24,11 @@ public class User {
     private String password;
     private Gender gender;
     private Role role;
+    private String phone;
+    private String address;
+
+    @TableField("birth_date")
+    private LocalDate birthday;
 
     @TableField("status")
     private UserStatus userStatus;

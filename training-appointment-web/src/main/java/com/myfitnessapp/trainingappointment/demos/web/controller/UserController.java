@@ -1,14 +1,29 @@
 package com.myfitnessapp.trainingappointment.demos.web.controller;
+import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myfitnessapp.service.user.domain.Role;
+import com.myfitnessapp.service.user.domain.User;
+import com.myfitnessapp.service.user.domain.UserStatus;
 import com.myfitnessapp.service.user.dto.*;
 import com.myfitnessapp.service.user.service.UserService;
 import com.myfitnessapp.service.user.service.VerificationCodeService;
+import com.myfitnessapp.service.user.service.impl.CustomUserDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
     private final UserService userService;
     private final VerificationCodeService verificationCodeService;
@@ -18,6 +33,7 @@ public class UserController {
         this.userService = userService;
         this.verificationCodeService = verificationCodeService;
     }
+
 
     /**
      * 发送验证码接口
@@ -50,15 +66,56 @@ public class UserController {
     }
 
     /**
-     * 用户登录接口
-     *
-     * @param loginDTO 前端提交的登录信息，包含邮箱和密码
-     * @return 登录成功后返回用户响应 DTO
+     * 统一登录接口，既接收 application/json，也接收 application/x-www-form-urlencoded
      */
-    @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> loginUser(@RequestBody UserLoginDTO loginDTO) {
-        UserResponseDTO response = userService.loginUser(loginDTO);
-        return ResponseEntity.ok(response);
+    @PostMapping(value = "/login",
+            consumes = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+    public ResponseEntity<LoginResponseDTO> loginUser(HttpServletRequest request) {
+        UserLoginDTO loginDTO;
+        String contentType = request.getContentType();
+
+        try {
+            if (contentType != null && contentType.contains(MediaType.APPLICATION_JSON_VALUE)) {
+                // JSON 登录：从请求流反序列化
+                loginDTO = new ObjectMapper()
+                        .readValue(request.getInputStream(), UserLoginDTO.class);
+            } else {
+                // 表单登录：从请求参数读取
+                loginDTO = new UserLoginDTO();
+                loginDTO.setEmail(request.getParameter("email"));
+                loginDTO.setPassword(request.getParameter("password"));
+            }
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (loginDTO.getEmail() == null || loginDTO.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // 业务校验：邮箱/密码/状态
+        UserResponseDTO userResponse = userService.loginUser(loginDTO);
+
+        // 手动构建 Spring Security Authentication
+        User domainUser = userService.loadDomainUserByEmail(loginDTO.getEmail());
+        CustomUserDetails userDetails = new CustomUserDetails(domainUser);
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+        request.getSession(true);  // 确保下发 JSESSIONID
+
+        // 根据角色决定前端跳转页面
+        String targetPage;
+        switch (userResponse.getRole()) {
+            case VISITOR: targetPage = "/visitor/choice";   break;
+            case MEMBER:  targetPage = "/member/dashboard"; break;
+            case TRAINER: targetPage = "/trainer/dashboard";break;
+            default:      targetPage = "/home";             break;
+        }
+
+        return ResponseEntity.ok(new LoginResponseDTO(userResponse, targetPage));
     }
 
     /**
@@ -96,12 +153,16 @@ public class UserController {
      * @param emailUpdateDTO 包含旧邮箱、密码、新邮箱及验证码的更新数据
      * @return 更新成功后返回新的用户响应 DTO
      */
-    @PutMapping("/{id}/email")
-    public ResponseEntity<UserResponseDTO> updateUserEmail(@PathVariable("id") Integer id,
-                                                           @RequestBody UserEmailUpdateDTO emailUpdateDTO) {
-        UserResponseDTO response = userService.updateUserEmail(id, emailUpdateDTO);
-        return ResponseEntity.ok(response);
-    }
+//    @PutMapping("/{id}/email")
+//    public ResponseEntity<UserResponseDTO> updateUserEmail(@PathVariable("id") Integer id,
+//                                                           @RequestBody UserEmailUpdateDTO emailUpdateDTO) {
+//        log.info("Received request to update email for user id: {} with payload: {}", id, emailUpdateDTO);
+//
+//        UserResponseDTO response = userService.updateUserEmail(id, emailUpdateDTO);
+//
+//        log.info("Email update successful for user id: {}. Updated response: {}", id, response);
+//        return ResponseEntity.ok(response);
+//    }
 
     /**
      * 注销账号接口

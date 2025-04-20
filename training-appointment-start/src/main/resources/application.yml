@@ -25,3 +25,5 @@ spring:
 mybatis:
 mybatis-plus:
   type-handlers-package: com.myfitnessapp.service.user.handler
+logging.level.org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
+logging.level.org.springframework.web: TRACE

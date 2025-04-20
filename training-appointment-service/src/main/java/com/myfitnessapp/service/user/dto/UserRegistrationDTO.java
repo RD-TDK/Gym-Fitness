@@ -1,13 +1,13 @@
 package com.myfitnessapp.service.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.myfitnessapp.service.user.domain.Gender;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,6 +22,18 @@ public class UserRegistrationDTO {
     @Email(message = "The email format is incorrect")
     private String email;
 
+    @NotBlank(message = "The phoneNumber cannot be empty")
+    private String phoneNumber;
+
+    @NotBlank(message = "The address cannot be empty")
+    private String address;
+
+
+    @NotNull(message = "The birthday cannot be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
+
     @NotBlank(message = "The password cannot be empty")
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$",
@@ -33,6 +45,6 @@ public class UserRegistrationDTO {
     private String confirmPassword;
 
     @NotBlank(message = "The verification code cannot be empty")
-    private String verifiticationCode;
+    private String verificationCode;
 
 }

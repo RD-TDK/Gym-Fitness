@@ -1,6 +1,10 @@
 package com.myfitnessapp.service.user.service;
 
+import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.dto.*;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public interface UserService {
 
@@ -15,4 +19,6 @@ public interface UserService {
     UserResponseDTO updateUserEmail(Integer id, UserEmailUpdateDTO userEmailUpdateDTO);
     
     void cancelAccount(Integer id);
+
+    User loadDomainUserByEmail(@NotBlank(message = "The email cannot be empty") @Email(message = "The email format is incorrect") String email);
 }

@@ -10,6 +10,9 @@ import org.mapstruct.MappingTarget;
 public interface UserDtoMapper {
 
     // Entity -> DTO
+    @Mapping(
+            target = "age",
+            expression = "java(user.getBirthday() == null ? null : java.time.Period.between(user.getBirthday(), java.time.LocalDate.now()).getYears())")
     UserResponseDTO toUserResponseDTO(User user);
 
     // DTO -> Entity: 更新邮箱时，将 newEmail 映射到 email 字段

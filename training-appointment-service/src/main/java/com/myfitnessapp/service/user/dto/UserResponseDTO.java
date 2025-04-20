@@ -16,7 +16,11 @@ public class UserResponseDTO {
     private String email;
     private Gender gender;
     private Role role;
+    private String phoneNumber;
+    private String address;
+    private Integer age;
     private UserStatus userStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 }

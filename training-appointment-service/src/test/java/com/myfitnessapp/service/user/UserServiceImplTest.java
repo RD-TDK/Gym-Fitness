@@ -54,8 +54,11 @@ public class UserServiceImplTest {
         regDTO.setEmail("mike@gmail.com");
         regDTO.setPassword("Password123");
         regDTO.setConfirmPassword("Password123");
-        regDTO.setVerifiticationCode("123456");
+        regDTO.setVerificationCode("123456");
         regDTO.setGender(Gender.MALE);
+        regDTO.setPhoneNumber("1234567890");
+        regDTO.setAddress("Test address");
+        regDTO.setBirthday(java.time.LocalDate.of(1990, 1, 1));
 
         // 假设验证码验证成功
         when(verificationCodeService.validateVerificationCode(any(), any())).thenReturn(true);
@@ -103,6 +106,9 @@ public class UserServiceImplTest {
         regDTO.setPassword("Password123");
         regDTO.setConfirmPassword("Password123");
         regDTO.setGender(Gender.FEMALE);
+        regDTO.setPhoneNumber("9876543210");
+        regDTO.setAddress("Some address");
+        regDTO.setBirthday(java.time.LocalDate.of(1985, 5, 20));
 
         // Simylated the code verified succeed
         when(verificationCodeService.validateVerificationCode(any(), any())).thenReturn(true);
@@ -127,8 +133,11 @@ public class UserServiceImplTest {
         regDTO.setEmail("test@example.com");
         regDTO.setPassword("Password123");
         regDTO.setConfirmPassword("Password321"); // 不匹配
-        regDTO.setVerifiticationCode(null);
+        regDTO.setVerificationCode(null);
         regDTO.setGender(Gender.MALE);
+        regDTO.setPhoneNumber("1112223333");
+        regDTO.setAddress("Mismatch address");
+        regDTO.setBirthday(java.time.LocalDate.of(2000, 12, 12));
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 userService.registerUser(regDTO));
         assertTrue(exception.getMessage().contains("do not match"));
@@ -141,7 +150,10 @@ public class UserServiceImplTest {
         regDTO.setEmail("test@example.com");
         regDTO.setPassword("Password123");
         regDTO.setConfirmPassword("Password123");
-        regDTO.setVerifiticationCode("wrongCode");
+        regDTO.setVerificationCode("wrongCode");
+        regDTO.setPhoneNumber("4445556666");
+        regDTO.setAddress("Invalid code address");
+        regDTO.setBirthday(java.time.LocalDate.of(1995, 7, 7));
 
         // 验证码验证假设失败（Mock返回 false）
         when(verificationCodeService.validateVerificationCode(any(), any())).thenReturn(false);
@@ -376,7 +388,7 @@ public class UserServiceImplTest {
         updateEmailDTO.setOldEmail("old@test.com");
         updateEmailDTO.setPassword("plainPassword");
         updateEmailDTO.setNewEmail("new@test.com");
-        updateEmailDTO.setVerifiticationCode("999999");
+        updateEmailDTO.setVerificationCode("999999");
 
         // 模拟用户查询返回该用户
         when(userMapper.selectById(60)).thenReturn(user);
@@ -417,7 +429,7 @@ public class UserServiceImplTest {
         updateEmailDTO.setOldEmail("wrong@test.com");
         updateEmailDTO.setPassword("whatever");
         updateEmailDTO.setNewEmail("new@test.com");
-        updateEmailDTO.setVerifiticationCode("000000");
+        updateEmailDTO.setVerificationCode("000000");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.updateUserEmail(70, updateEmailDTO);
@@ -440,7 +452,7 @@ public class UserServiceImplTest {
         updateEmailDTO.setOldEmail("old@test.com");
         updateEmailDTO.setPassword("wrongPassword");
         updateEmailDTO.setNewEmail("new@test.com");
-        updateEmailDTO.setVerifiticationCode("000000");
+        updateEmailDTO.setVerificationCode("000000");
 
         // 模拟密码校验失败
         when(mockedPasswordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
@@ -466,7 +478,7 @@ public class UserServiceImplTest {
         updateEmailDTO.setOldEmail("old@test.com");
         updateEmailDTO.setPassword("plainPassword");
         updateEmailDTO.setNewEmail("existing@test.com");
-        updateEmailDTO.setVerifiticationCode("123123");
+        updateEmailDTO.setVerificationCode("123123");
 
         // 模拟密码校验成功
         when(mockedPasswordEncoder.matches("plainPassword", "encodedPassword")).thenReturn(true);
@@ -494,7 +506,7 @@ public class UserServiceImplTest {
         updateEmailDTO.setOldEmail("old@test.com");
         updateEmailDTO.setPassword("plainPassword");
         updateEmailDTO.setNewEmail("new@test.com");
-        updateEmailDTO.setVerifiticationCode("badCode");
+        updateEmailDTO.setVerificationCode("badCode");
 
         // 注入 mock 密码编码器
         BCryptPasswordEncoder mockedPasswordEncoder = injectMockPasswordEncoder();
