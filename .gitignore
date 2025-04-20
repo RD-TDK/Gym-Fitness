@@ -32,3 +32,28 @@ build/
 ### VS Code ###
 .vscode/
 
+# Gym-Fitness
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+Gym-Fitness/node_modules
+Gym-Fitness/.pnp
+Gym-Fitness/.pnp.js
+
+# testing
+Gym-Fitness/coverage
+
+# production
+Gym-Fitness/build
+
+# misc
+Gym-Fitness/.DS_Store
+Gym-Fitness/.env.local
+Gym-Fitness/.env.development.local
+Gym-Fitness/.env.test.local
+Gym-Fitness/.env.production.local
+
+Gym-Fitness/npm-debug.log*
+Gym-Fitness/yarn-debug.log*
+Gym-Fitness/yarn-error.log*
