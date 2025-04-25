@@ -1,0 +1,2468 @@
+/* Siginin-page */
+
+.maincontainer {
+    background: #111111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 4rem;
+  }
+  
+  .maintopbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 30px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E2E2E2;
+  }
+  
+  .fitlogo {
+  width: 100px;
+  height: 80px;
+  }
+  
+  .topButton {
+    background: #F47521;
+    padding: 0.5rem 1rem;
+    border: none;
+  }
+
+  .linktopbtn{
+    font-family: Bebas Neue;
+font-weight: 400;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 2.5%;
+text-decoration: none;
+color: #FFFFFF;
+
+  }
+  
+.maintopbar01{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.maintitle {
+    font-family: Bebas Neue;
+font-weight: 400;
+font-size: 60px;
+line-height: 96px;
+letter-spacing: 0%;
+text-align: center;
+color: #FFFFFF;
+  }
+  
+
+  .mainContent {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+  }
+  
+  .leftSection {
+    width: 45%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+  }
+  
+  /* .fitnessText {
+    position: absolute;
+    left: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    color: #374151;
+    font-size: 6rem;
+    font-weight: bold;
+  } */
+  
+ 
+  
+  .rightSection {
+    width: 43%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem;
+  }
+  
+ 
+  .signInAsSection {
+    margin-bottom: 1rem;
+  }
+  
+  .signInAsTitle {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 35px;
+    letter-spacing: 0%;
+    text-align: center;
+    text-transform: capitalize;    
+    margin-bottom: 1.5rem;
+    color: #FFFFFF;
+  }
+  
+  .signInAsOptions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+ 
+  
+  .option {
+    font-family: Poppins;
+font-weight: 400;
+font-size: 20px;
+line-height: 35px;
+letter-spacing: 0%;
+text-transform: capitalize;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    color: #FFFFFF;
+  }
+
+  .option:hover{
+    text-decoration: underline;
+    color: #F47521;
+
+  }
+  
+  .sigininput {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    margin-bottom: 1rem;
+    color: #FFFFFF;
+    font-family: 'Pontano Sans';
+font-weight: 300;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0%;
+resize: none;
+  }
+
+  .sigininput::placeholder {
+    color: #FFFFFF;
+    opacity: 1; /* Optional: ensures full visibility */
+  }
+  
+  .passwordContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+  .siginpassword{
+    border: none;
+    padding: 5px;
+     background: transparent; 
+    outline: none;
+    width: 100%;
+color: #FFFFFF;
+font-family: 'Pontano Sans';
+font-weight: 300;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0%;
+
+  }
+ 
+  .siginpassword::placeholder {
+    color: #FFFFFF;
+    opacity: 1; /* Optional: ensures full visibility */
+  }
+  
+  
+  .forgotPassword {
+    color: #F47521;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: Poppins;
+font-weight: 700;
+font-size: 14px;
+line-height: 160%;
+letter-spacing: 0px;
+
+  }
+  
+  .signInButton {
+    width: 100%;
+    background: #F47521;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: none;
+  }
+
+  .signInLink{
+    font-family: Poppins;
+font-weight: 700;
+font-size: 16px;
+line-height: 140%;
+letter-spacing: 0.2px;
+color: #FFFFFF;
+text-decoration: none;
+  }
+  
+
+  .nextdivider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .signhr {
+    border: none;
+    border: 1px solid #E2E8F0;
+        flex: 1;
+  }
+  
+  .signTexts {
+    font-family: Poppins;
+font-weight: 400;
+font-size: 12px;
+line-height: 160%;
+letter-spacing: 0px;
+text-align: center;
+color: #FFFFFF;
+    margin: 0 0.5rem;
+  }
+  
+  .socialButtonsEnd {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .socialbtn2{
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    cursor: pointer;
+
+  }
+
+  .socialBtn{
+  text-decoration: none;
+    font-family: Inter;
+font-weight: 600;
+font-size: 16px;
+line-height: 150%;
+letter-spacing: 0.2px;
+color: #FFFFFF;
+  }
+
+
+  .signupText {
+    font-family: Poppins;
+font-weight: 700;
+font-size: 16px;
+line-height: 160%;
+letter-spacing: 0px;
+text-align: center;
+color: #FFFFFF;
+cursor: pointer;
+
+  }
+  
+  .signupLink {
+    text-decoration: none;
+    color: #F47521;
+    cursor: pointer;
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: 0px;
+  }
+  
+
+  /* Create Account-page */
+
+  .mainaccountcreate {
+    background: #111111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 4rem;
+  }
+
+
+  /* Overview-module */
+
+  .headcontainer{
+    width: 100%;
+    height: 100%;
+    background: #292D31;
+    display: flex;
+  }
+
+  /* left-part */
+
+  .nextoverview01{
+    width: 20%;
+    height: 100%;
+background: #1D2023;
+padding: 1.5rem;
+border-right: 0.5px solid #263238;
+box-shadow: 0px 5px 22px 4px #00000005;
+  }
+
+ 
+
+  .overviewlogo{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  .overviewheader1{
+    font-family: Manrope;
+font-weight: 800;
+font-size: 20px;
+line-height: 25px;
+letter-spacing: 5%;
+color: #F97316;
+
+  }
+
+  .nextsection01{
+    margin-top: 1.3rem;
+  }
+  .nextsection02{
+    margin-top: 12rem;
+ 
+  }
+
+  .menuItemdb1 ,  .menuItemdb01 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: white;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+   .menuItemdb1:hover {
+    background: #F97316;
+border-radius: 12px;
+   }
+
+   .menulinksdb{
+    font-family: 'Manrope';
+font-weight: 600;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+text-decoration: none;
+   }
+ 
+/* Right-part */
+
+   .nextoverview02{
+    width: 80%;
+    
+      }
+
+      .topbarover{
+        background: #1D2023;
+        border-bottom: 1px solid #1D2023;
+        display: flex;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .topbarover02{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+      }
+
+      .bar01 , .bar02{
+        font-family: Manrope;
+font-weight: 600;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .bar02{
+        font-size: 18px;
+
+      }
+
+      .bar01 {
+        margin-bottom: 10px;
+        font-size: 12px;
+      }
+      .bar03{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      /* rightside-next down part */
+
+      .rightdownpart{
+        margin-top: 1rem;
+        display: flex;
+        width: 100%;
+        padding: 2rem;
+        justify-content: space-between;
+      }
+
+      .rightdownpart01{
+width: 60%;
+      }
+
+      .rightdownpart02{
+width: 35%;
+
+
+      }
+
+      .rightdowntextpart{
+        width: 100%;
+        padding: 5px;
+      }
+
+
+      .rightdownpic{
+        width: 98%;
+        height: 27vh;
+        position: relative;
+        
+      }
+
+      .textparts{
+position: absolute;
+margin-top: -9rem;
+padding: 1rem;
+      }
+
+      .rightdownhead1{
+        font-family: Manrope;
+        font-weight: 800;
+        font-size: 24px;
+        line-height: 100%;
+        letter-spacing: 0%;
+color: #FFFFFF;        
+      }
+
+      .rightdowntext1{
+        width: 350px;
+        margin-top: 10px;
+        font-family: Manrope;
+font-weight: 400;
+font-size: 12px;
+line-height: 150%;
+letter-spacing: 0.1px;
+color: #FFFFFF;        
+
+      }
+
+
+      .rightdowncardspart{
+        width: 100%;
+        margin-top: 1.3rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+
+      }
+
+      /* .rightbgdown , .rightbgdown1 , .rightbgdown2{
+        width: 50%;
+        background-color: red;
+      } */
+
+      .rightimgcards{
+        width: 90%;
+        position: relative;  
+
+      }
+
+      .rightdowncardspart01{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: absolute;
+        padding: 1rem;
+      }
+
+      .rightdowncardspart02{     
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: absolute;
+        padding: 1rem;
+        margin-top: -5rem;
+
+      }
+      
+      .rightdowncardspart03{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: absolute;
+        padding: 1rem;
+        margin-top: -5rem;
+
+      }
+
+      .rightdowncardstexts01{
+        font-family: Manrope;
+font-weight: 700;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+       .rightdowncardstexts02{ 
+        font-family: Manrope;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color: #FFFFFF;
+        margin-top: 7px;
+       }
+
+
+       /* charts */
+
+       .rightdowncharts{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 1rem;
+       }
+
+    
+
+       .leftPanel{
+        background: #070101E3;
+width: 60%;
+padding: 15px;
+border-radius: 10px;
+
+       }
+     
+
+       .panelheader2{
+        font-family: Inter;
+font-weight: 500;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: -2%;
+color: #FFFFFF;
+margin-left: 10px;
+margin-bottom: 5px;
+       }
+
+      
+      .dateTabs {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+      
+    
+      
+      .activeTab01 {
+        border-radius: 10px;
+        background: transparent;
+        border: none;
+        padding: 5px 10px;
+        font-family: Poppins;
+font-weight: 500;
+font-size: 15px;
+line-height: 150%;
+letter-spacing: 0%;
+color: #A9A9A9;
+      }
+
+      .activeTab01:hover{
+        background: #F47521;
+        box-shadow: 0px 4px 16px 0px #F238471A;
+        border-radius: 15px;
+        padding: 5px 14px;
+
+        font-family: Montserrat;
+font-weight: 500;
+font-size: 15px;
+line-height: 150%;
+letter-spacing: 0%;
+color: #FFFFFF;
+
+      }
+      
+      .dateRow {
+        display: flex;
+        gap: 8px;
+        margin: 20px 0;
+        color: #D9D9D9;
+      }
+      
+     
+      .activeDate {
+        background: #2c2c2c;
+        color: #D9D9D9;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        width: 40px;
+      }
+
+      
+      .activeDate:hover{
+        background: #F47521;
+color: #000000;
+
+      }
+      
+      .calories {
+        text-align: center;
+        margin-top:2rem;
+      }
+
+      .calorieshead01{
+        font-family: 	Inter;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color: #A1A1AA;
+
+      }
+
+      .calsmalprt{
+        display: flex;
+        align-items: center;
+        margin-left: 1.5rem;
+      }
+      .calorieshead2{
+        font-family: 	Inter;
+font-weight: 500;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+margin-top: 5px;
+text-align: center;
+      }
+      
+      .circular {
+        background: linear-gradient(210.55deg, #353A40 -3.02%, #121416 93.08%);
+        border: 1px solid;
+
+border-image-source: linear-gradient(244.98deg, rgba(80, 89, 98, 0.4) 11.49%, rgba(0, 0, 0, 0) 53.04%, rgba(0, 0, 0, 0.4) 100%);
+box-shadow: -12px -20px 56px 0px #E8EDF30D;
+
+box-shadow: 36px 12px 64px 0px #020303B2;
+
+box-shadow: -16px -6px 80px 0px #F8F9F908 inset;
+
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .smallcircular{
+        border: 10px solid #F06500;
+        border-radius: 50%;
+        width: 140px;
+        height: 140px;
+        padding: 1rem;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+      }
+      
+      .calValue {
+        font-family: 	Inter;
+font-weight: 600;
+font-size: 32px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+
+      }
+
+      .calValue1 {
+        font-family: 	Inter;
+font-weight: 600;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #E4E4E7;
+margin-top: 5px;
+
+      }
+      
+      .calnote {
+        font-family: 	Inter;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        color: #A1A1AA;
+      }
+      
+      .endsummary {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 100%;
+      }
+      
+      .summaryItem   {
+        background: #252525;
+        border-radius: 15px;
+        width: 45%;
+        padding: 1rem;
+      }
+      
+      .summaryItem1{
+        background:  #F47521;
+        border-radius: 15px;
+        width: 45%;
+        padding: 1rem;
+
+      }
+
+      .bottomsummarypic{
+        margin-left: 4rem;
+      }
+
+      .bottomsummary{
+        font-family: Inter;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 100%;
+        letter-spacing: 0%;
+color: #FFFFFF;        
+      }
+
+      .bottomspansummary{
+        font-family: Inter;
+font-weight: 500;
+font-size: 36px;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+color: #FFFFFF;        
+      }
+
+      .bottomsp{
+        font-size: 12px;
+        vertical-align: middle;
+        font-family: Inter;
+        color: #FFFFFF;        
+
+      }
+
+      .rightPanel{
+        background: #070101E3;
+        width: 38%;
+        height: 60vh;
+        padding: 15px;
+        border-radius: 13px;
+           }
+
+           .rightheader01{
+            color: #FFFFFF;
+            font-family: Inter;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 100%;
+            letter-spacing: -2%;
+            margin-bottom: 10px;
+           }
+      
+      .rightheader {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+    
+      .smallpart011{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .smallpartheader01{
+        font-family: Inter;
+font-weight: 500;
+font-size: 22px;
+line-height: 100%;
+letter-spacing: -2%;
+color: #FFFFFF;
+margin-bottom: 8px;
+text-align: center;
+
+      }
+
+      .smallspnpart{
+        color: #FFFFFF;
+        font-family: Inter;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: -2%;
+        margin-bottom: 10px;
+        
+      }
+
+      .smallpartpara01{
+        font-family: Inter;
+font-weight: 300;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF80;
+
+      }
+
+
+      .calDetails{
+        display: flex;
+        margin-top: 10px;
+      }
+
+      .calendDetails{
+        font-family: Inter;
+font-weight: 500;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: -2%;
+color: #FFFFFF;
+      }
+
+      .calspnDetails{
+        font-family: Inter;
+font-weight: 400;
+font-size: 8px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF80;
+
+      }
+
+
+      /* Right-part */
+
+      .rightcorner01{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .smallcorner{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .rightschedual01{
+        font-family: Manrope;
+font-weight: 700;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+margin-top: 1rem;
+margin-bottom: 0.6rem;
+      }
+
+      .rightlinkschedual{
+        font-family: Manrope;
+font-weight: 500;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #F97316;
+text-decoration: none;
+      }
+
+      .rightcorner02{
+        background: #1D2023;
+        box-shadow: 0px 4px 22px 0px #9F9F9F26;
+border-radius: 10px;
+padding: 1rem;
+margin-top: 1rem;
+      }
+
+      .smallcorner01{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+
+      .smalltraintexts{
+        font-family: Manrope;
+font-weight: 500;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: -0.6%;
+color: #FFFFFF;
+margin-bottom: 10px;
+      }
+
+      .smallbtn01{
+        background: transparent;
+        border: none;
+        background: #484848;
+padding: 10px 15px;
+border-radius: 20px;
+      }
+
+      .smallbtn02{
+        background: transparent;
+        border: none;
+        background: #F47521;
+        padding: 14px;
+border-radius: 20px;
+      }
+
+
+      .completedlink{
+        text-decoration: none;
+        color: #FFFFFF;
+        font-family: Manrope;
+font-weight: 500;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+
+      }
+
+      .rightcorners1{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+      }
+
+      .searchpart{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1D2023;
+        border: 0.3px solid #FFFFFF;
+        border-radius: 13px;
+        padding: 5px;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .searchinput{
+        outline: none;
+        padding: 0.5rem;
+        border: none;
+        background: transparent;
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .searchinput::placeholder{
+        color: #FFFFFF;
+      }
+
+      .smallcorner03{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        background: #1E1E1E;
+        box-shadow: 0px 5px 20px 0px #0000000D;
+padding: 0.7rem;
+border-radius: 15px;
+margin-top: 1rem;
+      }
+
+      .minicorner{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+      }
+
+      .smalltraintext01{
+        font-family: Work Sans;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: -0.6%;
+        color: #FFFFFF;
+        margin-bottom: 10px;
+      }
+      .smalltraintext02{
+        font-family: Work Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #DADADA;
+
+      }
+
+      .smallbtn03{
+        box-shadow: 0px 5px 20px 0px #0000000D;
+        background: transparent;
+        border: none;
+        background: #1D2023;
+        padding: 12px 17px;
+border-radius: 20px;
+margin-top: 1rem;
+width: 100%;
+
+      }
+
+      .seealllink{
+        text-decoration: none;
+        font-family: Work Sans;
+font-weight: 500;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #F47521;
+      }
+
+      /* packages */
+
+      .overviewpackage{
+        margin-top: 1rem;
+        background: #0D0D0D;
+        border-radius: 25px;
+        padding: 1.5rem;
+
+      }
+
+      .packagelists{
+        margin-top: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 20px;
+
+      }
+
+      .packageoverview{
+        font-family: Bebas Neue;
+font-weight: 400;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #F47521;
+margin-left: 20px;
+
+
+      }
+
+      .packagetexts{
+        font-family: Poppins;
+font-weight: 500;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #E1E1E1;
+
+      }
+
+      .packagebtn{
+        width: 98%;
+        border: none;
+        width: auto;
+        margin-top: 2rem;
+        background: transparent;
+        background: #F47521;
+padding: 12px 60px;
+margin-left: 40px;
+border-radius: 15px;
+      }
+
+      .packagelink{
+        text-decoration: none;
+        font-family: Bebas Neue;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 100%;
+        letter-spacing: 2%;
+color: #FFFFFF;        
+
+      }
+
+
+
+
+
+      /* Memeber-list */
+
+      .Memberlistsection{
+        padding: 1rem;
+      }
+
+      .memberheader01{
+        font-family: DM Sans;
+font-weight: 700;
+font-size: 24px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .membertwobtns{
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+margin-top: 1rem;
+      }
+
+      .membertwobtns01{
+        display: flex;
+        align-items: center;
+        background: #1D2023;
+        border: 0.3px solid #FFFFFF;
+        border-radius: 10px;
+        padding: 7px;
+      }
+      .membertwobtns02{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #F68407;
+        border-radius: 10px;
+        padding: 10px 15px;
+      }
+
+      .memberinput{
+        outline: none;
+        border: none;
+        background: transparent;
+        color: #FFFFFF;
+        padding: 5px;
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+
+      }
+
+      .memberinput::placeholder {
+        color: #FFFFFF;
+
+      }
+
+      .member02btns{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+border: none;
+background: transparent;
+padding: 5px;
+      }
+
+      /* memberlist-table */
+
+      .membertablesection {
+        padding: 20px;
+        color: white;
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+      .newmembrth{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .membermaintable {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+     
+      .membertr{
+        background: #1E1E1E;
+        box-shadow: 0px 5px 20px 0px #0000000D;
+border-radius: 20px;
+margin-bottom: 10px; /* Space between rows */
+display: flex; /* To apply padding and alignment properly */
+align-items: center;
+padding: 12px ;
+      }
+
+      .membertr1{
+        box-shadow: 0px 5px 20px 0px #0000000D;
+        border-radius: 20px;
+        margin-bottom: 10px; /* Space between rows */
+        display: flex; /* To apply padding and alignment properly */
+        align-items: center;
+        margin-left: 1rem;
+        gap: 11rem;
+        padding: 15px;
+      }
+      
+      .membertd {
+        flex: 1; /* Equal width for each cell */
+        color: #ffffff; /* White text */
+        font-size: 14px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-family:  DM Sans;
+       
+      }
+      
+      .profile {
+        display: flex;
+        align-items: center;
+      }
+      
+      .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      
+      .membertablebtns {
+        background-color: #ff7b29;
+        border: none;
+        padding: 6px 16px;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        font-family:  DM Sans;
+        transition: background-color 0.3s ease;
+      }
+
+    
+      
+      .connectBtn:hover {
+        background-color: #e56e1f;
+      }
+      
+
+
+      /*Schedual-page  */
+      .mainschedual{
+        width: 100%;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .mainschedual11{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .smallminischedual{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #F68407;
+border-radius: 10px;
+padding: 12px 40px;
+      }
+
+      .schedualheader01{
+        font-family: DM Sans;
+font-weight: 700;
+font-size: 24px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .schedualtext01{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .maincalenders{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 1.5rem;
+      }
+
+      .maincalenders01{
+        width: 30%;
+        background: #1D2023;
+        padding: 15px;
+        /* display: flex;
+        align-items: center;
+        flex-direction: column; */
+      }
+
+      .smallminicalender01{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        background: #F68407;
+border-radius: 10px;
+padding: 12px 40px; 
+margin-top: 0.5rem;
+margin-bottom: 1rem;
+text-align: center;
+        
+      }
+
+      .schedualtext02{
+        text-decoration: none;
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+
+      }
+
+      .bottomschedual{
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      }
+
+      .bottomschdaltxt{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .bottomschdaltxtss{
+        margin-top: 10px;
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color:#ABADBF ;
+
+      }
+
+
+      .bottomendcal{
+        margin-top: 5rem;
+        border: 2px solid #F68407;
+        padding: 12px 30px;
+        border-radius: 10px;
+        text-align: center;
+
+      }
+
+      .bottomlinkend{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+color: #F68407;
+text-decoration: none;
+      }
+
+
+      .schedualcalender {
+        background-color: #1f1f1f;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width:100%;
+        font-family: sans-serif;
+        margin-top: 10px;
+        border: 1px solid #F1F4FA;
+      }
+      
+      .schedualheader11{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #ddd;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      .dechead{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+      
+      .nav {
+        cursor: pointer;
+        padding: 0 5px;
+        gap: 1rem;
+      }
+      
+      .daysHeader {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
+        color: #999;
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+      
+      .calenderdates {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        text-align: center;
+        font-size: 13px;
+      }
+      
+      .caldate {
+        padding: 8px 0;
+        border-radius: 50%;
+        background: transition easy 0.3s;
+      }
+      
+      .caldate:hover {
+        background-color: #333;
+        cursor: pointer;
+      }
+      
+      .active {
+        background-color: #ff8c2f;
+        color: white;
+        font-weight: bold;
+      }
+      
+      .faded {
+        color: #555;
+      }
+      
+      .nextcalender01{
+        text-align: left;
+      }
+
+      .nxtcaltext{
+        text-align: left;
+        font-family: DM Sans;
+font-weight: 500;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+margin-top: 1rem;
+margin-bottom: 0.8rem;
+      }
+
+
+      .calenderbtns01{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #222131;
+        border-radius: 10px;
+        padding: 7px;
+        margin-top: 10px;
+      }
+
+      .maincalenders02{
+        width: 65%;
+      }
+
+      .maincalende11{
+        display: flex;
+        justify-content: space-between;
+        background: #1D2023;
+padding: 15px;
+border-radius: 10px;
+      }
+
+      .maincalende12{
+        display: flex;
+        justify-content: space-between;
+        background: #1D2023;
+padding: 15px;
+border-radius: 10px;
+width: 95%;
+margin-left: 1.3rem;
+      }
+
+
+
+      .calparatxt{
+        font-family: DM Sans;
+font-weight: 400;
+font-size: 14px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+      }
+
+      .calendarlist {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  color: white;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.calenheader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.calendarDay {
+  padding: 10px 0;
+  color: #ccc;
+}
+
+.calenbody {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  height: 100%;
+}
+
+.date {
+  min-height: 80px;
+  padding: 5px;
+  background-color: #1D2023;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selected {
+  border: 1px solid #3f51b5;
+}
+
+.number {
+  font-weight: bold;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  align-items: center;
+}
+
+.schedalevent {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  width: 95%;
+}
+
+.fitnessclass,
+.fitness {
+  background-color: #ff7a00;
+  color: white;
+}
+
+.boxing {
+  background-color: #5a5aff;
+  color: white;
+}
+
+.schedalmore{
+  color: #F68407;
+  margin-top: 5px;
+  text-decoration: none;
+  font-family: DM Sans;
+font-weight: 400;
+font-size: 10px;
+line-height: 100%;
+letter-spacing: 0%;
+border: 1px solid #F68407;
+padding: 3px 10px;
+border-radius: 6px;
+}
+
+
+/* Schedual-1 page */
+
+.schedualparttwomain{
+  width: 100%;
+  padding: 25px;
+
+}
+
+
+.schedualpartcaltwo {
+  display: flex;
+  justify-content: center;
+}
+
+.calendarparttwo {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.headerparttwo {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid #444;
+}
+
+.timeSlotstwo {
+  display: grid;
+  grid-template-rows: repeat(5, 100px);
+  border-top: 1px solid #444;
+  background: #1D2023;
+  border-right:1px solid #444 ;
+
+
+}
+
+.timeSlotcaltwo {
+  display: flex;
+  border-bottom: 1px solid #444;
+}
+
+.timeparttwo {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1D2023;
+  font-size: 14px;
+  border-right: 1px solid #444;
+}
+
+.eventsparttwo {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+  
+
+}
+
+.eventparttwos,
+.eventparttwo {
+  color: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.eventparttwos {
+  margin-bottom: 10px;
+}
+.titleparts01{
+  color: #979797;
+text-align: end;
+font-size: 1.1rem;
+}
+
+.mon {
+  grid-column: 2 / 3;
+
+}
+
+.tue {
+  grid-column: 3 / 4;
+}
+
+.wed {
+  grid-column: 4 / 5;
+}
+
+.thu {
+  grid-column: 5 / 6;
+}
+
+.joinparttwo {
+  margin-top: 8px;
+  background: transparent;
+  color: #ff7f11;
+  border: 1px solid #ff7f11;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.joinparttwo:hover {
+  background: #ff7f11;
+  color: #fff;
+}
+
+.trainerparttwo {
+  font-size: 12px;
+  color: #ddd;
+  margin-top: 4px;
+}
+
+.titleparttwo {
+  font-weight: bold;
+}
+
+
+/* dropdown-option */
+
+.dropdownContainercal {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+.dropdownMenucal {
+  position: absolute;
+  top: 40px; /* Adjust based on your button size */
+  background: #292D31;
+  border-radius: 13px;
+  overflow: hidden;
+  left: 4rem;
+  box-shadow: 0px 10px 20px 0px #0000001A;
+  min-width: 160px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.dropdownItemcal {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  gap: 5px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  background: #000000;
+margin-top: 5px;
+}
+
+
+.dropdwncallink01{
+  text-decoration: none;
+  font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+}
+
+
+
+
+
+/* pop-up1 for  top notification */
+
+.notifypopcontainer {
+  position: relative;
+  display: inline-block;
+}
+
+.topnotifyimg {
+  cursor: pointer;
+
+}
+
+.notifypopup1{
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 300px;
+  background: linear-gradient(210.96deg, #292D31 0.01%, rgba(41, 45, 49, 0.78) 42.05%, rgba(41, 45, 49, 0.51) 104.81%);
+  color: white;
+  border-radius: 10px;
+  padding: 15px;
+  backdrop-filter: blur(20.352563858032227px);
+  box-shadow: -23.61px 48.85px 73.27px 0px #17122B8C;
+    z-index: 100;
+}
+
+.notificationItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 0;
+}
+
+.notificationItem:hover {
+background-color: #000000;
+padding: 12px;
+}
+.userImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.circleIcon {
+  background-color: #00c853;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.textContent {
+  flex: 1;
+}
+
+.textContent a {
+  color: #00e676;
+  display: block;
+  margin-top: 5px;
+  text-decoration: none;
+}
+
+.textContent span {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+
+/* Popup-2 report */
+
+ .popupOverlayreport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupContentreport {
+  background: #292D31;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  position: relative;
+}
+
+.popupheadreport{
+  font-family: DM Sans;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+
+.textreporttwo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.popuptxtsreport{
+  font-family: DM Sans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #A1A1AA; 
+}
+
+.popupstrongreport{
+    font-family: DM Sans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #FFFFFF;
+  text-align: right;
+}
+
+.popupCardreport {
+  background: #1e1e1e;
+  padding: 30px 20px;
+  border-radius: 16px;
+  width: 340px;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+}
+
+.badgeIconreport {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+
+.streakreport {
+  color: orange;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.streakspanreport {
+  color: #fff;
+}
+
+.progressBarContainerreport {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.progressBarreport {
+  background: #444;
+  border-radius: 10px;
+  height: 8px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.progressreport {
+  background: orange;
+  height: 100%;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.progressTextreport {
+  font-size: 14px;
+  margin-top: 6px;
+  color: #aaa;
+}
+
+.detailsreport {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.popuptxtsreport{
+  margin: 6px 0;
+}
+
+.summaryButtonreport {
+  background: linear-gradient(52.37deg, #FFA05C 9.79%, #F06500 100.17%);
+  border: none;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  background: transition 0.3s;
+  font-family: DM Sans;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #FFFFFF;
+}
+
+.summaryButtonreport:hover {
+  background: linear-gradient(90deg, darkorange, orange);
+}
+
+
+
+/* popup2-report summary */
+
+
+
+.popupOverlaysummary {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+}
+
+.popupsummary {
+  background: #27272A;
+  color: white;
+  padding: 30px;
+  width: 400px;
+  border-radius: 20px;
+  box-shadow: 12px 20px 56px 0px #E8EDF30D;
+  box-shadow: -36px -12px 64px 0px #FFA05C1A; 
+  box-shadow: 16px 6px 80px 0px #F8F9F908;
+    text-align: left;
+}
+
+.popupheadsummary{
+  font-family: Inter;
+font-weight: 400;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+text-align: center;
+}
+
+.popupheadsummary01{
+  font-family: Inter;
+font-weight: 600;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+
+}
+
+.progressBarContainersummary {
+  background-color: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  margin: 10px 0;
+}
+
+.progressBarsummary {
+  background-color: orange;
+  height: 100%;
+}
+
+.exerciseCardsummary {
+  background: radial-gradient(93% 256.29% at 154.66% -115.83%, rgba(234, 137, 69, 0.71) 50.07%, #161512 81.71%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  padding: 10px;
+  border-radius: 15px;
+  margin-top: 10px;
+  border: 1px solid;
+   border-image-source: linear-gradient(244.98deg, rgba(80, 89, 98, 0.4) 11.49%, rgba(0, 0, 0, 0) 53.04%, rgba(0, 0, 0, 0.4) 100%);
+
+
+}
+
+.progressTextsummary  {
+  font-size: 14px;
+  margin-top: 6px;
+  color: #aaa;
+  text-align: center;
+}
+
+
+.closeButtonsummary {
+  margin-top: 15px;
+  padding: 8px 12px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+/* popup-3 reshedual */
+
+
+.reshedualcontainer {
+  position: relative;
+}
+
+.dropdownItemcal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdwncallink01 {
+  text-decoration: none;
+  font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+}
+
+.popupOverlayreshedual {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popupContentreshedual {
+  background: #262626;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  color: white;
+  position: relative;
+}
+
+.headerreshedual {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButtonreshedual {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.badgereshedual {
+  background: orange;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.classInforeshedual {
+  margin-top: 20px;
+}
+
+.inputFieldreshedual {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #333;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 5px;
+}
+
+.availabilitySectionreshedual {
+  margin-top: 20px;
+}
+
+.buttonGroupreshedual {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.closeButtonSecondaryreshedual {
+  background: none;
+  color: orange;
+  border: 2px solid orange;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submitButtonreshedual {
+  background: orange;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* popup-4 cancle*/
+
+.dropdownItemcal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdwncallink01 {
+  text-decoration: none;
+  font-family: DM Sans;
+font-weight: 400;
+font-size: 12px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #FFFFFF;
+}
+
+.popupOverlaycancle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popupBoxcancle {
+  background: #2c2c2c;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  position: relative;
+}
+
+.headercancle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButtoncancle {
+  background: none;
+  border: none;
+  color: orange;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.tagcancle {
+  background-color: orange;
+  color: white;
+  padding: 4px 8px;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.detailscancle {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.namecancle {
+  font-weight: bold;
+}
+
+.confirmTextcancle {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.buttonGroupcancle {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.noButtoncancle,
+.yesButtoncancle {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.noButton {
+  background-color: transparent;
+  border: 1px solid orange;
+  color: orange;
+}
+
+.yesButton {
+  background-color: orange;
+  color: white;
+}
+
+
+
+/* popup-5 delete */
+
+
+.dropdownItemcal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdwncallink01 {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popupOverlaydelete {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popupContainerdelete {
+  background-color: #2a2a2a;
+  color: white;
+  border-radius: 10px;
+  padding: 24px;
+  width: 400px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.popupHeaderdelete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButtondelete {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.popupContentdelete {
+  margin-top: 16px;
+}
+
+.classTagdelete {
+  display: inline-block;
+  background-color: #f97316;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.instructordelete {
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.confirmText {
+  margin: 16px 0;
+  font-size: 0.95rem;
+}
+
+.buttonGroupdelete {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.closeBtndelete {
+  background: none;
+  border: 1px solid #f97316;
+  color: #f97316;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deleteBtndelete {
+  background-color: #f97316;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
