@@ -1,9 +1,13 @@
 package com.myfitnessapp.service.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.myfitnessapp.service.membership.domain.Membership;
 import com.myfitnessapp.service.trainer.domain.Trainer;
 import com.myfitnessapp.service.trainer.dto.TrainerRegistrationDTO;
 import com.myfitnessapp.service.trainer.dto.TrainerResponseDTO;
+import com.myfitnessapp.service.trainer.dto.TrainerSearchDTO;
 import com.myfitnessapp.service.trainer.dto.TrainerUpdateDTO;
 import com.myfitnessapp.service.trainer.mapper.TrainerMapper;
 import com.myfitnessapp.service.trainer.mapstruct.TrainerDtoMapper;
@@ -15,6 +19,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -126,4 +133,61 @@ public class TrainerServiceImplTest {
         verify(trainerMapper).updateById(existing);
     }
 
+    @Test
+    void testSearchTrainers_ReturnsConvertedIPage() {
+        // given
+        Page<Trainer> pageReq = new Page<>(1, 2);
+        TrainerSearchDTO dto = new TrainerSearchDTO();
+        User user = new User();
+        user.setUserId(1);
+
+        Trainer trainer1 = new Trainer();
+        trainer1.setTrainerId(101);
+        Trainer trainer2 = new Trainer();
+        trainer2.setTrainerId(102);
+        Page<Trainer> trainerPage = new Page<>(1, 2, 2);
+        trainerPage.setRecords(Arrays.asList(trainer1, trainer2));
+
+        when(trainerMapper.selectPage(eq(pageReq), any(QueryWrapper.class))).thenReturn(trainerPage);
+
+        TrainerResponseDTO response1 = new TrainerResponseDTO();
+        response1.setTrainerId(101);
+        TrainerResponseDTO response2 = new TrainerResponseDTO();
+        response2.setTrainerId(102);
+        when(trainerDtoMapper.toDto(trainer1)).thenReturn(response1);
+        when(trainerDtoMapper.toDto(trainer2)).thenReturn(response2);
+
+        // when
+        IPage<TrainerResponseDTO> result = trainerService.searchTrainers(pageReq, dto, user);
+
+        // then
+        assertNotNull(result);
+        assertEquals(2, result.getTotal());
+        assertEquals(2, result.getRecords().size());
+        assertEquals(101, result.getRecords().get(0).getTrainerId());
+        assertEquals(102, result.getRecords().get(1).getTrainerId());
+    }
+
+    @Test
+    void testSearchTrainers_WithKeyword_CallsMapperSelectPage() {
+        // given
+        Page<Trainer> pageReq = new Page<>(1, 5);
+        TrainerSearchDTO dto = new TrainerSearchDTO();
+        dto.setKeyword("test");
+        User user = new User();
+        user.setUserId(1);
+
+
+        Page<Trainer> trainerPage = new Page<>(1, 5, 0);
+        trainerPage.setRecords(Collections.emptyList());
+        when(trainerMapper.selectPage(eq(pageReq), any(QueryWrapper.class))).thenReturn(trainerPage);
+
+        // when
+        IPage<TrainerResponseDTO> result = trainerService.searchTrainers(pageReq, dto, user);
+
+        // then
+        verify(trainerMapper).selectPage(eq(pageReq), any(QueryWrapper.class));
+        assertNotNull(result);
+        assertTrue(result.getRecords().isEmpty());
+    }
 }

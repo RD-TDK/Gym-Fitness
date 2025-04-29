@@ -1,5 +1,7 @@
 package com.myfitnessapp.service.trainer.dto;
 
+import com.myfitnessapp.service.trainer.domain.CertificationStatus;
+import com.myfitnessapp.service.user.domain.Gender;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,8 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TrainerResponseDTO {
     private Integer trainerId;
+    /**
+     * 关联的用户 ID，用于获取姓名、邮箱、性别等用户信息
+     */
+    private Integer userId;
     private String name;
     private String email;
+    private Gender gender;
     private String specialty;
     private Integer experience;
     private String certification;
@@ -18,4 +25,5 @@ public class TrainerResponseDTO {
     private String photo;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private CertificationStatus isCertified;
 }

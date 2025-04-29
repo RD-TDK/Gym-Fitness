@@ -1,10 +1,19 @@
 package com.myfitnessapp.trainingappointment.demos.web.controller;
 
+import com.myfitnessapp.service.user.domain.Gender;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myfitnessapp.service.trainer.domain.CertificationStatus;
+import com.myfitnessapp.service.trainer.domain.Status;
+import com.myfitnessapp.service.trainer.domain.Trainer;
 import com.myfitnessapp.service.trainer.dto.TrainerRegistrationDTO;
 import com.myfitnessapp.service.trainer.dto.TrainerResponseDTO;
+import com.myfitnessapp.service.trainer.dto.TrainerSearchDTO;
 import com.myfitnessapp.service.trainer.dto.TrainerUpdateDTO;
 import com.myfitnessapp.service.trainer.service.TrainerService;
+import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.service.impl.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/trainers")
@@ -100,5 +110,45 @@ public class TrainerController {
 
         TrainerResponseDTO result = trainerService.updateTrainer(dto, userDetails.getUser());
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TrainerResponseDTO>> searchTrainers(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) List<Integer> experienceRange,
+            @RequestParam(required = false) CertificationStatus certificationStatus,
+            @RequestParam(required = false) Gender gender,
+            @RequestParam(required = false) Status status,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder,
+            Authentication authentication) {
+
+        // 1. 校验登录
+        if (!(authentication != null && authentication.getPrincipal() instanceof CustomUserDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User currentUser = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+
+        // 2. 构造 DTO
+        TrainerSearchDTO dto = new TrainerSearchDTO();
+        dto.setKeyword(keyword);
+        dto.setExperienceRange(experienceRange);
+        dto.setCertificationStatus(certificationStatus);
+        dto.setGender(gender);
+        dto.setStatus(status);
+        dto.setSortBy(sortBy);
+        dto.setSortOrder(sortOrder);
+
+        // 3. 分页参数（注意泛型是实体类型）
+        Page<Trainer> pageReq =
+                new Page<>(page, size);
+
+        // 4. 调用 Service，返回 IPage<TrainerResponseDTO>，转换为 Page<TrainerResponseDTO>
+        Page<TrainerResponseDTO> pageResult =
+                (Page<TrainerResponseDTO>) trainerService.searchTrainers(pageReq, dto, currentUser);
+
+        return ResponseEntity.ok(pageResult);
     }
 }

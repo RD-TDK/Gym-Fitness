@@ -59,4 +59,7 @@ public class Trainer {
      * 记录更新时间
      */
     private LocalDateTime updatedAt;
+
+    @TableField("is_certified")
+    private CertificationStatus isCertified;
 }

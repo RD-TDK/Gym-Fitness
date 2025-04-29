@@ -1,8 +1,12 @@
 package com.myfitnessapp.trainingappointment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.myfitnessapp.service.trainer.domain.CertificationStatus;
 import com.myfitnessapp.service.trainer.dto.TrainerRegistrationDTO;
 import com.myfitnessapp.service.trainer.dto.TrainerResponseDTO;
+import org.springframework.core.ParameterizedTypeReference;
 import com.myfitnessapp.service.trainer.dto.TrainerUpdateDTO;
+import com.myfitnessapp.service.trainer.dto.TrainerSearchDTO;
 import com.myfitnessapp.service.user.domain.Gender;
 import com.myfitnessapp.service.user.dto.UserRegistrationDTO;
 import com.myfitnessapp.service.user.dto.UserResponseDTO;
@@ -14,9 +18,17 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,6 +115,7 @@ public class TrainerControllerTest {
         assertEquals("Certified Master", body.getCertification());
         assertEquals("Experienced yoga instructor", body.getBio());
         assertEquals("http://example.com/photo.jpg", body.getPhoto());
+        assertEquals(CertificationStatus.UNVERIFIED,body.getIsCertified());
     }
 
     @Test
@@ -211,5 +224,68 @@ public class TrainerControllerTest {
         assertEquals("Advanced Cert", updated.getCertification());
         assertEquals("Master Pilates instructor", updated.getBio());
         assertEquals("http://example.com/pilates.jpg", updated.getPhoto());
+    }
+
+    @Test
+    public void testMembershipAndSearchTrainerFlow() throws InterruptedException, JsonProcessingException {
+        // 1. 注册并登录会员用户
+        String memberEmail = "memberSearch" + System.currentTimeMillis() + "@test.com";
+        // 获取验证码
+        restTemplate.postForEntity("/api/users/sendVerificationCode?email=" + memberEmail, null, String.class);
+        Thread.sleep(500);
+        String memberCode = stringRedisTemplate.opsForValue().get("verification_code:" + memberEmail);
+        // 注册会员用户
+        UserRegistrationDTO userDto = new UserRegistrationDTO();
+        userDto.setName("SearchUser");
+        userDto.setEmail(memberEmail);
+        userDto.setPassword("Password1234");
+        userDto.setConfirmPassword("Password1234");
+        userDto.setVerificationCode(memberCode);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserRegistrationDTO> regReq = new HttpEntity<>(userDto, headers);
+        restTemplate.postForEntity("/api/users/register", regReq, UserResponseDTO.class);
+        // 登录
+        HttpHeaders loginFormHeaders = new HttpHeaders();
+        loginFormHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> loginParams = new LinkedMultiValueMap<>();
+        loginParams.add("email", memberEmail);
+        loginParams.add("password", "Password1234");
+        HttpEntity<MultiValueMap<String, String>> loginReq = new HttpEntity<>(loginParams, loginFormHeaders);
+        ResponseEntity<String> loginResp = restTemplate.postForEntity("/api/users/login", loginReq, String.class);
+        List<String> cookies = loginResp.getHeaders().get(HttpHeaders.SET_COOKIE);
+        String memberCookie = cookies.stream().filter(c -> c.startsWith("JSESSIONID")).findFirst().get();
+
+        // 2. 使用会员用户注册一个教练
+        String specialty = "TestSpecialty";
+        String bio = "SearchBioKeyword";
+        HttpHeaders trnHeaders = new HttpHeaders();
+        trnHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        trnHeaders.add(HttpHeaders.COOKIE, memberCookie);
+        MultiValueMap<String, String> trnParams = new LinkedMultiValueMap<>();
+        trnParams.add("specialty", specialty);
+        trnParams.add("experience", "4");
+        trnParams.add("certification", "Cert");
+        trnParams.add("bio", bio);
+        trnParams.add("photo", "http://photo.jpg");
+        HttpEntity<MultiValueMap<String, String>> trnReq = new HttpEntity<>(trnParams, trnHeaders);
+        restTemplate.postForEntity("/api/trainers/register", trnReq, TrainerResponseDTO.class);
+
+        // 3. 搜索教练并断言能查到刚才注册的教练
+        HttpHeaders searchHeaders = new HttpHeaders();
+        searchHeaders.add(HttpHeaders.COOKIE, memberCookie);
+        String url = "/api/trainers/search?keyword=" + "SearchBioKeyword" + "&page=1&size=10";
+        ResponseEntity<Page<TrainerResponseDTO>> searchResp = restTemplate.exchange(
+                url, HttpMethod.GET, new HttpEntity<>(searchHeaders),
+                new ParameterizedTypeReference<Page<TrainerResponseDTO>>() {});
+        assertEquals(HttpStatus.OK, searchResp.getStatusCode());
+        Page<TrainerResponseDTO> page = searchResp.getBody();
+        List<TrainerResponseDTO> records = page.getRecords();
+        // 一条记录且 specialty 和 bio 含关键字
+        assertFalse(records.isEmpty());
+        // 检查首条元素包含 specialty
+        TrainerResponseDTO first = records.get(0);
+        String firstJson = new ObjectMapper().writeValueAsString(first);
+        assertTrue(firstJson.contains(specialty));
     }
 }

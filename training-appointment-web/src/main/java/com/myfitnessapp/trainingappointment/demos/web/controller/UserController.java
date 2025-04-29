@@ -94,7 +94,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        // 业务校验：邮箱/密码/状态
+        // 业务校验：邮箱/密码/状 态
         UserResponseDTO userResponse = userService.loginUser(loginDTO);
 
         // 手动构建 Spring Security Authentication
