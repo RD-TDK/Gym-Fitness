@@ -1,0 +1,336 @@
+.webpagecontainer{
+    width: 100%;
+    height: 150vh;
+    background: url("../../../src/assets/main-background.png");
+    background-repeat: no-repeat;
+    padding: 1rem;
+}
+
+.webpagesection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-bottom: 1px solid #E2E2E2;
+}
+
+.webpagehead01{
+    font-family: Bebas Neue;
+font-weight: 400;
+font-size: 50px;
+line-height: 100%;
+letter-spacing: 0%;
+color: rgba(244, 117, 33, 0.68);
+
+}
+
+.webpageLink01{
+    font-family: Bebas Neue;
+font-weight: 400;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 2%;
+color: #FFFFFF;
+background: #F47521;
+text-decoration: none;
+padding: 10px 20px;
+}
+
+@media (max-width: 600px) {
+    .webpagehead01 {
+      font-size: 35px;
+    }
+
+    .webpageLink01{
+        padding: 5px 15px;
+        font-size: 15px;
+
+    }
+  }
+
+
+  @media (max-width: 1070px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 100%;
+    }
+  }
+
+
+
+
+.webpagesection01{
+margin-top: 5rem;
+margin-left: 1.2rem;
+}
+
+.webpagehead001{
+    font-family: Bebas Neue;
+font-weight: 700;
+font-size: 122px;
+line-height: 136px;
+letter-spacing: 0%;
+color: #FFFFFF;
+}
+
+.webpagehead002{
+    font-family: Bebas Neue;
+    font-weight: 700;
+    font-size: 122px;
+    line-height: 136px;
+    letter-spacing: 0%;
+    color: #F47521;
+}
+
+.webpagepara01{
+    font-family: Poppins;
+font-weight: 300;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0%;
+color: #FFFFFF;
+width: 100vh;
+margin-bottom: 2rem;
+
+}
+
+.webpagelink02{
+    border: 1px solid #F47521;
+    font-family: Bebas Neue;
+font-weight: 400;
+font-size: 21px;
+line-height: 24px;
+letter-spacing: 0%;
+color: #F47521;
+text-decoration: none;
+padding: 10px 15px;
+}
+
+
+
+
+@media (max-width: 872px) {
+    .webpagehead001 , .webpagehead002{
+        font-size: 80px;
+        line-height: 90px;
+
+    }
+}
+
+@media (max-width: 583px) {
+    .webpagehead001 , .webpagehead002{
+        font-size: 60px;
+        line-height: 70px;
+
+    }
+    .webpagesection01{
+        margin-top: 3.5rem;
+        }
+}
+
+@media (max-width: 445px) {
+    .webpagehead001 , .webpagehead002{
+        font-size: 45px;
+        line-height: 55px;
+
+    }
+    .webpagesection01{
+        margin-top: 2.5rem;
+        }
+}
+
+@media (max-width: 718px) {
+    .webpagepara01{
+        font-size: 14px;
+        width: 65vh;
+line-height: 20px;
+
+    }
+}
+
+
+@media (max-width: 560px) {
+    .webpagepara01{
+        font-size: 14px;
+        width: 55vh;
+line-height: 20px;
+
+    }
+}
+
+@media (max-width: 410px) {
+    .webpagepara01{
+        font-size: 12px;
+        width: 40vh;
+line-height: 17px;
+
+    }
+}
+
+.webpagesection02 {
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    padding: 2rem;
+    color: white;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  
+  .statBoxsectwo {
+    text-align: center;
+  }
+  
+  .numbersectwo {
+    font-family: Bebas Neue;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 56px;
+    letter-spacing: 0%;
+    text-align: center;
+color: #F47521;    
+  }
+  
+  .labelsectwo {
+    font-family: Poppins;
+font-weight: 300;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: 0%;
+text-align: center;
+color: #FFFFFF;
+  }
+  
+  .dividersectwo {
+    width: 1px;
+    height: 60px;
+    opacity: 0.3;
+    border: 1px solid #E2E2E2;
+  }
+
+  @media (max-width: 630px) {
+
+    .webpagesection02 {
+      
+        padding: 1.5rem;
+        gap: 1.5rem;
+        margin-top: 1.7rem;
+      }
+    .numbersectwo{
+        font-size: 35px;
+        line-height: 40px;
+
+    }
+
+    .labelsectwo {
+    font-size: 13px;
+    line-height: 18px;
+      }
+}
+  
+
+@media (max-width: 503px) {
+
+    .webpagesection02 {
+      
+        padding: 1rem;
+        gap: 1rem;
+        margin-top: 1.2rem;
+      }
+    .numbersectwo{
+        font-size: 25px;
+        line-height: 30px;
+
+    }
+
+    .labelsectwo {
+    font-size: 13px;
+    line-height: 16px;
+      }
+}
+  
+
+.webpagesection03 {
+    transform: rotate(-5deg);
+    background-color: #f37021;
+    overflow: hidden;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 4rem;
+    position: relative;
+  }
+  
+  .sliderWrapper {
+    display: flex;
+    width: fit-content;
+    animation: scrollTextLTR 20s linear infinite;
+  }
+  
+  .webpagesecsliding {
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-left: 50px; /* spacing between repeats */
+  }
+  
+  @keyframes scrollTextLTR {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 180vh;
+    }
+
+ 
+  }
+
+  @media (max-width: 875px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 170vh;
+    }
+    .webpagesection03 {
+      
+        margin-top: 3rem;
+      }
+ 
+  }
+  
+  @media (max-width: 630px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 150vh;
+    }
+    
+ 
+  }
+
+  @media (max-width: 570px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 130vh;
+    }
+    
+ 
+  }
+  @media (max-width: 420px) {
+    .webpagecontainer{
+        width: 100%;
+        height: 125vh;
+    }
+    
+ 
+  }
+  
