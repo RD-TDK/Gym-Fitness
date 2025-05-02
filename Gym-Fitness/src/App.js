@@ -13,8 +13,14 @@ import Memberlist from "./dashboardcomponents/pages/member/Memberlist";
 import Overviews from "./dashboardcomponents/pages/member/Overviews";
 import Schedual from "./dashboardcomponents/pages/member/Schedual";
 import Login from "./dashboardcomponents/pages/trainer/Login";
+import Memberlists from "./dashboardcomponents/pages/trainer/Memberlists";
+import Overviews1 from "./dashboardcomponents/pages/trainer/Overviews1";
 import Myprofile from "./dashboardcomponents/pages/myprofile/Myprofile";
+import Openaccount from "./dashboardcomponents/pages/trainer/Openaccount";
 import Schedualcalendrsone from "./dashboardcomponents/pages/member/Schedualcalendrsone";
+import MemberList01 from "./dashboardcomponents/pages/trainer/MemberList01";
+import MySchedual01 from "./dashboardcomponents/pages/trainer/MySchedual01";
+import MySchedual02 from "./dashboardcomponents/pages/trainer/MySchedual02";
 
 const App = () => {
   return (
@@ -41,6 +47,12 @@ const App = () => {
           {/* trainer-db */}
 
           <Route path="/login" element={<Login />} />
+          <Route path="/openaccount" element={<Openaccount />} />
+          <Route path="/memberlists" element={<Memberlists />} />
+          <Route path="/overviews1" element={<Overviews1 />} />
+          <Route path="/memberList01" element={<MemberList01 />} />
+          <Route path="/myschedual01" element={<MySchedual01 />} />
+          <Route path="/myschedual02" element={<MySchedual02 />} />
 
           <Route path="/myprofile" element={<Myprofile />} />
         </Routes>
