@@ -21,6 +21,7 @@ import Schedualcalendrsone from "./dashboardcomponents/pages/member/Schedualcale
 import MemberList01 from "./dashboardcomponents/pages/trainer/MemberList01";
 import MySchedual01 from "./dashboardcomponents/pages/trainer/MySchedual01";
 import MySchedual02 from "./dashboardcomponents/pages/trainer/MySchedual02";
+import CreateSessionForm from './dashboardcomponents/pages/trainer/CreateSessionForm';
 
 const App = () => {
   return (
@@ -53,7 +54,7 @@ const App = () => {
           <Route path="/memberList01" element={<MemberList01 />} />
           <Route path="/myschedual01" element={<MySchedual01 />} />
           <Route path="/myschedual02" element={<MySchedual02 />} />
-
+          <Route path="/create-session" element={<CreateSessionForm />} />
           <Route path="/myprofile" element={<Myprofile />} />
         </Routes>
       </BrowserRouter>

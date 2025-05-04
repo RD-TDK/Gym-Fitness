@@ -2,6 +2,7 @@ package com.myfitnessapp.service.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myfitnessapp.service.exception.DuplicationEmailException;
+import com.myfitnessapp.service.exception.ResourceNotFoundException;
 import com.myfitnessapp.service.user.domain.Role;
 import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.domain.UserStatus;
@@ -214,4 +215,6 @@ public class UserServiceImpl implements UserService {
         query.eq("email", email);
         return userMapper.selectOne(query);
     }
+
+
 }

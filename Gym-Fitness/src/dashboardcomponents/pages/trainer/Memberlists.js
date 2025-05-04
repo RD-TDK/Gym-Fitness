@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "./Trainer.module.css";
 import { Link } from 'react-router-dom';
+import api from '../../../api';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import  trainerimg from "../../../../src/assets/trainer-icons.png";
@@ -22,7 +23,27 @@ const trainer = Array.from({ length: 6 }, () => ({
 }));
 
 const Memberlists = () => {
+  const [requests, setRequests] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+
+  useEffect(() => {
+    if (!trainerId) return;
+    api.get(`/requests/trainers/${trainerId}`)
+        .then(res => setRequests(res.data))
+        .catch(err => console.error('Failed to fetch requests', err));
+  }, [trainerId]);
+
+  const handleReview = (requestId, status) => {
+    api.put(`/requests/${requestId}`, { status })
+        .then(res => {
+          setRequests(prev =>
+              prev.map(r => r.requestId === requestId ? res.data : r)
+          );
+        })
+        .catch(err => console.error('Failed to update request', err));
+  };
+
   return (
     <div className={styles.headcontainer}>
       {/* Left-part */}
@@ -148,79 +169,37 @@ const Memberlists = () => {
           </tr>
         </thead>
         <tbody>
-          {trainer.map((trainr, index) => (
-            <tr className={styles.membertr} key={index}>
+        {requests.map(req => (
+            <tr key={req.requestId} className={styles.membertr}>
+              <td className={styles.membertd}>{req.memberId}</td>
+              <td className={styles.membertd}>{req.sessionId}</td>
+              <td className={styles.membertd}>{req.status}</td>
               <td className={styles.membertd}>
-                <div className={styles.profile}>
-                  <img src={trainerprofile} alt="avatar" className={styles.avatar} />
-                  {trainr.name}
-                </div>
-              </td>
-              <td className={styles.membertd}>{trainr.email}</td>
-              <td className={styles.membertd}>{trainr.phonenumber}</td>
-              <td className={styles.membertd}>{trainr.gender}</td>
-              <td className={styles.membertd}>{trainr.workouts}</td>
-
-              <td className={styles.membertd}>
-                <div className={styles.memberthreebtn}>
-                <button className={styles.membertablebtns}>Accept</button>
-                <button className={styles.membertablebtns01}>Reject</button>
-                <div className={styles.lastmemberthree} onClick={() => setShowPopup(true)}>
-        ...
-      </div>
-
-      {/* Popup Part */}
-      {showPopup && (
-        <div className={styles.trainpopupOverlay}>
-          <div className={styles.trainpopupContent}>
-            <div className={styles.trainpopupHeader}>
-              <h2>Suggest other trainer</h2>
-              <button onClick={() => setShowPopup(false)} className={styles.closetrainButton}>X</button>
-            </div>
-
-            <div className={styles.popuptrainBody}>
-              <div className={styles.searchtrainSection}>
-                <input type="text" placeholder="Search" className={styles.searchtrainInput} />
-                <button className={styles.dropdowntrainButton}>Gym ▼</button>
-              </div>
-
-              <div className={styles.trainerstrainList}>
-                <div className={styles.trainerItemtrain}>
-                <img src={trainerprofile} alt="avatar" className={styles.trainerImagetrain} />
-                <div>
-                    <div>Eddie Lobanovskiy</div>
-                    <div className={styles.trainerSubtitletrain}>Gym, yoga</div>
-                  </div>
-                  <button className={styles.suggesttrainButton}> <Link to="/memberList01" className={styles.suggestlinktrain} >Suggest</Link> </button>
-                </div>
-
-                <div className={styles.trainerItemtrain}>
-                <img src={trainerprofile} alt="avatar" className={styles.trainerImagetrain} />
-                  <div>
-                    <div>Alexey Stave</div>
-                    <div className={styles.trainerSubtitletrain}>Zumba</div>
-                  </div>
-                  <button className={styles.suggesttrainButton}><Link to="/memberList01" className={styles.suggestlinktrain} >Suggest</Link></button>
-                </div>
-
-                <div className={styles.trainerItemtrain}>
-                <img src={trainerprofile} alt="avatar" className={styles.trainerImagetrain} />
-                  <div>
-                    <div>Eddie Lobanovskiy</div>
-                    <div className={styles.trainerSubtitletrain}>Gym</div>
-                  </div>
-                  <button className={styles.suggesttrainButton}><Link to="/memberList01" className={styles.suggestlinktrain} >Suggest</Link></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-</div>
-
+                {req.status === 'PENDING' && (
+                    <>
+                      <button
+                          className={styles.membertablebtns}
+                          onClick={() => handleReview(req.requestId, 'APPROVED')}
+                      >
+                        Accept
+                      </button>
+                      <button
+                          className={styles.membertablebtns01}
+                          onClick={() => handleReview(req.requestId, 'REJECTED')}
+                      >
+                        Reject
+                      </button>
+                      <div
+                          className={styles.lastmemberthree}
+                          onClick={() => setShowPopup(true)}
+                      >
+                        …
+                      </div>
+                    </>
+                )}
               </td>
             </tr>
-          ))}
+        ))}
         </tbody>
       </table>
     </div>

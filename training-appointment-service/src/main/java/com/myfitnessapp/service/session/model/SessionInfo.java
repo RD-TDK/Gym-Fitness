@@ -1,6 +1,7 @@
 package com.myfitnessapp.service.session.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,9 @@ public class SessionInfo {
     @TableId(value = "session_id", type = IdType.AUTO)
     private Integer sessionId;             // Session ID (primary key)
 
+    @TableField(exist = false)
     private Integer memberId;              // Member ID (foreign key: t_user.user_id)
+
     private Integer trainerId;             // Trainer ID (foreign key: t_user.user_id, role=TRAINER)
     private Integer centerId;              // Fitness Center ID (foreign key: center.center_id)
 

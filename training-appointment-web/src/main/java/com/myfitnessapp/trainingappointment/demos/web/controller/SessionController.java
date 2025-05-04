@@ -25,12 +25,14 @@ public class SessionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SessionInfo createCourse(@RequestBody @Validated CreateSessionDto dto) {
+        log.debug("Received goalDescription: {}", dto.getGoalDescription());
         SessionInfo s = new SessionInfo();
         s.setTrainerId(dto.getTrainerId());
         s.setCenterId(dto.getCenterId());
         s.setSessionDatetime(dto.getSessionDatetime());
         s.setDuration(dto.getDuration());
         s.setPrice(dto.getPrice());
+        s.setGoalDescription(dto.getGoalDescription());
         return sessionInfoService.createCourse(s);
     }
 

@@ -12,4 +12,5 @@ public class CreateSessionDto {
     @NotNull @Future private LocalDateTime sessionDatetime;
     @NotNull private Integer duration;
     private BigDecimal price;
+    private String goalDescription;
 }

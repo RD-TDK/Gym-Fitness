@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect }from 'react'
 import styles from "./Trainer.module.css";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import api from '../../../api';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import  trainerimg from "../../../../src/assets/trainer-icons.png";
@@ -17,11 +19,12 @@ import  arrowrights from "../../../../src/assets/Arrow -rights2.png";
 import avatarpic from "../../../../src/assets/trainer-avatar.png";
 
 
+const daysOfWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 const MySchedual01 = () => {
-
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const dates = [
+  const navigate = useNavigate();
+  const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+  /*const dates = [
     '', '', '', 1, 2, 3, 4,
     5, 6, 7, 8, 9, 10, 11,
     12, 13, 14, 15, 16, 17, 18,
@@ -34,8 +37,127 @@ const MySchedual01 = () => {
     16: ['Boxing'],
     21: ['Boxing'],
     25: ['Fitness'],
+  };*/
+
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [sessions, setSessions]       = useState({});
+
+  const handleCancel = async (sessionId) => {
+    if (!window.confirm('Confirmed to cancel this class?')) return;
+    try {
+      // DELETE /api/sessions/{sessionId}?trainerId={trainerId}
+      await api.delete(`/sessions/${sessionId}`, {
+        params: { trainerId }
+      });
+      setSessions(prev => {
+        const day = Object.keys(prev).find(d =>
+            prev[d].some(s => s.sessionId === sessionId)
+        );
+        if (!day) return prev;
+        return {
+          ...prev,
+          [day]: prev[day].filter(s => s.sessionId !== sessionId)
+        };
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Cancellation failed, please try again');
+    }
   };
 
+  const generateCalendar = (base) => {
+    const year  = base.getFullYear();
+    const month = base.getMonth();
+    const first = new Date(year, month, 1);
+    const last  = new Date(year, month + 1, 0);
+    const slots = [];
+    for (let i = 0; i < first.getDay(); i++) slots.push("");
+    for (let d = 1; d <= last.getDate(); d++) slots.push(d);
+    while (slots.length % 7 !== 0) slots.push("");
+    return slots;
+  };
+
+  const prevMonth = () =>
+      setCurrentMonth(d => new Date(d.getFullYear(), d.getMonth() - 1, 1));
+  const nextMonth = () =>
+      setCurrentMonth(d => new Date(d.getFullYear(), d.getMonth() + 1, 1));
+
+  // 获取课程数据
+  useEffect(() => {
+    if (!trainerId) return;
+
+    const year  = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    const startDate = new Date(year, month, 1);
+    startDate.setHours(0,0,0,0);
+    const endDate   = new Date(year, month+1, 0);
+    endDate.setHours(23,59,59,0);
+
+    // ISO 字符串到秒
+    const fmt = d => d.toISOString().slice(0,19);
+    // [改] 直接拼 querystring，避免 axios params 报 TS 类型错
+    const url = `/sessions?start=${encodeURIComponent(fmt(startDate))}` +
+        `&end=${encodeURIComponent(fmt(endDate))}`;
+
+    api.get(url)
+        .then(res => {
+          // [改] 过滤本教练并分组到 daysOfMonth
+          const grouped = res.data
+              .filter(s => s.trainerId === trainerId)
+              .reduce((acc, s) => {
+                const day = new Date(s.sessionDatetime).getDate();
+                acc[day] = acc[day] || [];
+                acc[day].push({
+                  ...s,
+                  formattedTime: new Date(s.sessionDatetime)
+                      .toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
+                });
+                return acc;
+              }, {});
+          setSessions(grouped);
+        })
+        .catch(console.error);
+  }, [trainerId, currentMonth]);
+
+  const renderCells = () => {
+    const slots = generateCalendar(currentMonth);
+    return slots.map((slot, idx) => {
+      const has = slot && sessions[slot];
+      return (
+          <div key={idx} className={`${styles.date} ${!slot?styles.faded:""}`}>
+            {slot && <div className={styles.number}>{slot}</div>}
+            {has && (
+                <div className={styles.events}>
+                  {sessions[slot].map(sess => {
+                    const descKey = (sess.goalDescription || "")
+                        .toLowerCase()
+                        .replace(/\s+/g,"");
+                    return (
+                        <div
+                            key={sess.sessionId}
+                            className={`${styles.schedalevent} ${styles[descKey] || ""}`}
+                        >
+                          <div className={styles.eventDesc}>
+                            {sess.goalDescription || "No description"}
+                          </div>
+                          <div className={styles.eventTime}>
+                            {sess.formattedTime}
+                          </div>
+
+                          <button
+                              onClick={() => handleCancel(sess.sessionId)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                    );
+                  })}
+                </div>
+            )}
+          </div>
+      );
+    });
+  };
 
 
   return (
@@ -98,133 +220,39 @@ const MySchedual01 = () => {
 
     <div className={styles.mainschedual}>
       <h2 className={styles.schedualheader01}>Calender</h2>
-      <div className={styles.smallminischedual}>
-        <p className={styles.schedualtext01}> Monthly</p>
-        <img src={arrowdown} alt=''></img>
-        </div>
+      <div className={styles.calendarNav}>
+        <button onClick={prevMonth}>◀</button>
+        <span>
+           {currentMonth.toLocaleString('en-US', { month: 'long' })}
+          {" "}
+          {currentMonth.getFullYear()}
+            </span>
+        <button onClick={nextMonth}>▶</button>
+      </div>
     </div>
 
-    <div className={styles.maincalenders}>
-      <div className={styles.maincalenders01}>
-      <div className={styles.smallminicalender01}>
-      <img src={arrowplus} alt=''></img>
-        <Link to="/" className={styles.schedualtext02}> Create Schedual</Link>
-        </div>
-
-        <div className={styles.schedualcalender}>
-      <div className={styles.schedualheader11}>
-        <span className={styles.dechead}>December 2, 2021</span>
-        <div className={styles.nav}>
-        <img src={arrowlefts} alt=''></img>
-        <img src={arrowrights} alt=''></img>
-        </div>
-      </div>
       <div className={styles.daysHeader}>
-        <div>S</div><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div>
-      </div>
-      <div className={styles.calenderdates}>
-        {[
-          "", "", "1", "2", "3", "4", "5",
-          "6", "7", "8", "9", "10", "11", "12",
-          "13", "14", "15", "16", "17", "18", "19",
-          "20", "21", "22", "23", "24", "25", "26",
-          "27", "28", "29", "30", "31", "1", "2"
-        ].map((day, index) => (
-          <div
-            key={index}
-            className={`${styles.caldate} ${day === "3" ? styles.active : ""} ${["29", "30", "1", "2"].includes(day) && index < 7 ? styles.faded : ""} ${["1", "2"].includes(day) && index > 30 ? styles.faded : ""}`}
-          >
-            {day}
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div className={styles.nextcalender01}>
-      <p className={styles.nxtcaltext} >People</p>
-
-      <div className={styles.calenderbtns01}>
-  <input className={styles.memberinput} type='text' placeholder='Search'></input>
-  <img src={searchicon} alt=''></img>
-</div>
-
-    </div>
-  
-<div className={styles.bottomschedual}>
-<div className={styles.bottomschdal01}>
-<img src={avatarpic} className={styles.userimg} alt='' />
-</div>
-<div className={styles.bottomschdal01}>
-  <p className={styles.bottomschdaltxt}>Eddie Lobanovskiy</p>
-  <p className={styles.bottomschdaltxtss}>laboanovskiy@gmail.com</p>
-</div>
-</div>
-
-<div className={styles.bottomschedual}>
-<div className={styles.bottomschdal01}>
-<img src={avatarpic} className={styles.userimg} alt='' />
-</div>
-<div className={styles.bottomschdal01}>
-  <p className={styles.bottomschdaltxt}>Alexey Stave</p>
-  <p className={styles.bottomschdaltxtss}>alexeyst@gmail.com</p>
-</div>
-</div>
-
-<div className={styles.bottomschedual}>
-<div className={styles.bottomschdal01}>
-<img src={avatarpic} className={styles.userimg} alt='' />
-</div>
-<div className={styles.bottomschdal01}>
-  <p className={styles.bottomschdaltxt}>Anton Tkacheve</p>
-  <p className={styles.bottomschdaltxtss}>tkacheveanton@gmail.com</p>
-</div>
-</div>
-<div className={styles.bottomendcal}>
-  <Link to="/" className={styles.bottomlinkend}>My Schedule</Link>
-</div>
-      </div>
-      <div className={styles.maincalenders02}>
- <div className={styles.calendarlist}>
-  <div className={styles.maincalende11}>
-    <div>
-<p className={styles.calparatxt}>December 2, 2021</p>
-</div>
-<div className={styles.nav}>
-        <img src={arrowlefts} alt=''></img>
-        <img src={arrowrights} alt=''></img>
-        </div>
-
-  </div>
-
-      <div className={styles.calenheader}>
-        {days.map(day => (
-          <div key={day} className={styles.calendarDay}>{day}</div>
+        {daysOfWeek.map(d => (
+            <div key={d} className={styles.calendarDay}>{d}</div>
         ))}
       </div>
       <div className={styles.calenbody}>
-        {dates.map((date, index) => (
-          <div key={index} className={`${styles.date} ${date === 2 ? styles.selected : ''}`}>
-            {date && <div className={styles.number}>{String(date).padStart(2, '0')}</div>}
-            {events[date] && (
-              <div className={styles.events}>
-                {events[date].map((event, i) => (
-                  <div key={i} className={`${styles.schedalevent} ${styles[event.toLowerCase().replace(/\s/g, '')]}`}>
-                    {event}
-                  </div>
-                ))}
-                {events[date].length > 1 && <Link to="/myschedual02" className={styles.schedalmore}>More</Link>}
-              </div>
-            )}
+        {renderCells()}
+      </div>
+
+      <div className={styles.maincalenders}>
+        <div className={styles.maincalenders01}>
+          <div className={styles.smallminicalender01}>
+            <img src={arrowplus} alt=''></img>
+            <Link to="/create-session" className={styles.schedualtext02}> Create Schedual</Link>
           </div>
-        ))}
-      </div>
-    </div>
-      </div>
 
-    </div>
+
 
       </div>
       </div>
+    </div>
+    </div>
   )
 }
 

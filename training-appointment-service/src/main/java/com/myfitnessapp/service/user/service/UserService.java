@@ -21,4 +21,6 @@ public interface UserService {
     void cancelAccount(Integer id);
 
     User loadDomainUserByEmail(@NotBlank(message = "The email cannot be empty") @Email(message = "The email format is incorrect") String email);
+
+
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Member.module.css";
 import { Link } from 'react-router-dom';
+import api from '../../../api';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import workoutimg from "../../../../src/assets/Workout-icons.png";
@@ -23,16 +24,36 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
 
  const Schedualcalendrsone = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [showPopups, setShowPopups] = useState(false);
+  const [showPopup2, setShowPopup2] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup1, setShowPopup1] = useState(false);
+  const [isOpens, setIsOpens] = useState(false);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const memberId = parseInt(localStorage.getItem('memberId'), 10);
   // report & summary
 
-  const [showPopups, setShowPopups] = useState(false);
-  const [showPopup2, setShowPopup2] = useState(false);
-
+     // [新] 处理“Join class”操作，调用后端创建请求接口
+     const handleJoin = (sessionId) => {
+         api
+             .post(
+                 `/requests/sessions/${sessionId}`,   // 只有 path param
+                 { memberId }                         // CreateRequestDto：只需 memberId
+             )
+             .then(() => {
+                 alert("请求已发送，等待教练审核");
+             })
+             .catch((err) => {
+                 console.error("Join request failed:", err.response || err);
+                 alert(
+                     `请求发送失败：${err.response?.status} ${err.response?.data?.message ||
+                     ""}`
+                 );
+             });
+     };
   const handleReportClick = (e) => {
     e.preventDefault(); // prevent Link navigation
     setShowPopups(true);
@@ -46,16 +67,7 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
   const togglePopup = () => {
     setShowPopup2((prev) => !prev);
   };
-
-
-
-
-
-
   //  reshedual
-
-
-  const [showPopup, setShowPopup] = useState(false);
 
   const handlePopupOpen = (e) => {
     e.preventDefault();
@@ -68,7 +80,6 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
 
   // cancle
 
-  const [showPopup1, setShowPopup1] = useState(false);
 
   const handleCancelClick = () => {
     setShowPopup1(true);
@@ -81,7 +92,6 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
 
   // Delete
 
-    const [isOpens, setIsOpens] = useState(false);
   
     const handleDeleteClick = () => {
       setIsOpens(true);
@@ -409,8 +419,11 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
       )}
     </div>
                   <div className={styles.titleparttwo}>Fitness class</div>
-                  <div className={styles.trainerparttwo}>Sarah Anderson</div>
-                  <button className={styles.joinparttwo}>Join class</button>
+                  <div className={styles.trainerparttwo}>Big Mac</div>
+                    <button
+                        className={styles.joinparttwo}
+                        onClick={() => handleJoin(5001)}
+                    >Join class</button>
                 </div>
 
                 <div className={`${styles.eventparttwo} ${styles.wed}`}>
