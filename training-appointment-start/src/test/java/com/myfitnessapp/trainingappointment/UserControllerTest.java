@@ -187,7 +187,11 @@ public class UserControllerTest {
 
         // 2. 更新用户信息
         UserUpdateDTO updateDTO = new UserUpdateDTO();
-        updateDTO.setNewName("UpdatedName");
+        updateDTO.setName("UpdatedName");
+        updateDTO.setGender(Gender.FEMALE);
+        updateDTO.setPhoneNumber("1112222222");
+        updateDTO.setAddress("Test address New");
+        updateDTO.setBirthday(java.time.LocalDate.of(1990, 1, 1));
         HttpEntity<UserUpdateDTO> updateRequest = new HttpEntity<>(updateDTO, headers);
 
         String url = "/api/users/" + userId;
@@ -256,7 +260,7 @@ public class UserControllerTest {
         pwdDTO.setOldPassword("OldPassword123");
         pwdDTO.setNewPassword("NewPassword456");
         pwdDTO.setConfirmPassword("NewPassword456");
-        pwdDTO.setVerfiticationCode(verifyCodeForPwd);
+        pwdDTO.setVerificationCode(verifyCodeForPwd);
 
         HttpEntity<UserPasswordUpdateDTO> updatePwdRequest = new HttpEntity<>(pwdDTO, headers);
         String updateUrl = "/api/users/" + userId + "/password";

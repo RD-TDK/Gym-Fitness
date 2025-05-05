@@ -28,6 +28,5 @@ public interface UserDtoMapper {
     User userRegistrationDTOtoUser(UserRegistrationDTO userRegistrationDTO);
 
     // DTO -> Entity: 更新用户基本信息
-    @Mapping(source = "newName", target = "name")
     void userUpdateDTOtoUser(UserUpdateDTO userUpdateDTO, @MappingTarget User user);
 }
