@@ -18,6 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .authorizeRequests()
                 // 允许所有用户访问 /api/users/** 下的接口
                 .antMatchers("/api/users/**").permitAll()

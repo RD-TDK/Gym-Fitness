@@ -78,32 +78,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO loginUser(UserLoginDTO loginDTO) {
-        // 根据邮箱构造查询条件，确保找到对应的用户
+        //According to the email structure to construct the query conditions, make sure to find the corresponding user.
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", loginDTO.getEmail());
         User user = userMapper.selectOne(queryWrapper);
 
-        // 如果找不到用户，抛出统一的“邮箱或密码错误”异常（不暴露不存在用户的细节）
+        //If the user cannot be found, throw a uniform "Email or password error" exception
         if (user == null) {
             throw new InvalidCredentialsException();
         }
 
-        // 验证前端传入的密码与数据库中的经过加密后的密码是否匹配
+        // Verify whether the password passed in from the front end matches the encrypted password in the database
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException();
         }
 
-        // 根据业务逻辑检查用户状态
-        // 如果状态为 INACTIVE（软删除），则提示该账户已注销，需要联系管理员
+        // Check the user's status based on business logic
+        // If the status is INACTIVE (soft deleted)
         if (user.getUserStatus() == UserStatus.INACTIVE) {
             throw new AccountCancelledException("\"This account has been cancelled, please contact the administrator to restore it");
         }
-        // 如果状态为 SUSPENDED，则提示该账户被封禁，需要联系管理员解封
+        //If the status is SUSPENDED
         else if (user.getUserStatus() == UserStatus.SUSPENDED) {
             throw new RuntimeException("This account has been banned, please contact the administrator to unblock");
         }
 
-        // 若状态为 ACTIVE，则继续进行登录处理
+        // If the status is "ACTIVE", the login processing will continue
         return userDtoMapper.toUserResponseDTO(user);
     }
 
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new RuntimeException("User not found with id: " + id);
         }
-        // MapStruct 实现 DTO 转实体（仅更新基本字段，例如 newName -> name）
+        // MapStruct implements DTO to entity conversion
         userDtoMapper.userUpdateDTOtoUser(userUpdateDTO, user);
         userMapper.updateById(user);
         return userDtoMapper.toUserResponseDTO(user);
@@ -121,37 +121,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO updateUserPassword(Integer id, UserPasswordUpdateDTO userPasswordUpdateDTO) {
-        // 根据用户 id 查询用户
+        // Query the user based on the user id
         User user = userMapper.selectById(id);
         if (user == null) {
             throw new RuntimeException("User not found with id: " + id);
         }
 
-        // 验证旧密码是否正确
+        // Verify whether the old password is correct
         if (!passwordEncoder.matches(userPasswordUpdateDTO.getOldPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Old password is incorrect.");
         }
 
-        // 通过验证码服务验证验证码是否有效，使用用户注册的邮箱
-        // 注意：这里的验证码验证和注册中类似，若验证码不正确，则抛出异常
+        // Verify that the verification code is valid through the verification code service
         boolean validCode = verificationCodeService.validateVerificationCode(
                 user.getEmail(),
-                userPasswordUpdateDTO.getVerificationCode() // 注意字段名应与你的 DTO 保持一致
+                userPasswordUpdateDTO.getVerificationCode()
         );
         if (!validCode) {
             throw new InvalidVerificationCodeException();
         }
 
-        // 检查新密码与确认密码是否一致
         if (!userPasswordUpdateDTO.getNewPassword().equals(userPasswordUpdateDTO.getConfirmPassword())) {
             throw new IllegalArgumentException("New password and confirm password do not match.");
         }
 
-        // 对新密码进行加密，并更新用户密码
         user.setPassword(passwordEncoder.encode(userPasswordUpdateDTO.getNewPassword()));
         userMapper.updateById(user);
 
-        // 将更新后的 User 实体转换为响应 DTO 返回给前端
         return userDtoMapper.toUserResponseDTO(user);
     }
 

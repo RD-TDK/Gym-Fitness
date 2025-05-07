@@ -36,14 +36,13 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     @Override
     public void generateAndSend(String destinationEmail) {
 
-        // 调用频率限制部分：
+        // Frequency of call restriction section
         String rateLimitKey = "verification_code:limit:" + destinationEmail;
-        // 使用 stringRedisTemplate 检查频率限制 key 是否存在
         Boolean isRateLimited = stringRedisTemplate.hasKey(rateLimitKey);
         if (Boolean.TRUE.equals(isRateLimited)) {
             throw new IllegalStateException("You are requesting the verification code too frequently. Please try again later.");
         }
-        // 设置频率限制 key，60秒内不允许再次请求
+        // Set the frequency limit key and do not allow further requests within 60 seconds
         stringRedisTemplate.opsForValue().set(rateLimitKey, "1", 60, TimeUnit.SECONDS);
 
         // Generate a 6-digit random verification code
@@ -85,7 +84,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
 
     private String getRedisKey(String destination) {
-        // 根据用户的手机号或邮箱拼凑一个唯一的Redis Key
+        // Compose a unique Redis Key based on the user's phone number or email address.
         return "verification_code:" + destination;
     }
 }
