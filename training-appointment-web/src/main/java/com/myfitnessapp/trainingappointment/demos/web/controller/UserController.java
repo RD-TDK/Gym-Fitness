@@ -110,8 +110,8 @@ public class UserController {
         String targetPage;
         switch (userResponse.getRole()) {
             case VISITOR: targetPage = "/visitor/choice";   break;
-            case MEMBER:  targetPage = "/member/dashboard"; break;
-            case TRAINER: targetPage = "/trainer/dashboard";break;
+            case MEMBER:  targetPage = "/overviews"; break;
+            case TRAINER: targetPage = "/overviews1";break;
             default:      targetPage = "/home";             break;
         }
 
