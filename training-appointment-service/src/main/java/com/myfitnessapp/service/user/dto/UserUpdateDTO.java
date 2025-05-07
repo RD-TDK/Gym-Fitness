@@ -1,15 +1,26 @@
 package com.myfitnessapp.service.user.dto;
 
+import com.myfitnessapp.service.user.domain.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class UserUpdateDTO {
-    @NotBlank(message = "The new name cannot be empty")
-    private String newName;
-    @NotBlank(message = "The new gender cannot be empty")
-    private String newGender;
+    /** 新的姓名 */
+    private String name;
+
+    /** 新的性别 "MALE" / "FEMALE" */
+    private Gender gender;
+
+    /** 新的手机号 */
+    private String phoneNumber;
+
+    /** 新的地址 */
+    private String address;
+
+    /** 新的生日 */
+    private LocalDate birthday;
 }

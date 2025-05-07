@@ -178,7 +178,7 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
         </div>
         <div className={styles.smallminicalender01}>
       <img src={arrowplus} alt=''></img>
-        <Link to="/" className={styles.schedualtext02}> Create Schedual</Link>
+        <Link to="/schedual" className={styles.schedualtext02}> Create Schedual</Link>
         </div>
         </div>
     </div>
@@ -225,7 +225,7 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
         <>
       <div className={styles.dropdownItemcal}>
         <img src={arrowedits} alt='' />
-        <Link to="/" className={styles.dropdwncallink01} onClick={handleReportClick}>
+        <Link to="/schedual" className={styles.dropdwncallink01} onClick={handleReportClick}>
           Report
         </Link>
       </div>
@@ -308,7 +308,7 @@ import  arrowdown from "../../../../src/assets/downarrow-icon.png";
     <div className={styles.reshedualcontainer}>
       <div className={styles.dropdownItemcal}>
         <img src={arrowedits} alt="" />
-        <Link className={styles.dropdwncallink01} to="/" onClick={handlePopupOpen}>
+        <Link className={styles.dropdwncallink01} to="/schedual" onClick={handlePopupOpen}>
           Reschedule
         </Link>
       </div>

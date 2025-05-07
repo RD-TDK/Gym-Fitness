@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
 import styles from "./Member.module.css";
 import { Link } from 'react-router-dom';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
@@ -23,13 +23,32 @@ const trainers = Array(6).fill({
   type: 'Boxing, Fitness, etc', 
 });
 
+
+
+
 const Memberlist = () => {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 60) { // trigger after 1 scroll (adjust as needed)
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
   return (
     <div className={styles.headcontainer}>
       {/* Left-part */}
 
-      <div className={styles.nextoverview01}>
-        <div className={styles.overviewlogo}>
+      <div className={`${styles.nextoverview01} ${isSticky ? styles.stickySidebar : ''}`}>
+                <div className={styles.overviewlogo}>
           <h2 className={styles.overviewheader1} >Fitness</h2>
           <img src={logoviews} alt=''></img>
         </div>
@@ -62,7 +81,7 @@ const Memberlist = () => {
       </div>
       <div className={styles.menuItemdb01}>
         <img src={logoutimg} alt='' className={styles.menuicon} />
-        <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+        <Link to= "/signin" className={styles.menulinksdb}> Logout </Link>
       </div>
       </div>
         </div>

@@ -16,7 +16,7 @@ public interface UserService {
 
     UserResponseDTO updateUserPassword(Integer id, UserPasswordUpdateDTO userPasswordUpdateDTO);
 
-    UserResponseDTO updateUserEmail(Integer id, UserEmailUpdateDTO userEmailUpdateDTO);
+//    UserResponseDTO updateUserEmail(Integer id, UserEmailUpdateDTO userEmailUpdateDTO);
     
     void cancelAccount(Integer id);
 

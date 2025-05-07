@@ -3,8 +3,8 @@ import styles from "./Trainer.module.css";
 import fitimage from '../../../../src/assets/signup-image.png';
 import fitlogo from '../../../../src/assets/logo-image.jpg';
 import eye from '../../../../src/assets/password-hide.png';
-import google from '../../../../src/assets/google.png';
-import facebook from '../../../../src/assets/icons-facebook.png';
+// import google from '../../../../src/assets/google.png';
+// import facebook from '../../../../src/assets/icons-facebook.png';
 import { Link } from "react-router-dom";
 
 
@@ -54,7 +54,7 @@ const Login = () => {
          
           </div>
 
-          <Link to="/" className={styles.forgotPassword}>Forgot Password?</Link>
+          <Link to="/openaccount" className={styles.forgotPassword}>Forgot Password?</Link>
 
           <button className={styles.signInButton}> <Link to="/overviews1" className={styles.signInLink}>Sign In</Link>  </button>
 
@@ -64,10 +64,10 @@ const Login = () => {
             <hr className={styles.signhr} />
           </div>
 
-          <div className={styles.socialButtonsEnd}>
+          {/* <div className={styles.socialButtonsEnd}>
         <div className={styles.socialbtn2}>  < img src={google} alt=""  className={styles.icon} />  <Link to="/" className={styles.socialBtn}> Google</Link> </div> 
         <div className={styles.socialbtn2}>    <img src={facebook} alt="" className={styles.icon} /> <Link to="/" className={styles.socialBtn}> Facebook</Link> </div> 
-          </div>
+          </div> */}
 
           <div className={styles.signupText}>
             Don't have an account? <Link to="/openaccount" className={styles.signupLink}>Signup</Link>

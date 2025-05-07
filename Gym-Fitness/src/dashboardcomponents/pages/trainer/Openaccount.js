@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import fitimage from '../../../../src/assets/signup-image.png';
 import fitlogo from '../../../../src/assets/logo-image.jpg';
 import eye from '../../../../src/assets/password-hide.png';
-import google from '../../../../src/assets/google.png';
-import facebook from '../../../../src/assets/icons-facebook.png';
+// import google from '../../../../src/assets/google.png';
+// import facebook from '../../../../src/assets/icons-facebook.png';
 
 const Openaccount = () => {
   return (
@@ -31,9 +31,9 @@ const Openaccount = () => {
         <div className={styles.signInAsSection}>
           <h3 className={styles.signInAsTitle}>Sign Up As</h3>
           <div className={styles.signInAsOptions}>
-            <Link to="/" className={styles.option}>Member</Link>
+            <Link to="/createacc" className={styles.option}>Member</Link>
             <Link to="/login" className={styles.option}>Personal Trainer</Link>
-            <Link to="/signup" className={styles.option}>Admin</Link>
+            {/* <Link to="/signup" className={styles.option}>Admin</Link> */}
           </div>
         </div>
 
@@ -66,11 +66,11 @@ const Openaccount = () => {
           className={styles.sigininput}
         />
 
-<input
+{/* <input
           type="text"
           placeholder="Select Interested Workouts"
           className={styles.sigininput}
-        />
+        /> */}
 
 <textarea
   placeholder="Address"
@@ -96,9 +96,8 @@ const Openaccount = () => {
           <img src={eye} alt="eye"></img>      
         </div>
 
-        <Link to="/" className={styles.forgotPassword}>Forgot Password?</Link>
 
-        <button className={styles.signInButton}> <Link to="/overviews1" className={styles.signInLink}>Sign In</Link>  </button>
+        <button className={styles.signInButton}> <Link to="/login" className={styles.signInLink}>Sign Up</Link>  </button>
 
         <div className={styles.nextdivider}>
           <hr className={styles.signhr} />
@@ -106,13 +105,13 @@ const Openaccount = () => {
           <hr className={styles.signhr} />
         </div>
 
-        <div className={styles.socialButtonsEnd}>
+        {/* <div className={styles.socialButtonsEnd}>
       <div className={styles.socialbtn2}>  < img src={google} alt=""  className={styles.icon} />  <Link to="/" className={styles.socialBtn}> Google</Link> </div> 
       <div className={styles.socialbtn2}>    <img src={facebook} alt="" className={styles.icon} /> <Link to="/" className={styles.socialBtn}> Facebook</Link> </div> 
-        </div>
+        </div> */}
 
         <div className={styles.signupText}>
-        Already have an account? <Link to="/login" className={styles.signupLink}>SignIn</Link>
+        Already have an account? <Link to="/login" className={styles.signupLink}>Sign In</Link>
         </div>
       </div>
     </div>

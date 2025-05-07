@@ -1,14 +1,35 @@
-import React from 'react'
-import styles from "./Admin.module.css";
-import fitimage from '../../../../src/assets/signup-image.png';
-import fitlogo from '../../../../src/assets/logo-image.jpg';
-import eye from '../../../../src/assets/password-hide.png';
-// import google from '../../../../src/assets/google.png';
-// import facebook from '../../../../src/assets/icons-facebook.png';
+import React, { useState } from 'react';
+import styles from "./Entry.module.css";
+import fitimage from "../assets/signup-image.png";
+import fitlogo from "../assets/logo-image.jpg";
+ import eye from '../assets/password-hide.png';
 import { Link } from "react-router-dom";
 
 
-const Signup = () => {
+
+const Entry = () => {
+
+    const [showOTP, setShowOTP] = useState(false);
+    const [otp, setOtp] = useState(["", "", "", ""]);
+  
+    const handleInputChange = (value, index) => {
+      const newOtp = [...otp];
+      newOtp[index] = value.slice(-1); // ensure only 1 character
+      setOtp(newOtp);
+  
+      // Auto-focus next input
+      if (value && index < 3) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        nextInput?.focus();
+      }
+    };
+  
+    const handleSignInClick = (e) => {
+      e.preventDefault(); // prevent navigation
+      setShowOTP(true);
+    };
+
+
   return (
     <div className={styles.maincontainer}>
     <header className={styles.maintopbar}>
@@ -31,11 +52,11 @@ const Signup = () => {
       <div className={styles.rightSection}>
         <div className={styles.signInAsSection}>
           <h3 className={styles.signInAsTitle}>Sign In As</h3>
-          <div className={styles.signInAsOptions}>
+          {/* <div className={styles.signInAsOptions}>
             <Link to="/signin" className={styles.option}>Member</Link>
             <Link to="/login" className={styles.option}>Personal Trainer</Link>
             <Link to="/signup" className={styles.option}>Admin</Link>
-          </div>
+          </div> */}
         </div>
 
         <input
@@ -56,7 +77,33 @@ const Signup = () => {
 
         <Link to="/" className={styles.forgotPassword}>Forgot Password?</Link>
 
-        <button className={styles.signInButton}> <Link to="/overview" className={styles.signInLink}>Sign In</Link>  </button>
+        <div>
+      <button className={styles.signInButton} onClick={handleSignInClick}>
+        <span className={styles.signInLink}>Sign In</span>
+      </button>
+
+      {showOTP && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3 className={styles.popuptextentry}>Enter OTP</h3>
+            <div className={styles.otpContainer}>
+              {otp.map((digit, index) => (
+                <input
+                  key={index}
+                  id={`otp-${index}`}
+                  type="text"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleInputChange(e.target.value, index)}
+                  className={styles.otpInput}
+                />
+              ))}
+            </div>
+            <button  className={styles.otpbtnsubmit}  onClick={() => alert("OTP Submitted: " + otp.join(""))}>Submit</button>
+          </div>
+        </div>
+      )}
+    </div>
 
         <div className={styles.nextdivider}>
           <hr className={styles.signhr} />
@@ -70,7 +117,7 @@ const Signup = () => {
         </div> */}
 
         <div className={styles.signupText}>
-          Don't have an account? <Link to="/createacc" className={styles.signupLink}>Signup</Link>
+          Don't have an account? <Link to="/signin" className={styles.signupLink}>Signup</Link>
         </div>
       </div>
     </div>
@@ -78,4 +125,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default Entry

@@ -24,5 +24,5 @@ public class UserPasswordUpdateDTO {
     private String confirmPassword;
 
     @NotBlank(message = "The verification code cannot be empty")
-    private String verfiticationCode;
+    private String verificationCode;
 }
