@@ -2192,3 +2192,14 @@ color: #FFFFFF;
   border-radius: 5px;
   cursor: pointer;
 }
+
+.loading, .error {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #F47521;
+}
+
+.error {
+    color: #ff4444;
+}
