@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import api from '../../../api';
-import styles from "./Trainer.module.css";
+import styles from "../member/Member.module.css";
+import fitlogo from '../../../../src/assets/logo-image.jpg';
 
 const CreateSessionForm = () => {
     const navigate = useNavigate();
@@ -18,8 +19,8 @@ const CreateSessionForm = () => {
     useEffect(() => {
         // 获取健身中心列表（需后端实现GET /api/centers）
         setCenters([
-            { centerId: 4001, name: "默认健身中心", city: "北京" },
-            { centerId: 4002, name: "测试健身中心", city: "上海" }
+            { centerId: 4001, name: "Default Fitness Center", city: "New York" },
+            { centerId: 4002, name: "Premium Fitness Center", city: "Los Angeles" }
         ]);
 
         /*const fetchCenters = async () => {
@@ -55,75 +56,212 @@ const CreateSessionForm = () => {
     };
 
     return (
-        <div className={styles.sessionFormContainer}>
-            <h2>Create Course</h2>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                    <label>Choose Center:</label>
-                    <select
-                        value={formData.centerId}
-                        onChange={(e) => setFormData({...formData, centerId: e.target.value})}
-                        required
-                    >
-                        <option value="">Please choose center</option>
-                        {centers.map(center => (
-                            <option key={center.centerId} value={center.centerId}>
-                                {center.name} - {center.city}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+        <div className={styles.mainaccountcreate}>
+            <header className={styles.maintopbar}>
+                <img src={fitlogo} alt="" className={styles.fitlogo}></img>
+            </header>
 
-                <div className={styles.formGroup}>
-                    <label>Session Datetime:</label>
-                    <input
-                        type="datetime-local"
-                        value={formData.sessionDatetime}
-                        onChange={(e) => setFormData({...formData, sessionDatetime: e.target.value})}
-                        min={new Date().toISOString().slice(0, 16)}
-                        required
-                    />
-                </div>
+            <div className={styles.maintopbar01}>
+                <h2 className={styles.maintitle}>CREATE SESSION</h2>
+            </div>
 
-                <div className={styles.formGroup}>
-                    <label>Duration（minute）:</label>
-                    <input
-                        type="number"
-                        min="30"
-                        max="180"
-                        step="15"
-                        value={formData.duration}
-                        onChange={(e) => setFormData({...formData, duration: e.target.value})}
-                        required
-                    />
-                </div>
+            <div className={styles.mainContent}>
+                <div className={styles.rightSection} style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+                    <form onSubmit={handleSubmit}>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: '#FFFFFF',
+                                fontFamily: 'Poppins',
+                                fontSize: '1rem'
+                            }}>
+                                Choose Center
+                            </label>
+                            <select
+                                value={formData.centerId}
+                                onChange={(e) => setFormData({...formData, centerId: e.target.value})}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    background: 'transparent',
+                                    border: '1px solid #FFFFFF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'Pontano Sans',
+                                    fontSize: '16px',
+                                    borderRadius: '4px'
+                                }}
+                                required
+                            >
+                                <option value="">Select a center</option>
+                                {centers.map(center => (
+                                    <option key={center.centerId} value={center.centerId}>
+                                        {center.name} - {center.city}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <div className={styles.formGroup}>
-                    <label>Price（USD）:</label>
-                    <input
-                        type="number"
-                        min="0"
-                        step="5"
-                        value={formData.price}
-                        onChange={(e) => setFormData({...formData, price: e.target.value})}
-                        required
-                    />
-                </div>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: '#FFFFFF',
+                                fontFamily: 'Poppins',
+                                fontSize: '1rem'
+                            }}>
+                                Session Date & Time
+                            </label>
+                            <input
+                                type="datetime-local"
+                                value={formData.sessionDatetime}
+                                onChange={(e) => setFormData({...formData, sessionDatetime: e.target.value})}
+                                min={new Date().toISOString().slice(0, 16)}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    background: 'transparent',
+                                    border: '1px solid #FFFFFF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'Pontano Sans',
+                                    fontSize: '16px',
+                                    borderRadius: '4px'
+                                }}
+                                required
+                            />
+                        </div>
 
-                <div className={styles.formGroup}>
-                    <label>课程目标描述:</label>
-                    <textarea
-                        value={formData.goalDescription}
-                        onChange={(e) => setFormData({...formData, goalDescription: e.target.value})}
-                        maxLength="255"
-                    />
-                </div>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: '#FFFFFF',
+                                fontFamily: 'Poppins',
+                                fontSize: '1rem'
+                            }}>
+                                Duration (minutes)
+                            </label>
+                            <input
+                                type="number"
+                                min="30"
+                                max="180"
+                                step="15"
+                                value={formData.duration}
+                                onChange={(e) => setFormData({...formData, duration: e.target.value})}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    background: 'transparent',
+                                    border: '1px solid #FFFFFF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'Pontano Sans',
+                                    fontSize: '16px',
+                                    borderRadius: '4px'
+                                }}
+                                required
+                            />
+                        </div>
 
-                <div className={styles.formActions}>
-                    <button type="button" onClick={() => navigate(-1)}>取消</button>
-                    <button type="submit">创建课程</button>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: '#FFFFFF',
+                                fontFamily: 'Poppins',
+                                fontSize: '1rem'
+                            }}>
+                                Price (USD)
+                            </label>
+                            <input
+                                type="number"
+                                min="0"
+                                step="5"
+                                value={formData.price}
+                                onChange={(e) => setFormData({...formData, price: e.target.value})}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    background: 'transparent',
+                                    border: '1px solid #FFFFFF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'Pontano Sans',
+                                    fontSize: '16px',
+                                    borderRadius: '4px'
+                                }}
+                                required
+                            />
+                        </div>
+
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '0.5rem',
+                                color: '#FFFFFF',
+                                fontFamily: 'Poppins',
+                                fontSize: '1rem'
+                            }}>
+                                Session Objectives
+                            </label>
+                            <textarea
+                                value={formData.goalDescription}
+                                onChange={(e) => setFormData({...formData, goalDescription: e.target.value})}
+                                maxLength="255"
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    background: 'transparent',
+                                    border: '1px solid #FFFFFF',
+                                    color: '#FFFFFF',
+                                    fontFamily: 'Pontano Sans',
+                                    fontSize: '16px',
+                                    borderRadius: '4px',
+                                    minHeight: '100px',
+                                    resize: 'vertical'
+                                }}
+                                required
+                            />
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
+                            <button
+                                type="submit"
+                                style={{
+                                    background: '#F47521',
+                                    border: 'none',
+                                    color: 'white',
+                                    padding: '0.75rem 2rem',
+                                    borderRadius: '4px',
+                                    fontSize: '1rem',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    fontFamily: 'Poppins',
+                                    fontWeight: '700'
+                                }}
+                            >
+                                Create Session
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                style={{
+                                    background: 'transparent',
+                                    border: '1px solid #F47521',
+                                    color: '#F47521',
+                                    padding: '0.75rem 2rem',
+                                    borderRadius: '4px',
+                                    fontSize: '1rem',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    fontFamily: 'Poppins',
+                                    fontWeight: '700'
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };
