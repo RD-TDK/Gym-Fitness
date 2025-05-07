@@ -1,32 +1,32 @@
 /* Siginin-page */
 
 .maincontainer {
-  background: #111111;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 4rem;
-}
-
-.maintopbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 30px;
-  padding-left: 20px;
-  border-bottom: 1px solid #e2e2e2;
-}
-
-.fitlogo {
+    background: #111111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 4rem;
+  }
+  
+  .maintopbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 30px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E2E2E2;
+  }
+  
+  .fitlogo {
   width: 100px;
   height: 80px;
-}
-
-.topButton {
-  background: #f47521;
-  padding: 0.5rem 1rem;
-  border: none;
-}
+  }
+  
+  .topButton {
+    background: #F47521;
+    padding: 0.5rem 1rem;
+    border: none;
+  }
 
   .linktopbtn{
     font-family: Bebas Neue;
@@ -2191,27 +2191,4 @@ color: #FFFFFF;
   padding: 8px 16px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-/*Schedual-page  */
-
-.myschedule_headcontainer {
-  width: 100%;
-  height: 100%;
-  background: #292D31;
-  display: flex;
-}
-
-.eventDesc, .eventTime{
-  color: white;
-}
-.loading, .error {
-    padding: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    color: #F47521;
-}
-
-.error {
-    color: #ff4444;
 }
