@@ -109,7 +109,7 @@ const MySchedual02 = () => {
     </div>
     <div className={styles.menuItemdb01}>
       <img src={logoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+      <Link to= "/login" className={styles.menulinksdb}> Logout </Link>
     </div>
     </div>
       </div>
@@ -140,7 +140,7 @@ const MySchedual02 = () => {
         </div>
         <div className={styles.smallminicalender01}>
       <img src={arrowplus} alt=''></img>
-        <Link to="/" className={styles.schedualtext02}> Create Schedual</Link>
+        <Link to="/memberList01" className={styles.schedualtext02}> Create Schedual</Link>
         </div>
         </div>
     </div>
@@ -188,7 +188,7 @@ const MySchedual02 = () => {
         <div>
       <div className={styles.dropdownItemcal} onClick={togglePopup}>
         <img src={arrowedits} alt="" />
-        <Link to="" className={styles.dropdwncallink01}>View</Link>
+        <Link to="/overviews1" className={styles.dropdwncallink01}>View</Link>
       </div>
 
       {showPopup && (

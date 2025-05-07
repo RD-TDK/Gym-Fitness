@@ -1,0 +1,358 @@
+/* Siginin-page */
+
+.maincontainer {
+    background: #111111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 4rem;
+  }
+  
+  .maintopbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 30px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E2E2E2;
+  }
+  
+  .fitlogo {
+  width: 100px;
+  height: 80px;
+  }
+  
+  .topButton {
+    background: #F47521;
+    padding: 0.5rem 1rem;
+    border: none;
+  }
+  
+  .linktopbtn{
+    font-family: Bebas Neue;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 2.5%;
+  text-decoration: none;
+  color: #FFFFFF;
+  
+  }
+  
+  .maintopbar01{
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .maintitle {
+    font-family: Bebas Neue;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 96px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #FFFFFF;
+  }
+  
+  
+  .mainContent {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+  }
+  
+  .leftSection {
+    width: 45%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+  }
+  
+  /* .fitnessText {
+    position: absolute;
+    left: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    color: #374151;
+    font-size: 6rem;
+    font-weight: bold;
+  } */
+  
+  
+  
+  .rightSection {
+    width: 43%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem;
+  }
+  
+  
+  .signInAsSection {
+    margin-bottom: 1rem;
+  }
+  
+  .signInAsTitle {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 35px;
+    letter-spacing: 0%;
+    text-align: center;
+    text-transform: capitalize;    
+    margin-bottom: 1.5rem;
+    color: #FFFFFF;
+  }
+  
+  .signInAsOptions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  
+  .option {
+    font-family: Poppins;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 35px;
+  letter-spacing: 0%;
+  text-transform: capitalize;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    color: #FFFFFF;
+  }
+  
+  .option:hover{
+    text-decoration: underline;
+    color: #F47521;
+  
+  }
+  
+  .sigininput {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    margin-bottom: 1rem;
+    color: #FFFFFF;
+    font-family: 'Pontano Sans';
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  resize: none;
+  }
+  
+  .sigininput::placeholder {
+    color: #FFFFFF;
+    opacity: 1; /* Optional: ensures full visibility */
+  }
+  
+  .passwordContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+  .siginpassword{
+    border: none;
+    padding: 5px;
+     background: transparent; 
+    outline: none;
+    width: 100%;
+  color: #FFFFFF;
+  font-family: 'Pontano Sans';
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  
+  }
+  
+  .siginpassword::placeholder {
+    color: #FFFFFF;
+    opacity: 1; /* Optional: ensures full visibility */
+  }
+  
+  
+  .forgotPassword {
+    color: #F47521;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: Poppins;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 160%;
+  letter-spacing: 0px;
+  
+  }
+  
+  .signInButton {
+    width: 100%;
+    background: #F47521;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: none;
+  }
+  
+  .signInLink{
+    font-family: Poppins;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.2px;
+  color: #FFFFFF;
+  text-decoration: none;
+  }
+  
+  
+  .nextdivider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .signhr {
+    border: none;
+    border: 1px solid #E2E8F0;
+        flex: 1;
+  }
+  
+  .signTexts {
+    font-family: Poppins;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #FFFFFF;
+    margin: 0 0.5rem;
+  }
+  
+  .socialButtonsEnd {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .socialbtn2{
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    cursor: pointer;
+  
+  }
+  
+  .socialBtn{
+  text-decoration: none;
+    font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.2px;
+  color: #FFFFFF;
+  }
+  
+  
+  .signupText {
+    font-family: Poppins;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+  
+  }
+  
+  .signupLink {
+    text-decoration: none;
+    color: #F47521;
+    cursor: pointer;
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: 0px;
+  }
+
+
+  /* OTP pop-up */
+
+  /* YourStyles.module.css */
+
+  
+  .signInLink {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popuptextentry{
+    color: #111111;
+    font-family: Poppins;
+
+  }
+
+  .otpbtnsubmit{
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-family: Poppins;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .otpContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  
+  .otpInput {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  

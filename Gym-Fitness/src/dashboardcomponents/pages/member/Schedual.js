@@ -75,7 +75,7 @@ const Schedual = () => {
     </div>
     <div className={styles.menuItemdb01}>
       <img src={logoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+      <Link to= "/signin" className={styles.menulinksdb}> Logout </Link>
     </div>
     </div>
       </div>
@@ -110,7 +110,7 @@ const Schedual = () => {
       <div className={styles.maincalenders01}>
       <div className={styles.smallminicalender01}>
       <img src={arrowplus} alt=''></img>
-        <Link to="/" className={styles.schedualtext02}> Create Schedual</Link>
+        <Link to="/schedual" className={styles.schedualtext02}> Create Schedual</Link>
         </div>
 
         <div className={styles.schedualcalender}>
@@ -182,7 +182,7 @@ const Schedual = () => {
 </div>
 </div>
 <div className={styles.bottomendcal}>
-  <Link to="/" className={styles.bottomlinkend}>My Schedule</Link>
+  <Link to="/schedualcalmember" className={styles.bottomlinkend}>My Schedule</Link>
 </div>
       </div>
       <div className={styles.maincalenders02}>

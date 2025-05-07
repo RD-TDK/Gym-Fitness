@@ -71,7 +71,7 @@ const Overviews1 = ({ notify }) => {
       </div>
       <div className={styles.menuItemdb01}>
         <img src={logoutimg} alt='' className={styles.menuicon} />
-        <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+        <Link to= "/login" className={styles.menulinksdb}> Logout </Link>
       </div>
       </div>
         </div>
@@ -227,7 +227,7 @@ const Overviews1 = ({ notify }) => {
       
     </div>
     <div className={styles.smallminicalender01}>
-    <Link to="/" className={styles.schedualtext02}> My Schedule</Link>
+    <Link to="/myschedual01" className={styles.schedualtext02}> My Schedule</Link>
 </div>
 </div>
     <div className={styles.nextcalender01}>

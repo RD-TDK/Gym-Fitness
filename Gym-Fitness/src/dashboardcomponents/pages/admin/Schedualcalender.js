@@ -59,7 +59,7 @@ const Schedualcalender = () => {
     </div>
     <div className={styles.menuItemdb01}>
       <img src={logoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+      <Link to= "/signup" className={styles.menulinksdb}> Logout </Link>
     </div>
     </div>
       </div>
@@ -147,7 +147,7 @@ const Schedualcalender = () => {
         <img src={trainerinfoprofile} alt="avatar" className={styles.avtarinfos} />
         <h2 className={styles.mebsubhead}>Arrora gaur</h2>
         <p className={styles.mebsubpara}>Male</p>
-        <Link to="/" className={styles.mebsublink}>Approved</Link>
+        <Link to="/scheduale" className={styles.mebsublink}>Approved</Link>
         </div>
 
         <div className={styles.mainmembertwosub03}>
@@ -155,22 +155,22 @@ const Schedualcalender = () => {
 
           <div className={styles.mainmembertwosubs11}>
           <img src={email} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/"className={styles.mebsublinkmail} >Email:</Link> arroragaur@gmail.com</p>
+          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Email:</Link> arroragaur@gmail.com</p>
           </div>
 
           <div className={styles.mainmembertwosubs11}>
           <img src={phone} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/"className={styles.mebsublinkmail} >Phone:</Link> +49 587 2547</p>
+          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Phone:</Link> +49 587 2547</p>
           </div>
 
           <div className={styles.mainmembertwosubs11}>
           <img src={phone} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/"className={styles.mebsublinkmail} >Date of Birth:</Link>  6 April 1997  </p>
+          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Date of Birth:</Link>  6 April 1997  </p>
           </div>
 
           <div className={styles.mainmembertwosubs11}>
           <img src={address} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/"className={styles.mebsublinkmail} >Address:</Link>  2239  Hog Camp Road</p>
+          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Address:</Link>  2239  Hog Camp Road</p>
           </div>
 
 

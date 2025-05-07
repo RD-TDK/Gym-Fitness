@@ -71,7 +71,7 @@ const Overview = ({ notify }) => {
     </div>
     <div className={styles.menuItemdb01}>
       <img src={logoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+      <Link to= "/signup" className={styles.menulinksdb}> Logout </Link>
     </div>
     </div>
       </div>

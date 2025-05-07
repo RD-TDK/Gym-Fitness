@@ -93,7 +93,7 @@ const Overviews = ({ notify }) => {
       </div>
       <div className={styles.menuItemdb01}>
         <img src={logoutimg} alt='' className={styles.menuicon} />
-        <Link to= "/" className={styles.menulinksdb}> Logout </Link>
+        <Link to= "/signin" className={styles.menulinksdb}> Logout </Link>
       </div>
       </div>
         </div>
@@ -341,7 +341,7 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintexts}>Trainee</p>
   <p className={styles.smalltraintexts}>08:00 AM-9:00AM</p>
 </div>
-<button className={styles.smallbtn01}> <Link to="/" className={styles.completedlink} >Completed</Link> </button>
+<button className={styles.smallbtn01}> <Link to="/overviews" className={styles.completedlink} >Completed</Link> </button>
           </div>
           </div>
 
@@ -353,7 +353,7 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintexts}>Trainee</p>
   <p className={styles.smalltraintexts}>08:00 AM-9:00AM</p>
 </div>
-<button className={styles.smallbtn02}> <Link to="/" className={styles.completedlink} >Join class </Link> </button>
+<button className={styles.smallbtn02}> <Link to="/schedual" className={styles.completedlink} >Join class </Link> </button>
           </div>
           </div>
         
@@ -383,7 +383,7 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
 </div>
 </div>
-<button className={styles.smallbtn02}> <Link to="/" className={styles.completedlink} >Connect </Link> </button>
+<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
           </div>
 
           <div className={styles.smallcorner03}>
@@ -396,7 +396,7 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
 </div>
 </div>
-<button className={styles.smallbtn02}> <Link to="/" className={styles.completedlink} >Connect </Link> </button>
+<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
           </div>
           <div className={styles.smallcorner03}>
   <div className={styles.minicorner} >
@@ -408,7 +408,7 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
 </div>
 </div>
-<button className={styles.smallbtn02}> <Link to="/" className={styles.completedlink} >Connect </Link> </button>
+<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
           </div>
           <div className={styles.smallcorner03}>
   <div className={styles.minicorner} >
@@ -420,10 +420,10 @@ const Overviews = ({ notify }) => {
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
 </div>
 </div>
-<button className={styles.smallbtn02}> <Link to="/" className={styles.completedlink} >Connect </Link> </button>
+<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
           </div>
 
-          <button className={styles.smallbtn03}> <Link to="/" className={styles.seealllink} >See all </Link> </button>
+          <button className={styles.smallbtn03}> <Link to="/schedualcalmember" className={styles.seealllink} >See all </Link> </button>
 
        {/* package */}
 
@@ -451,7 +451,7 @@ const Overviews = ({ notify }) => {
 <p className={styles.packagetexts}>Personal Trainer</p>
         </div>
 
-        <button className={styles.packagebtn}> <Link className={styles.packagelink} to="/" >cancel Now</Link></button>
+        <button className={styles.packagebtn}> <Link className={styles.packagelink} to="/signin" >cancel Now</Link></button>
 
        </div>
 
