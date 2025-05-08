@@ -321,8 +321,8 @@ cursor: pointer;
 
   .headcontainer{
     width: 100%;
-    height: 100%;
-    background: #292D31;
+    min-height: 100vh;
+    background: #292D31; /* ensure full height dark background */
     display: flex;
   }
 
@@ -337,7 +337,7 @@ border-right: 0.5px solid #263238;
 box-shadow: 0px 5px 22px 4px #00000005;
   }
 
- 
+
 
   .overviewlogo{
     display: flex;
@@ -363,7 +363,7 @@ color: #F97316;
   }
   .nextsection02{
     margin-top: 12rem;
- 
+
   }
 
   .menuItemdb1 ,  .menuItemdb01 {
@@ -376,7 +376,7 @@ color: #F97316;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
    .menuItemdb1:hover {
     background: #F97316;
 border-radius: 12px;
@@ -391,12 +391,12 @@ letter-spacing: 0%;
 color: #FFFFFF;
 text-decoration: none;
    }
- 
+
 /* Right-part */
 
    .nextoverview02{
     width: 80%;
-    
+
       }
 
       .topbarover{
@@ -474,7 +474,7 @@ width: 35%;
         width: 98%;
         height: 27vh;
         position: relative;
-        
+
       }
 
       .textparts{
@@ -489,7 +489,7 @@ padding: 1rem;
         font-size: 24px;
         line-height: 100%;
         letter-spacing: 0%;
-color: #FFFFFF;        
+color: #FFFFFF;
       }
 
       .rightdowntext1{
@@ -500,7 +500,7 @@ font-weight: 400;
 font-size: 12px;
 line-height: 150%;
 letter-spacing: 0.1px;
-color: #FFFFFF;        
+color: #FFFFFF;
 
       }
 
@@ -521,7 +521,7 @@ color: #FFFFFF;
 
       .rightimgcards{
         width: 90%;
-        position: relative;  
+        position: relative;
 
       }
 
@@ -533,7 +533,7 @@ color: #FFFFFF;
         padding: 1rem;
       }
 
-      .rightdowncardspart02{     
+      .rightdowncardspart02{
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -542,7 +542,7 @@ color: #FFFFFF;
         margin-top: -5rem;
 
       }
-      
+
       .rightdowncardspart03{
         display: flex;
         align-items: center;
@@ -562,7 +562,7 @@ letter-spacing: 0%;
 color: #FFFFFF;
       }
 
-       .rightdowncardstexts02{ 
+       .rightdowncardstexts02{
         font-family: Manrope;
         font-weight: 700;
         font-size: 12px;
@@ -582,7 +582,7 @@ color: #FFFFFF;
         margin-top: 1rem;
        }
 
-    
+
 
        .leftPanel{
         background: #070101E3;
@@ -591,7 +591,7 @@ padding: 15px;
 border-radius: 10px;
 
        }
-     
+
 
        .panelheader2{
         font-family: Inter;
@@ -604,16 +604,16 @@ margin-left: 10px;
 margin-bottom: 5px;
        }
 
-      
+
       .dateTabs {
         display: flex;
         gap: 10px;
         margin-top: 10px;
         cursor: pointer;
       }
-      
-    
-      
+
+
+
       .activeTab01 {
         border-radius: 10px;
         background: transparent;
@@ -641,15 +641,15 @@ letter-spacing: 0%;
 color: #FFFFFF;
 
       }
-      
+
       .dateRow {
         display: flex;
         gap: 8px;
         margin: 20px 0;
         color: #D9D9D9;
       }
-      
-     
+
+
       .activeDate {
         background: #2c2c2c;
         color: #D9D9D9;
@@ -659,13 +659,13 @@ color: #FFFFFF;
         width: 40px;
       }
 
-      
+
       .activeDate:hover{
         background: #F47521;
 color: #000000;
 
       }
-      
+
       .calories {
         text-align: center;
         margin-top:2rem;
@@ -696,7 +696,7 @@ color: #FFFFFF;
 margin-top: 5px;
 text-align: center;
       }
-      
+
       .circular {
         background: linear-gradient(210.55deg, #353A40 -3.02%, #121416 93.08%);
         border: 1px solid;
@@ -730,9 +730,9 @@ box-shadow: -16px -6px 80px 0px #F8F9F908 inset;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        
+
       }
-      
+
       .calValue {
         font-family: 	Inter;
 font-weight: 600;
@@ -753,7 +753,7 @@ color: #E4E4E7;
 margin-top: 5px;
 
       }
-      
+
       .calnote {
         font-family: 	Inter;
         font-weight: 500;
@@ -762,21 +762,21 @@ margin-top: 5px;
         letter-spacing: 0%;
         color: #A1A1AA;
       }
-      
+
       .endsummary {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
         width: 100%;
       }
-      
+
       .summaryItem   {
         background: #252525;
         border-radius: 15px;
         width: 45%;
         padding: 1rem;
       }
-      
+
       .summaryItem1{
         background:  #F47521;
         border-radius: 15px;
@@ -795,7 +795,7 @@ margin-top: 5px;
         font-size: 22px;
         line-height: 100%;
         letter-spacing: 0%;
-color: #FFFFFF;        
+color: #FFFFFF;
       }
 
       .bottomspansummary{
@@ -805,14 +805,14 @@ font-size: 36px;
 line-height: 100%;
 letter-spacing: 0%;
 vertical-align: middle;
-color: #FFFFFF;        
+color: #FFFFFF;
       }
 
       .bottomsp{
         font-size: 12px;
         vertical-align: middle;
         font-family: Inter;
-        color: #FFFFFF;        
+        color: #FFFFFF;
 
       }
 
@@ -833,21 +833,21 @@ color: #FFFFFF;
             letter-spacing: -2%;
             margin-bottom: 10px;
            }
-      
+
       .rightheader {
         display: flex;
         margin-bottom: 10px;
         align-items: center;
         gap: 0.5rem;
       }
-      
-    
+
+
       .smallpart011{
         display: flex;
         align-items: center;
         gap: 5px;
       }
-      
+
       .smallpartheader01{
         font-family: Inter;
 font-weight: 500;
@@ -868,7 +868,7 @@ text-align: center;
         line-height: 100%;
         letter-spacing: -2%;
         margin-bottom: 10px;
-        
+
       }
 
       .smallpartpara01{
@@ -1148,7 +1148,7 @@ border-radius: 15px;
         font-size: 16px;
         line-height: 100%;
         letter-spacing: 2%;
-color: #FFFFFF;        
+color: #FFFFFF;
 
       }
 
@@ -1171,21 +1171,29 @@ letter-spacing: 0%;
 color: #FFFFFF;
       }
 
-      .membertwobtns{
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-margin-top: 1rem;
-      }
+/* 让搜索和筛选距离更大 */
+.membertwobtns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;          /* 原来 1rem 改成 1.5rem */
+    margin-top: 1rem;
+}
 
-      .membertwobtns01{
-        display: flex;
-        align-items: center;
-        background: #1D2023;
-        border: 0.3px solid #FFFFFF;
-        border-radius: 10px;
-        padding: 7px;
-      }
+/* 给搜索框下方留空隙 */
+.membertwobtns01 {
+    width: 80%;
+    max-width: 600px;
+    background: #1D2023;
+    border: 0.3px solid #FFFFFF;
+    border-radius: 10px;
+    padding: 7px;
+    margin-bottom: 1.5rem; /* 新增 */
+}
+/* 内部 input 占满全宽 */
+.membertwobtns01 input {
+    width: 100%;
+}
       .membertwobtns02{
         display: flex;
         align-items: center;
@@ -1239,58 +1247,46 @@ padding: 5px;
         align-items: center;
         gap: 10px;
       }
-      
-      .membermaintable {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      
-     
-      .membertr{
-        background: #1E1E1E;
-        box-shadow: 0px 5px 20px 0px #0000000D;
-border-radius: 20px;
-margin-bottom: 10px; /* Space between rows */
-display: flex; /* To apply padding and alignment properly */
-align-items: center;
-padding: 12px ;
-      }
 
-      .membertr1{
-        box-shadow: 0px 5px 20px 0px #0000000D;
+.membermaintable {
+    /* ... */
+    border-collapse: separate;
+    border-spacing: 0 12px; /* 行间距 12px */
+}
+.membermaintable th,
+.membermaintable td {
+    padding: 16px;          /* 单元格上下左右均为 16px */
+}
+
+
+    .membertr,
+    .membertr1 {
+        display: table-row;
+        background: #1E1E1E;
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
         border-radius: 20px;
-        margin-bottom: 10px; /* Space between rows */
-        display: flex; /* To apply padding and alignment properly */
-        align-items: center;
-        margin-left: 1rem;
-        gap: 11rem;
-        padding: 15px;
-      }
-      
-      .membertd {
-        flex: 1; /* Equal width for each cell */
-        color: #ffffff; /* White text */
-        font-size: 14px;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        font-family:  DM Sans;
-       
-      }
-      
+        margin-bottom: 10px;  /* 如果想要行间距 */
+    }
+
+    .membertd {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 12px;
+        /* 其它原有字体、色彩设置保持不变 */
+    }
+
       .profile {
         display: flex;
         align-items: center;
       }
-      
+
       .avatar {
         width: 32px;
         height: 32px;
         border-radius: 50%;
         margin-right: 10px;
       }
-      
+
       .membertablebtns {
         background-color: #ff7b29;
         border: none;
@@ -1303,12 +1299,12 @@ padding: 12px ;
         transition: background-color 0.3s ease;
       }
 
-    
-      
+
+
       .connectBtn:hover {
         background-color: #e56e1f;
       }
-      
+
 
 
       /*Schedual-page  */
@@ -1376,11 +1372,11 @@ color: #FFFFFF;
         gap: 15px;
         background: #F68407;
 border-radius: 10px;
-padding: 12px 40px; 
+padding: 12px 40px;
 margin-top: 0.5rem;
 margin-bottom: 1rem;
 text-align: center;
-        
+
       }
 
       .schedualtext02{
@@ -1453,7 +1449,7 @@ text-decoration: none;
         margin-top: 10px;
         border: 1px solid #F1F4FA;
       }
-      
+
       .schedualheader11{
         display: flex;
         justify-content: space-between;
@@ -1470,13 +1466,13 @@ line-height: 100%;
 letter-spacing: 0%;
 color: #FFFFFF;
       }
-      
+
       .nav {
         cursor: pointer;
         padding: 0 5px;
         gap: 1rem;
       }
-      
+
       .daysHeader {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -1485,7 +1481,7 @@ color: #FFFFFF;
         font-size: 12px;
         margin-bottom: 10px;
       }
-      
+
       .calenderdates {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -1493,28 +1489,28 @@ color: #FFFFFF;
         text-align: center;
         font-size: 13px;
       }
-      
+
       .caldate {
         padding: 8px 0;
         border-radius: 50%;
         background: transition easy 0.3s;
       }
-      
+
       .caldate:hover {
         background-color: #333;
         cursor: pointer;
       }
-      
+
       .active {
         background-color: #ff8c2f;
         color: white;
         font-weight: bold;
       }
-      
+
       .faded {
         color: #555;
       }
-      
+
       .nextcalender01{
         text-align: left;
       }
@@ -1725,7 +1721,7 @@ border-radius: 6px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   position: relative;
-  
+
 
 }
 
@@ -1967,7 +1963,7 @@ padding: 12px;
   font-size: 14px;
   line-height: 100%;
   letter-spacing: 0%;
-  color: #A1A1AA; 
+  color: #A1A1AA;
 }
 
 .popupstrongreport{
@@ -2090,7 +2086,7 @@ padding: 12px;
   width: 400px;
   border-radius: 20px;
   box-shadow: 12px 20px 56px 0px #E8EDF30D;
-  box-shadow: -36px -12px 64px 0px #FFA05C1A; 
+  box-shadow: -36px -12px 64px 0px #FFA05C1A;
   box-shadow: 16px 6px 80px 0px #F8F9F908;
     text-align: left;
 }
@@ -2561,4 +2557,76 @@ color: #FFFFFF;
 .planCard p strong {
     color: #fff;
     font-size: 1.1rem;
+}
+/* 采用固定布局，避免自动撑开 */
+.membermaintable {
+    table-layout: fixed;
+    width: 100%;
+}
+
+/* —— 强制 table 原生布局 —— */
+.membermaintable {
+    display: table;
+    width: 100%;
+    table-layout: fixed;   /* 固定列宽，避免内容撑破布局 */
+    border-spacing: 0;     /* 可选：去掉单元间隙 */
+}
+.membermaintable thead {
+    display: table-header-group;
+}
+.membermaintable tbody {
+    display: table-row-group;
+}
+
+/* Make all columns equal width */
+.membermaintable th,
+.membermaintable td {
+  width: calc(100% / 6);
+}
+
+/* Round table corners */
+.membermaintable thead tr:first-child th:first-child {
+  border-top-left-radius: 12px;
+}
+.membermaintable thead tr:first-child th:last-child {
+  border-top-right-radius: 12px;
+}
+.membermaintable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.membermaintable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+.global(html, body, #root) {
+  margin: 0;
+  padding: 0;
+  background: #292D31;  /* page background matches table container */
+  height: 100%;
+}
+
+/* 筛选行整体靠下，并集中等分 */
+.filterRow {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 1.5rem;   /* 新增 */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 每个筛选框宽度 1/3，并加背景、圆角、内边距 */
+.filterRow select,
+.filterRow input {
+    width: 32%;
+    background: #1D2023;
+    border: 0.5px solid #FFFFFF;
+    border-radius: 8px;
+    padding: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+/* 让 placeholder 文字居中一点 */
+.filterRow input::placeholder {
+    text-align: center;
 }

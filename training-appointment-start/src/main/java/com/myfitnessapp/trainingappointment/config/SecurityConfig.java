@@ -3,6 +3,7 @@ package com.myfitnessapp.trainingappointment.config;
 import com.myfitnessapp.service.user.security.JwtUtil;
 import com.myfitnessapp.service.user.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../../api';
 import styles from "./Member.module.css";
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
@@ -45,11 +46,36 @@ const activityData = [
   { name: 'Sat', cal: 220 },
   { name: 'Sun', cal: 200 },
 ];
-  
- 
+
+
 const Overviews = ({ notify }) => {
 
+  // 搜索关键词，用于 overview 页面
+  const [overviewKeyword, setOverviewKeyword] = useState('');
+
   const [showPopup, setShowPopup] = useState(false);
+
+  // 新增：存储 Top 3 教练
+  const [topTrainers, setTopTrainers] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await api.get('/trainers/search', {
+          params: {
+            current: 1,
+            size: 3,
+            sortBy: 'experience',
+            sortOrder: 'desc',
+            keyword: overviewKeyword
+          }
+        });
+        setTopTrainers((data.records || []).slice(0, 3));
+      } catch (err) {
+        console.error('Error fetching top trainers:', err);
+      }
+    })();
+  }, [overviewKeyword]);
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -109,16 +135,16 @@ const Overviews = ({ notify }) => {
           </div>
 
           <div className={styles.topbarover02}>
-            
+
             {/* pop-up1 */}
           <div className={styles.notifypopcontainer}>
-      <img 
+      <img
         src={notify1}
-        className={styles.topnotifyimg} 
-        alt='' 
+        className={styles.topnotifyimg}
+        alt=''
         onClick={togglePopup}
       />
-      
+
       {showPopup && (
         <div className={styles.notifypopup1}>
           <h3>NOTIFICATIONS</h3>
@@ -161,28 +187,28 @@ const Overviews = ({ notify }) => {
             <span className={styles.bar03} >Member name</span>
           </div>
         </div>
-      
+
       {/* rightside-next down part */}
 
       <div className={styles.rightdownpart} >
         <div className={styles.rightdownpart01}>
           <div className={styles.rightdowntextpart}>
-          <img className={styles.rightdownpic} src={yogapose} alt=''></img> 
+          <img className={styles.rightdownpic} src={yogapose} alt=''></img>
              <div className={styles.textparts}>
             <h2 className={styles.rightdownhead1}>Track Your Daily Activities</h2>
-            <p className={styles.rightdowntext1}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+            <p className={styles.rightdowntext1}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-               sed do eiusmod </p> 
+               sed do eiusmod </p>
                </div>
           </div>
-        
+
         <div className={styles.rightdowncardspart} >
 
         <div className={styles.rightbgdown}>
 <img src={cardworkout1} className={styles.rightimgcards} alt=''></img>
 
-  </div>    
-        <div className={styles.rightdowncardspart01}>           
+  </div>
+        <div className={styles.rightdowncardspart01}>
           <img src={cardworkout} alt=''></img>
           <div>
           <p className={styles.rightdowncardstexts01}>Workout</p>
@@ -194,7 +220,7 @@ const Overviews = ({ notify }) => {
         <div className={styles.rightbgdown1}>
 <img src={cardcalories1} className={styles.rightimgcards} alt=''></img>
 
-  </div> 
+  </div>
         <div className={styles.rightdowncardspart02}>
         <img src={cardcalories} alt=''></img>
           <div>
@@ -209,7 +235,7 @@ const Overviews = ({ notify }) => {
         <div className={styles.rightbgdown2}>
 <img src={cardstep1} className={styles.rightimgcards} alt=''></img>
 
-  </div> 
+  </div>
         <div className={styles.rightdowncardspart03}>
         <img src={cardstep} alt=''></img>
           <div>
@@ -251,7 +277,7 @@ const Overviews = ({ notify }) => {
           <h3 className={styles.calorieshead2} >Total Calories burned</h3>
           </div>
           <div className={styles.circular}>
-            <div className={styles.smallcircular} > 
+            <div className={styles.smallcircular} >
             <span className={styles.calValue}>3,600</span>
             <span className={styles.calValue1}>cal</span>
             </div>
@@ -290,8 +316,8 @@ const Overviews = ({ notify }) => {
 <p className={styles.smallpartpara01}>Vs. Yesterday</p>
 </div>
 </div>
-          
-         
+
+
           <div className={styles.burnInfo}>
             <p className={styles.smallspnpart}>93 <span className={styles.smallpartpara01}> Kcal</span></p>
             <p className={styles.smallpartpara01}>Burned</p>
@@ -356,7 +382,7 @@ const Overviews = ({ notify }) => {
 <button className={styles.smallbtn02}> <Link to="/schedual" className={styles.completedlink} >Join class </Link> </button>
           </div>
           </div>
-        
+
           <div className={styles.rightcorners1} >
           <div >
           <h2 className={styles.rightschedual01}>Trainers</h2>
@@ -368,60 +394,31 @@ const Overviews = ({ notify }) => {
           </div>
 
 <div className={styles.searchpart}>
-  <input className={styles.searchinput} type='text' placeholder='Search'></input>
+  <input
+    className={styles.searchinput}
+    type='text'
+    placeholder='Search'
+    value={overviewKeyword}
+    onChange={e => setOverviewKeyword(e.target.value)}
+  />
   <img src={searchicon} alt=''></img>
 </div>
 
 
- <div className={styles.smallcorner03}>
-  <div className={styles.minicorner} >
-    <div>
-          <img src={avatarpic} alt=''></img>
-          </div>          
-<div>
-  <p className={styles.smalltraintext01}>Alex</p>
-  <p className={styles.smalltraintext02}>Fitness, Boxing</p>
-</div>
-</div>
-<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
-          </div>
-
-          <div className={styles.smallcorner03}>
-  <div className={styles.minicorner} >
-    <div>
-          <img src={avatarpic} alt=''></img>
-          </div>          
-<div>
-  <p className={styles.smalltraintext01}>Alex</p>
-  <p className={styles.smalltraintext02}>Fitness, Boxing</p>
-</div>
-</div>
-<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
-          </div>
-          <div className={styles.smallcorner03}>
-  <div className={styles.minicorner} >
-    <div>
-          <img src={avatarpic} alt=''></img>
-          </div>          
-<div>
-  <p className={styles.smalltraintext01}>Alex</p>
-  <p className={styles.smalltraintext02}>Fitness, Boxing</p>
-</div>
-</div>
-<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
-          </div>
-          <div className={styles.smallcorner03}>
-  <div className={styles.minicorner} >
-    <div>
-          <img src={avatarpic} alt=''></img>
-          </div>          
-<div>
-  <p className={styles.smalltraintext01}>Alex</p>
-  <p className={styles.smalltraintext02}>Fitness, Boxing</p>
-</div>
-</div>
-<button className={styles.smallbtn02}> <Link to="/schedualcalmember" className={styles.completedlink} >Connect </Link> </button>
-          </div>
+{topTrainers.map(trainer => (
+  <div key={trainer.trainerId} className={styles.smallcorner03}>
+    <div className={styles.minicorner}>
+      <img src={trainer.photo || avatarpic} alt={trainer.name} />
+      <div>
+        <p className={styles.smalltraintext01}>{trainer.name}</p>
+        <p className={styles.smalltraintext02}>{trainer.specialty}</p>
+      </div>
+    </div>
+    <button className={styles.smallbtn02}>
+      <Link to="/schedualcalmember" className={styles.completedlink}>Connect</Link>
+    </button>
+  </div>
+))}
 
           <button className={styles.smallbtn03}> <Link to="/schedualcalmember" className={styles.seealllink} >See all </Link> </button>
 

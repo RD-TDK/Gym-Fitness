@@ -2,7 +2,6 @@ package com.myfitnessapp.trainingappointment.demos.web.controller;
 
 import com.myfitnessapp.service.user.domain.Gender;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myfitnessapp.service.trainer.domain.CertificationStatus;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -101,7 +100,7 @@ public class TrainerController {
             @RequestParam(required = false) CertificationStatus certificationStatus,
             @RequestParam(required = false) Gender gender,
             @RequestParam(required = false) Status status,
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "1") int current,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortOrder,
@@ -125,7 +124,7 @@ public class TrainerController {
 
         // 3. 分页参数（注意泛型是实体类型）
         Page<Trainer> pageReq =
-                new Page<>(page, size);
+                new Page<>(current, size);
 
         // 4. 调用 Service，返回 IPage<TrainerResponseDTO>，转换为 Page<TrainerResponseDTO>
         Page<TrainerResponseDTO> pageResult =
