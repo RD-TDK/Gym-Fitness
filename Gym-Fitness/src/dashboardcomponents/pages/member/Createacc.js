@@ -1,122 +1,79 @@
-import React from 'react'
-import styles from "./Member.module.css";
-import { Link } from 'react-router-dom';
-import fitimage from '../../../../src/assets/signup-image.png';
+// src/dashboardcomponents/pages/member/Createacc.js
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import api from '../../../api';             // axios 实例，baseURL=/api 自动加前缀
+import styles from './Member.module.css';
 import fitlogo from '../../../../src/assets/logo-image.jpg';
-import eye from '../../../../src/assets/password-hide.png';
-// import google from '../../../../src/assets/google.png';
-// import facebook from '../../../../src/assets/icons-facebook.png';
 
-const Createacc = () => {
-  return (
-    <div className={styles.mainaccountcreate}>
-    <header className={styles.maintopbar}>
-      <img src={fitlogo} alt="" className={styles.fitlogo}></img>
- <button className={styles.topButton} >  <Link to="/signin" className={styles.linktopbtn}>SIGNIN</Link > </button> 
-    </header>
+export default function Createacc() {
+    const [planType, setPlanType] = useState('BASIC');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    <div className={styles.maintopbar01} >
-    <h2 className={styles.maintitle}>CREATE AN ACCOUNT</h2>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+            // 调用后端 /api/memberships/register
+            await api.post('/memberships/register', { planType });
+            // 注册成功后跳到会员首页
+            navigate('/overviews');
+        } catch (err) {
+            console.error('会员注册失败:', err.response);
+            const data = err.response?.data;
+            const msg = typeof data === 'string'
+                ? data
+                : data?.message || '注册会员失败，请重试';
+            setError(msg);
+        }
+    };
 
-    </div>
+    return (
+        <div className={styles.mainaccountcreate}>
+            <header className={styles.maintopbar}>
+                <img src={fitlogo} alt="Logo" className={styles.fitlogo} />
+            </header>
 
-    <div className={styles.mainContent}>
-      {/* Left Side Image & Text */}
-      <div className={styles.leftSection}>
-        <img src={fitimage} alt="Fitness Models" className={styles.signinimage} />
-      </div>
+            <div className={styles.maintopbar01}>
+                <h2 className={styles.maintitle}>Become a Member</h2>
+            </div>
+            {/* —— 套餐卡片展示 —— */}
+            <div className={styles.planCards}>
+                <div
+                    className={`${styles.planCard} ${planType === 'BASIC' ? styles.planCardSelected : ''}`}
+                    onClick={() => setPlanType('BASIC')}
+                >
+                    <h3>Basic</h3>
+                    <p>Access to gym equipment and group classes.</p>
+                    <p><strong>$19.99/mo</strong></p>
+                </div>
+                <div
+                    className={`${styles.planCard} ${planType === 'PREMIUM' ? styles.planCardSelected : ''}`}
+                    onClick={() => setPlanType('PREMIUM')}
+                >
+                    <h3>Premium</h3>
+                    <p>Includes Basic, plus one personal training session each month.</p>
+                    <p><strong>$39.99/mo</strong></p>
+                </div>
+                <div
+                    className={`${styles.planCard} ${planType === 'GOLD' ? styles.planCardSelected : ''}`}
+                    onClick={() => setPlanType('GOLD')}
+                >
+                    <h3>Gold</h3>
+                    <p>All Premium benefits, plus unlimited personal training.</p>
+                    <p><strong>$59.99/mo</strong></p>
+                </div>
+            </div>
 
-      {/* Right Side Form */}
-      <div className={styles.rightSection}>
-        <div className={styles.signInAsSection}>
-          <h3 className={styles.signInAsTitle}>Sign Up As</h3>
-          <div className={styles.signInAsOptions}>
-            <Link to="/createacc" className={styles.option}>Member</Link>
-            <Link to="/openaccount" className={styles.option}>Personal Trainer</Link>
-            {/* <Link to="/createaccount" className={styles.option}>Admin</Link> */}
-          </div>
+            <div className={styles.memberWrapper}>
+            <form onSubmit={handleSubmit} className={styles.rightSection}>
+                <button type="submit" className={`${styles.signInButton} ${styles.fullWidthButton}`}>
+                    Sign Up as Member
+                </button>
+                {error && <p className={styles.errorText}>{error}</p>}
+            </form>
         </div>
 
-        <input
-          type="text"
-          placeholder="Full name"
-          className={styles.sigininput}
-        />
-          <input
-          type="text"
-          placeholder="Date of Birth"
-          className={styles.sigininput}
-        />
-
-        <input
-          type="text"
-          placeholder="Phone Number"
-          className={styles.sigininput}
-        />
-
-        <input
-          type="email"
-          placeholder="Email Id"
-          className={styles.sigininput}
-        />
-
-          <input
-          type="text"
-          placeholder="Gender"
-          className={styles.sigininput}
-        />
-
-<input
-          type="text"
-          placeholder="Select Interested Workouts"
-          className={styles.sigininput}
-        />
-
-<textarea
-  placeholder="Address"
-  className={styles.sigininput}
-/>
-
-
-        <div className={styles.passwordContainer}>
-          <input
-            type= 'password'
-            placeholder="Password"
-            className={styles.siginpassword}
-          />
-          <img src={eye} alt="eye"></img>      
         </div>
-
-        <div className={styles.passwordContainer}>
-          <input
-            type= 'Password'
-            placeholder="Confirm Password"
-            className={styles.siginpassword}
-          />
-          <img src={eye} alt="eye"></img>      
-        </div>
-
-
-        <button className={styles.signInButton}> <Link to="/overviews" className={styles.signInLink}>Sign Up</Link>  </button>
-
-        <div className={styles.nextdivider}>
-          <hr className={styles.signhr} />
-          <span className={styles.signTexts}>Or sign up with</span>
-          <hr className={styles.signhr} />
-        </div>
-
-        {/* <div className={styles.socialButtonsEnd}>
-      <div className={styles.socialbtn2}>  < img src={google} alt=""  className={styles.icon} />  <Link to="/" className={styles.socialBtn}> Google</Link> </div> 
-      <div className={styles.socialbtn2}>    <img src={facebook} alt="" className={styles.icon} /> <Link to="/" className={styles.socialBtn}> Facebook</Link> </div> 
-        </div> */}
-
-        <div className={styles.signupText}>
-        Already have an account? <Link to="/signin" className={styles.signupLink}>SignUp</Link>
-        </div>
-      </div>
-    </div>
-  </div>
-  )
+    );
 }
-
-export default Createacc

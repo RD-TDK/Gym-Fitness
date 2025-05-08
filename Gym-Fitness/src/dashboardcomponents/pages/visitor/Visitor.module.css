@@ -1,0 +1,63 @@
+/* src/dashboardcomponents/pages/visitor/Visitor.module.css */
+
+.wrapper {
+    /* 垂直水平居中，满屏高度 */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* 渐变背景，从深黑到灰黑 */
+    background: linear-gradient(135deg, #111111 0%, #1e1e1e 100%);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.title {
+    color: #ffffff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 3rem; /* increased spacing */
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.options {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-top: 2rem; /* extra space above buttons */
+}
+
+.btn {
+    background: #F47521;
+    color: #FFFFFF;
+    font-family: Poppins, sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+
+    /* 按钮阴影和过渡效果 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #d4631a;
+    transform: scale(1.05);
+}
+
+/* 小屏下自适应 */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    .btn {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}

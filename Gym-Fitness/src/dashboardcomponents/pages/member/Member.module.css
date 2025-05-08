@@ -197,14 +197,24 @@ line-height: 160%;
 letter-spacing: 0px;
 
   }
-  
-  .signInButton {
-    width: 100%;
-    background: #F47521;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: none;
-  }
+
+.signInButton,
+.fullWidthButton {
+    width: 80%;                 /* make button narrower for emphasis */
+    padding: 1rem 1.5rem;       /* increase vertical and horizontal padding */
+    margin-top: 2rem;           /* more space above */
+    font-size: 1.25rem;         /* larger text */
+    background: linear-gradient(90deg, #F47521 0%, #FF8C2F 100%);
+    border-radius: 8px;         /* slightly more rounded */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+    transition: transform 0.2s ease;
+}
+
+.signInButton:hover,
+.fullWidthButton:hover {
+    transform: translateY(-2px) scale(1.03);
+}
 
   .signInLink{
     font-family: Poppins;
@@ -299,13 +309,12 @@ cursor: pointer;
 
   /* Create Account-page */
 
-  .mainaccountcreate {
+.mainaccountcreate {
     background: #111111;
-    color: white;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-bottom: 4rem;
-  }
+}
 
 
   /* Overview-module */
@@ -2470,4 +2479,86 @@ color: #FFFFFF;
 :global select option {
     color: #000;           /* 文字黑色 */
     background: #fff;      /* 背景白色 */
+}
+
+/* —— Member Signup 调整 —— */
+
+/* 整个表单外层，水平垂直居中 */
+.memberWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+/* 表单容器，限制宽度和背景样式 */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;      /* 原有的水平/垂直间距 */
+    row-gap: 2rem;     /* 增大下拉框与上方文字的垂直距离 */
+    /* 其它属性保持不变 */
+}
+
+/* 按钮拉满容器宽度，并加上上边距 */
+.fullWidthButton {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* 给 label 一点白色及加粗 */
+.siginlabel {
+    color: #FFFFFF;
+    font-weight: 600;
+    margin-bottom: 0.5rem;  /* 新增，让文字和下拉框分离些 */
+}
+
+/* 套餐卡片容器 */
+.planCards {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+/* 单个套餐卡片 */
+.planCard {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: 200px;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.planCard:hover {
+    box-shadow: 0 4px 20px rgba(255, 116, 0, 0.5);
+    transform: translateY(-4px);
+}
+
+.planCard h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: #F47521;
+}
+
+.planCard p {
+    margin: 0.5rem 0;
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+/* Highlight selected plan card */
+.planCardSelected {
+    border-color: #FF8C2F;
+    box-shadow: 0 6px 24px rgba(255, 116, 0, 0.7);
+}
+
+.planCard p strong {
+    color: #fff;
+    font-size: 1.1rem;
 }

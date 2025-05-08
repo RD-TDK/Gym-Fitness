@@ -22,10 +22,9 @@ const Signin = () => {
         e.preventDefault();
         setError('');
         try {
-            const response = await api.post('/users/login', { email, password });
-            const { token, targetPage } = response.data;
-            localStorage.setItem('token', token);     // ⑤ 保存 token
-            navigate(targetPage);                     // ⑥ 根据后端返回跳转
+            const { data } = await api.post('/users/login', { email, password });
+            localStorage.setItem('token', data.token);
+            navigate(data.targetPage);                // ⑥ 根据后端返回跳转
         } catch (err) {
             // Log the full response for debugging
             console.error('Login error response:', err.response);

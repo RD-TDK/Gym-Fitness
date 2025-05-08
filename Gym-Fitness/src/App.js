@@ -21,6 +21,7 @@ import Schedualcalendrsone from './dashboardcomponents/pages/member/Schedualcale
 import MemberList01 from './dashboardcomponents/pages/trainer/MemberList01';
 import MySchedual01 from './dashboardcomponents/pages/trainer/MySchedual01';
 import MySchedual02 from './dashboardcomponents/pages/trainer/MySchedual02';
+import VisitorChoice from "./dashboardcomponents/pages/visitor/VisitorChoice";
 import Entry from './entry/Entry';
 import CreateSessionForm from "./dashboardcomponents/pages/trainer/CreateSessionForm";
 
@@ -34,6 +35,9 @@ const App = () => {
       <Route path='/' element={<Webpage />} />
       {/* <Route path='/entry' element={<Entry />} /> */}
 
+      {/* visitor-db */}
+      <Route path="/visitor/choice" element={<VisitorChoice />} />
+
       {/* admin-db */}
       {/* <Route path='/signup' element={<Signup />} /> */}
       {/* <Route path='/createaccount' element={<Createaccount />} /> */}
@@ -44,7 +48,7 @@ const App = () => {
                 {/* member-db */} 
 
       <Route path='/signin' element={<Signin />} />
-      <Route path='/createacc' element={<Createacc />} />
+      <Route path='/member/signup' element={<Createacc />} />
       <Route path='/memberlist' element={<Memberlist />} />
       <Route path='/overviews' element={<Overviews />} />
       <Route path='/schedual' element={<Schedual />} />
@@ -54,7 +58,7 @@ const App = () => {
       {/* trainer-db */} 
 
       {/* <Route path='/login' element={<Login />} /> */}
-      <Route path='/openaccount' element={<Openaccount />} />
+      <Route path='/trainer/signup' element={<Openaccount />} />
       <Route path='/memberlists' element={<Memberlists />} />
       <Route path='/overviews1' element={<Overviews1 />} />
       <Route path='/memberList01' element={<MemberList01 />} />

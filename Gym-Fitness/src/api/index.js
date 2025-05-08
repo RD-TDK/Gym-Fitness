@@ -3,9 +3,7 @@ import axios from 'axios';
 // 创建 Axios 实例，统一配置 baseURL 和拦截器
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api',
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
 });
 
 // 请求拦截：自动添加 Authorization 头（若有 token）
@@ -14,6 +12,7 @@ api.interceptors.request.use(
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
+            console.log('Attached token to request:', token);
         }
         return config;
     },

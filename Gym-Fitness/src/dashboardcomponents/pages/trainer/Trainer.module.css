@@ -1,3 +1,54 @@
+/* Custom upload button */
+.uploadLabel {
+  display: inline-block;
+  background: #F47521;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Hide native file input */
+.fileInputHidden {
+  display: none;
+}
+/* Preview of uploaded photo */
+.imagePreview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Style for file input button */
+.fileInput {
+  padding: 0.5rem;
+  background: #1e1e1e;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.fileInput::file-selector-button {
+  background: #F47521;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* Trainer registration form styling */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 /* Siginin-page */
 
 .maincontainer {
@@ -60,14 +111,14 @@ color: #FFFFFF;
     justify-content: center;
     gap: 4rem;
   }
-  
+
   .leftSection {
     width: 45%;
     /* display: flex;
     justify-content: center;
     align-items: center; */
   }
-  
+
   /* .fitnessText {
     position: absolute;
     left: 2.5rem;
@@ -77,22 +128,22 @@ color: #FFFFFF;
     font-size: 6rem;
     font-weight: bold;
   } */
-  
- 
-  
+
+
+
   .rightSection {
     width: 43%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 5rem;
+    padding: 2rem 5rem;
   }
-  
- 
+
+
   .signInAsSection {
     margin-bottom: 1rem;
   }
-  
+
   .signInAsTitle {
     font-family: Poppins;
     font-weight: 400;
@@ -100,19 +151,19 @@ color: #FFFFFF;
     line-height: 35px;
     letter-spacing: 0%;
     text-align: center;
-    text-transform: capitalize;    
+    text-transform: capitalize;
     margin-bottom: 1.5rem;
     color: #FFFFFF;
   }
-  
+
   .signInAsOptions {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
- 
-  
+
+
+
   .option {
     font-family: Poppins;
 font-weight: 400;
@@ -131,7 +182,7 @@ text-transform: capitalize;
     color: #F47521;
 
   }
-  
+
   .sigininput {
     width: 100%;
     padding: 0.75rem;
@@ -151,7 +202,7 @@ resize: none;
     color: #FFFFFF;
     opacity: 1; /* Optional: ensures full visibility */
   }
-  
+
   .passwordContainer {
     display: flex;
     justify-content: space-between;
@@ -165,7 +216,7 @@ resize: none;
   .siginpassword{
     border: none;
     padding: 5px;
-     background: transparent; 
+     background: transparent;
     outline: none;
     width: 100%;
 color: #FFFFFF;
@@ -176,13 +227,13 @@ line-height: 24px;
 letter-spacing: 0%;
 
   }
- 
+
   .siginpassword::placeholder {
     color: #FFFFFF;
     opacity: 1; /* Optional: ensures full visibility */
   }
-  
-  
+
+
   .forgotPassword {
     color: #F47521;
     font-size: 0.875rem;
@@ -197,13 +248,24 @@ line-height: 160%;
 letter-spacing: 0px;
 
   }
-  
+
   .signInButton {
     width: 100%;
-    background: #F47521;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #222131;
+    background: linear-gradient(90deg, #F47521 0%, #FF8C2F 100%);
     border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 1.5rem 0;
+  }
+
+  .signInButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
   }
 
   .signInLink{
@@ -215,7 +277,7 @@ letter-spacing: 0.2px;
 color: #FFFFFF;
 text-decoration: none;
   }
-  
+
 
   .nextdivider {
     display: flex;
@@ -223,13 +285,13 @@ text-decoration: none;
     justify-content: center;
     margin-bottom: 1rem;
   }
-  
+
   .signhr {
     border: none;
     border: 1px solid #E2E8F0;
         flex: 1;
   }
-  
+
   .signTexts {
     font-family: Poppins;
 font-weight: 400;
@@ -240,7 +302,7 @@ text-align: center;
 color: #FFFFFF;
     margin: 0 0.5rem;
   }
-  
+
   .socialButtonsEnd {
     display: flex;
     justify-content: space-between;
@@ -248,7 +310,7 @@ color: #FFFFFF;
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .socialbtn2{
     display: flex;
     width: 100%;
@@ -284,7 +346,7 @@ color: #FFFFFF;
 cursor: pointer;
 
   }
-  
+
   .signupLink {
     text-decoration: none;
     color: #F47521;
@@ -295,7 +357,7 @@ cursor: pointer;
     line-height: 160%;
     letter-spacing: 0px;
   }
-  
+
 
   /* Create Account-page */
 
@@ -328,7 +390,7 @@ border-right: 0.5px solid #263238;
 box-shadow: 0px 5px 22px 4px #00000005;
   }
 
- 
+
 
   .overviewlogo{
     display: flex;
@@ -354,7 +416,7 @@ color: #F97316;
   }
   .nextsection02{
     margin-top: 12rem;
- 
+
   }
 
   .menuItemdb1 ,  .menuItemdb01 {
@@ -367,7 +429,7 @@ color: #F97316;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
    .menuItemdb1:hover {
     background: #F97316;
 border-radius: 12px;
@@ -382,12 +444,12 @@ letter-spacing: 0%;
 color: #FFFFFF;
 text-decoration: none;
    }
- 
+
 /* Right-part */
 
    .nextoverview02{
     width: 80%;
-    
+
       }
 
       .topbarover{
@@ -466,7 +528,7 @@ width: 30%;
         width: 98%;
         height: 27vh;
         position: relative;
-        
+
       }
 
       .textparts{
@@ -481,7 +543,7 @@ padding: 1rem;
         font-size: 24px;
         line-height: 100%;
         letter-spacing: 0%;
-color: #FFFFFF;        
+color: #FFFFFF;
       }
 
       .rightdowntext1{
@@ -492,7 +554,7 @@ font-weight: 400;
 font-size: 12px;
 line-height: 150%;
 letter-spacing: 0.1px;
-color: #FFFFFF;        
+color: #FFFFFF;
 
       }
 
@@ -513,7 +575,7 @@ color: #FFFFFF;
 
       .rightimgcards{
         width: 35vh;
-        position: relative;  
+        position: relative;
         padding: 0.4rem;
 
       }
@@ -526,7 +588,7 @@ color: #FFFFFF;
         padding: 1rem;
       }
 
-      .rightdowncardspart02{     
+      .rightdowncardspart02{
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -535,7 +597,7 @@ color: #FFFFFF;
         margin-top: -6.5rem;
 
       }
-      
+
       .rightdowncardspart03{
         display: flex;
         align-items: center;
@@ -555,7 +617,7 @@ letter-spacing: 0%;
 color: #FFFFFF;
       }
 
-       .rightdowncardstexts02{ 
+       .rightdowncardstexts02{
         font-family: Manrope;
         font-weight: 700;
         font-size: 10px;
@@ -566,7 +628,7 @@ color: #FFFFFF;
        }
 
 
-     
+
       /*Schedual-page  */
       .mainschedual{
         width: 100%;
@@ -641,11 +703,11 @@ color: #FFFFFF;
         gap: 15px;
         background: #F68407;
 border-radius: 10px;
-padding: 12px 40px; 
+padding: 12px 40px;
 margin-top: 0.5rem;
 margin-bottom: 1rem;
 text-align: center;
-        
+
       }
 
       .schedualtext02{
@@ -718,7 +780,7 @@ text-decoration: none;
         margin-top: 10px;
         border: 1px solid #F1F4FA;
       }
-      
+
       .schedualheader11{
         display: flex;
         justify-content: space-between;
@@ -735,13 +797,13 @@ line-height: 100%;
 letter-spacing: 0%;
 color: #FFFFFF;
       }
-      
+
       .nav {
         cursor: pointer;
         padding: 0 5px;
         gap: 1rem;
       }
-      
+
       .daysHeader {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -750,7 +812,7 @@ color: #FFFFFF;
         font-size: 12px;
         margin-bottom: 10px;
       }
-      
+
       .calenderdates {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -758,28 +820,28 @@ color: #FFFFFF;
         text-align: center;
         font-size: 13px;
       }
-      
+
       .caldate {
         padding: 8px 0;
         border-radius: 50%;
         background: transition easy 0.3s;
       }
-      
+
       .caldate:hover {
         background-color: #333;
         cursor: pointer;
       }
-      
+
       .active {
         background-color: #ff8c2f;
         color: white;
         font-weight: bold;
       }
-      
+
       .faded {
         color: #555;
       }
-      
+
       .nextcalender01{
         text-align: left;
       }
@@ -990,7 +1052,7 @@ border-radius: 6px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   position: relative;
-  
+
 
 }
 
@@ -1145,7 +1207,7 @@ color: #FFFFFF;
     color: #FFFFFF;
   }
 
-   
+
   .smallcorner03{
     display: flex;
     align-items: center;
@@ -1234,9 +1296,9 @@ width: 65%;
             flex-direction: column;
             padding-bottom: 1rem;
             border-bottom: 0.5px solid #788B9A;
-          }   
-          
-          
+          }
+
+
           .mainmembertwosub03{
             padding: 15px;
             margin-top: 0.5rem;
@@ -1426,13 +1488,13 @@ padding: 5px;
       align-items: center;
       gap: 10px;
     }
-    
+
     .membermaintable {
       width: 100%;
       border-collapse: collapse;
     }
-    
-   
+
+
     .membertr{
       background: #1E1E1E;
       box-shadow: 0px 5px 20px 0px #0000000D;
@@ -1455,7 +1517,7 @@ gap: 0.6rem;
       gap: 4.2rem;
       padding: 15px;
     }
-    
+
     .membertd {
       color: #ffffff; /* White text */
       font-size: 14px;
@@ -1464,14 +1526,14 @@ gap: 0.6rem;
       align-items: center;
       justify-content: center;
       font-family:  DM Sans;
-     
+
     }
-    
+
     .profile {
       display: flex;
       align-items: center;
     }
-    
+
     .avatar {
       width: 32px;
       height: 32px;
@@ -1484,7 +1546,7 @@ gap: 0.6rem;
       align-items: center;
       gap: 1rem;
     }
-    
+
     .membertablebtns {
       background: #78E38D;
       border: none;
@@ -1509,7 +1571,7 @@ gap: 0.6rem;
     }
 
 
-    
+
   .lastmemberthree{
     color: #FFFFFF;
     font-size: 33px;
@@ -1518,7 +1580,7 @@ text-align: center;
 margin-top: -15px;
 cursor: pointer;
   }
-    
+
   /* memberlist01-table */
 /* Container */
 .member01tablenxtcontnr {
@@ -1577,7 +1639,7 @@ color:#B4B4B4 ;
 .member01tablerowitemmember01tableactions {
   display: flex;
   gap: 10px;
-  
+
 }
 
 .member01tablerowitem , .member01tableusername{
@@ -1602,7 +1664,7 @@ color:#B4B4B4 ;
   line-height: 100%;
   letter-spacing: 0%;
   text-align: center;
-  
+
 }
 
 
@@ -1619,7 +1681,7 @@ color:#B4B4B4 ;
   line-height: 100%;
   letter-spacing: 0%;
   text-align: center;
-  
+
 }
 
 
@@ -1679,7 +1741,7 @@ color: #FFFFFF;
 
 
 
-    
+
 /* pop-up1 for  top notificatio */
 
 .notifypopcontainer {
