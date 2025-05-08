@@ -102,7 +102,7 @@ const Webpage = () => {
     <div className={styles.webpagecontainer}>
 <div className={styles.webpagesection}>
 <h2 className={styles.webpagehead01}>FITNESS</h2>
-<Link to="/signin" className={styles.webpageLink01} >SIGNIN/SIGNUP</Link>
+<Link to="/visitor/register" className={styles.webpageLink01} >SIGNUP</Link>
 </div>
 
 <div className={styles.webpagesection01}>
@@ -110,7 +110,7 @@ const Webpage = () => {
   <h2 className={styles.webpagehead002}>YOUR BODY</h2>
   <p className={styles.webpagepara01}>Gym training is a structured and disciplined approach to physical 
     exercise that focuses on strength, endurance and overall fitness improvement.</p>
-<Link to="/" className={styles.webpagelink02}>JOIN NOW</Link>
+<Link to="/visitor/register" className={styles.webpagelink02}>JOIN NOW</Link>
 </div> 
 
 <div className={styles.webpagesection02}>
