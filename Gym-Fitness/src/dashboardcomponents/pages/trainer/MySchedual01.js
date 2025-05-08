@@ -3,6 +3,7 @@ import styles from "./Trainer.module.css";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../api';
+import { getCurrentUser } from '../../../utils/auth'
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import  trainerimg from "../../../../src/assets/trainer-icons.png";

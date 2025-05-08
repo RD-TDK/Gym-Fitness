@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from "./Trainer.module.css";
 import { Link } from 'react-router-dom';
 import api from '../../../api';
+import { getCurrentUser } from '../../../utils/auth'
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import  trainerimg from "../../../../src/assets/trainer-icons.png";
@@ -27,8 +28,10 @@ const MemberList01 = () => {
     const [rawRequests, setRawRequests] = useState([]);
     const [requests, setRequests] = useState([]);
     const [filter, setFilter] = useState('');
-    const [statusFilter] = useState('APPROVED');
-    const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+    //const [statusFilter] = useState('APPROVED');
+    const currentUser = getCurrentUser();
+    const trainerId = currentUser ? currentUser.userId : null;
+    //const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
 
     // 页面加载时获取请求列表
     useEffect(() => {
@@ -39,7 +42,7 @@ const MemberList01 = () => {
     }, [trainerId]);
 
     const displayed = rawRequests
-        .filter(r => r.status === statusFilter)
+        .filter(r => r.status.toUpperCase() !== 'PENDING')
         .filter(r =>
             // 简单示例：在任一 ID 上包含搜索关键词
             filter === '' ||
@@ -119,10 +122,9 @@ const MemberList01 = () => {
                             {/* memberlist01-table */}
                             <div className={styles.member01tablenxtcontnr}>
                                 <div className={styles.member01tableheader}>
-                                    <div className={styles.member01tableheaderitem}>Name</div>
-                                    <div className={styles.member01tableheaderitem}>Email</div>
-                                    <div className={styles.member01tableheaderitem}>Number</div>
-                                    <div className={styles.member01tableheaderitem}>Gender</div>
+                                    <div className={styles.member01tableheaderitem}>Request Number</div>
+                                    <div className={styles.member01tableheaderitem}>Member ID</div>
+                                    <div className={styles.member01tableheaderitem}>Session ID</div>
                                     <div className={styles.member01tableheaderitem}>Actions</div>
                                 </div>
                                 {displayed.map(req => (
