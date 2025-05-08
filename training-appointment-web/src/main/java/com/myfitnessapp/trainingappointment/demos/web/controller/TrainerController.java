@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -38,11 +40,10 @@ public class TrainerController {
     }
 
     @PostMapping(value = "/register",
-                 consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.APPLICATION_JSON_VALUE })
+                 consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<TrainerResponseDTO> registerTrainer(
-            HttpServletRequest request,
-            Authentication authentication) throws IOException {
-
+            @ModelAttribute TrainerRegistrationDTO dto,
+            Authentication authentication) {
         CustomUserDetails userDetails = null;
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
             userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -50,25 +51,6 @@ public class TrainerController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        // 根据请求类型构造 DTO
-        String contentType = request.getContentType();
-        TrainerRegistrationDTO dto;
-        if (contentType != null && contentType.contains(MediaType.APPLICATION_JSON_VALUE)) {
-            dto = new ObjectMapper().readValue(request.getInputStream(), TrainerRegistrationDTO.class);
-        } else {
-            dto = new TrainerRegistrationDTO();
-            dto.setSpecialty(request.getParameter("specialty"));
-            String exp = request.getParameter("experience");
-            if (exp != null) {
-                dto.setExperience(Integer.parseInt(exp));
-            }
-            dto.setCertification(request.getParameter("certification"));
-            dto.setBio(request.getParameter("bio"));
-            dto.setPhoto(request.getParameter("photo"));
-        }
-
-        // 调业务
         TrainerResponseDTO result = trainerService.registerTrainer(dto, userDetails.getUser());
         return ResponseEntity.ok(result);
     }
@@ -105,7 +87,7 @@ public class TrainerController {
             }
             dto.setCertification(request.getParameter("certification"));
             dto.setBio(request.getParameter("bio"));
-            dto.setPhoto(request.getParameter("photo"));
+//            dto.setPhoto(request.getParameter("photo"));
         }
 
         TrainerResponseDTO result = trainerService.updateTrainer(dto, userDetails.getUser());

@@ -6,6 +6,7 @@ import com.myfitnessapp.service.user.domain.Role;
 import com.myfitnessapp.service.user.domain.User;
 import com.myfitnessapp.service.user.domain.UserStatus;
 import com.myfitnessapp.service.user.dto.*;
+import com.myfitnessapp.service.user.security.JwtUtil;
 import com.myfitnessapp.service.user.service.UserService;
 import com.myfitnessapp.service.user.service.VerificationCodeService;
 import com.myfitnessapp.service.user.service.impl.CustomUserDetails;
@@ -27,11 +28,14 @@ import java.io.IOException;
 public class UserController {
     private final UserService userService;
     private final VerificationCodeService verificationCodeService;
+    private final JwtUtil jwtUtil;
+
 
     @Autowired
-    public UserController(UserService userService, VerificationCodeService verificationCodeService) {
+    public UserController(UserService userService, VerificationCodeService verificationCodeService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.verificationCodeService = verificationCodeService;
+        this.jwtUtil = jwtUtil;
     }
 
 
@@ -106,6 +110,9 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authToken);
         request.getSession(true);  // 确保下发 JSESSIONID
 
+        // 生成 JWT
+        String jwt = jwtUtil.generateToken(userDetails.getUsername());
+
         // 根据角色决定前端跳转页面
         String targetPage;
         switch (userResponse.getRole()) {
@@ -115,7 +122,10 @@ public class UserController {
             default:      targetPage = "/home";             break;
         }
 
-        return ResponseEntity.ok(new LoginResponseDTO(userResponse, targetPage));
+        // 返回 token + user + targetPage
+        return ResponseEntity.ok(
+                new LoginResponseDTO(userResponse, targetPage, jwt)
+        );
     }
 
     /**

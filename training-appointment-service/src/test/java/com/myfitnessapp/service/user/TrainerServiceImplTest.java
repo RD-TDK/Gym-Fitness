@@ -19,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -95,7 +96,13 @@ public class TrainerServiceImplTest {
         dto.setExperience(3);
         dto.setCertification("Cert");
         dto.setBio("Bio");
-        dto.setPhoto("PhotoUrl");
+        MockMultipartFile mockPhoto = new MockMultipartFile(
+                "photo",                 // field name
+                "photo.jpg",             // original filename
+                "image/jpeg",            // content type
+                "dummy".getBytes()       // content bytes
+        );
+        dto.setPhoto(mockPhoto);
 
         Trainer existing = new Trainer();
         existing.setTrainerId(10);
@@ -114,7 +121,7 @@ public class TrainerServiceImplTest {
         response.setExperience(dto.getExperience());
         response.setCertification(dto.getCertification());
         response.setBio(dto.getBio());
-        response.setPhoto(dto.getPhoto());
+        response.setPhoto(mockPhoto.getOriginalFilename());
         when(trainerDtoMapper.toDto(existing)).thenReturn(response);
 
         // when
@@ -127,7 +134,7 @@ public class TrainerServiceImplTest {
         assertEquals(3, result.getExperience());
         assertEquals("Cert", result.getCertification());
         assertEquals("Bio", result.getBio());
-        assertEquals("PhotoUrl", result.getPhoto());
+        assertEquals("photo.jpg", result.getPhoto());
 
         verify(trainerDtoMapper).updatetoEntity(dto, existing);
         verify(trainerMapper).updateById(existing);

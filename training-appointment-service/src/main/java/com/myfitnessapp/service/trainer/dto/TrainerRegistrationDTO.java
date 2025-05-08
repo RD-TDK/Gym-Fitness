@@ -2,6 +2,7 @@ package com.myfitnessapp.service.trainer.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -14,5 +15,5 @@ public class TrainerRegistrationDTO {
      *  personal profile
      */
     private String bio;
-    private String photo;
+    private MultipartFile photo;
 }
