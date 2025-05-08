@@ -24,6 +24,7 @@ const Signin = () => {
         try {
             const { data } = await api.post('/users/login', { email, password });
             localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             navigate(data.targetPage);                // ⑥ 根据后端返回跳转
         } catch (err) {
             // Log the full response for debugging

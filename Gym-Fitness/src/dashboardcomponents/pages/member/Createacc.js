@@ -9,6 +9,8 @@ export default function Createacc() {
     const [planType, setPlanType] = useState('BASIC');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('当前用户 id:', user.userId);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
