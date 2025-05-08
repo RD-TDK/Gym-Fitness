@@ -22,6 +22,7 @@ import MemberList01 from './dashboardcomponents/pages/trainer/MemberList01';
 import MySchedual01 from './dashboardcomponents/pages/trainer/MySchedual01';
 import MySchedual02 from './dashboardcomponents/pages/trainer/MySchedual02';
 import Entry from './entry/Entry';
+import CreateSessionForm from "./dashboardcomponents/pages/trainer/CreateSessionForm";
 
 
 
@@ -48,6 +49,7 @@ const App = () => {
       <Route path='/overviews' element={<Overviews />} />
       <Route path='/schedual' element={<Schedual />} />
       <Route path='/schedualcalmember' element={<Schedualcalendrsone />} />
+      <Route path='/create-session' element={<CreateSessionForm />} />
 
       {/* trainer-db */} 
 
