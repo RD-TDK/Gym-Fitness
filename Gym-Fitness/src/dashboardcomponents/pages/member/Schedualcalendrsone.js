@@ -1,476 +1,326 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+    startOfWeek,
+    endOfWeek,
+    addWeeks,
+    format,
+    parseISO,
+    getDay,
+    getHours
+} from "date-fns";
 import styles from "./Member.module.css";
-import { Link } from 'react-router-dom';
-import api from '../../../api';
-import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
-import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
-import workoutimg from "../../../../src/assets/Workout-icons.png";
-import  trainerimg from "../../../../src/assets/trainer-icons.png";
-import  schedualimg from "../../../../src/assets/Schedule-icons.png";
-import  profileimg  from "../../../../src/assets/profile-icons.png";
-import  logoutimg from "../../../../src/assets/Logout-icons.png";
-import  notify from "../../../../src/assets/notification-icon.png";
-import  imgprofile from "../../../../src/assets/Avatar-photo.png";
-import  arrowdown from "../../../../src/assets/downarrow-icon.png";
- import  arrowplus from "../../../../src/assets/plus-icon.png";
- import  arrowlefts from "../../../../src/assets/Arrow - lefts2.png";
- import  arrowrights from "../../../../src/assets/Arrow -rights2.png";
- import  arrowedits from "../../../../src/assets/Edit-icons.png";
- import  arrowdelete from "../../../../src/assets/Delete-icos.png";
- import   badgeIcon from "../../../../src/assets/popup-badge.png";
+import { Link } from "react-router-dom";
+import api from "../../../api";
 
- 
+import logoviews    from "../../../../src/assets/fitnessWorkout-iconsorange.png";
+import overviewimg  from "../../../../src/assets/Dashbaord-icons.png";
+import workoutimg   from "../../../../src/assets/Workout-icons.png";
+import trainerimg   from "../../../../src/assets/trainer-icons.png";
+import schedualimg  from "../../../../src/assets/Schedule-icons.png";
+import profileimg   from "../../../../src/assets/profile-icons.png";
+import logoutimg    from "../../../../src/assets/Logout-icons.png";
+import notify       from "../../../../src/assets/notification-icon.png";
+import imgprofile   from "../../../../src/assets/Avatar-photo.png";
+import arrowdown    from "../../../../src/assets/downarrow-icon.png";
+import arrowplus    from "../../../../src/assets/plus-icon.png";
+import arrowlefts   from "../../../../src/assets/Arrow - lefts2.png";
+import arrowrights  from "../../../../src/assets/Arrow -rights2.png";
+import badgeIcon    from "../../../../src/assets/popup-badge.png";
 
+const Schedualcalendrsone = () => {
+    // —— 弹窗和菜单状态 ——
+    const [isOpen, setIsOpen]         = useState(false);
+    const [showPopups, setShowPopups] = useState(false);
+    const [showPopup2, setShowPopup2] = useState(false);
+    const [showPopup, setShowPopup]   = useState(false);
+    const [showPopup1, setShowPopup1] = useState(false);
+    const [isOpens, setIsOpens]       = useState(false);
 
- const Schedualcalendrsone = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showPopups, setShowPopups] = useState(false);
-  const [showPopup2, setShowPopup2] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showPopup1, setShowPopup1] = useState(false);
-  const [isOpens, setIsOpens] = useState(false);
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+    // —— 翻周状态 ——
+    const [currentWeekStart, setCurrentWeekStart] = useState(
+        startOfWeek(new Date(), { weekStartsOn: 1 })
+    );
 
-  const memberId = parseInt(localStorage.getItem('memberId'), 10);
-  // report & summary
+    // —— 本周课程列表 ——
+    const [sessions, setSessions] = useState([]);
+    const memberId = parseInt(localStorage.getItem("memberId"), 10);
 
-     // [新] 处理“Join class”操作，调用后端创建请求接口
-     const handleJoin = (sessionId) => {
-         api
-             .post(
-                 `/requests/sessions/${sessionId}`,   // 只有 path param
-                 { memberId }                         // CreateRequestDto：只需 memberId
-             )
-             .then(() => {
-                 alert("请求已发送，等待教练审核");
-             })
-             .catch((err) => {
-                 console.error("Join request failed:", err.response || err);
-                 alert(
-                     `请求发送失败：${err.response?.status} ${err.response?.data?.message ||
-                     ""}`
-                 );
-             });
-     };
-  const handleReportClick = (e) => {
-    e.preventDefault(); // prevent Link navigation
-    setShowPopups(true);
-  };
+    // —— 星期和时段定义 ——
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const timeSlots = [
+        { label: "10AM-11AM", startHour: 10, endHour: 11 },
+        { label: "11AM-12PM", startHour: 11, endHour: 12 },
+        { label: "12PM-1PM",  startHour: 12, endHour: 13 },
+        { label: "1PM-2PM",   startHour: 13, endHour: 14 },
+        { label: "2PM-3PM",   startHour: 14, endHour: 15 },
+        // …如有更多时段请继续补充
+    ];
 
-  const handleClosePopup = () => {
-    setShowPopups(false);
-    setShowPopup2(false); // ensure inner popup is also closed
-  };
+    // —— 每次 currentWeekStart 改变时，拉取那一周的数据 ——
+    useEffect(() => {
+        const weekStart = currentWeekStart;
+        const weekEnd   = endOfWeek(currentWeekStart, { weekStartsOn: 1 });
+        const startStr  = weekStart.toISOString();
+        const endStr    = weekEnd.toISOString();
 
-  const togglePopup = () => {
-    setShowPopup2((prev) => !prev);
-  };
-  //  reshedual
+        api.get("/sessions", {
+            params: { start: startStr, end: endStr }
+        })
+            .then(res => setSessions(res.data))
+            .catch(err => console.error("获取本周课程失败", err));
+    }, [currentWeekStart]);
 
-  const handlePopupOpen = (e) => {
-    e.preventDefault();
-    setShowPopup(true);
-  };
+    // —— 翻到上一周/下一周 ——
+    const showPrevWeek = () => setCurrentWeekStart(w => addWeeks(w, -1));
+    const showNextWeek = () => setCurrentWeekStart(w => addWeeks(w, +1));
 
-  const handlePopupClose = () => {
-    setShowPopup(false);
-  };
-
-  // cancle
-
-
-  const handleCancelClick = () => {
-    setShowPopup1(true);
-  };
-
-  const handleClose1 = () => {
-    setShowPopup1(false);
-  };
-
-
-  // Delete
-
-  
-    const handleDeleteClick = () => {
-      setIsOpens(true);
-    };
-  
-    const handleClose = () => {
-      setIsOpens(false);
-    };
-  
-    const handleConfirmDelete = () => {
-      // Handle actual delete logic here
-      setIsOpens(false);
+    // —— 加入课程 ——
+    const handleJoin = sessionId => {
+        api.post(`/requests/sessions/${sessionId}`, { memberId })
+            .then(() => alert("请求已发送，等待教练审核"))
+            .catch(err => {
+                console.error("Join request failed:", err.response || err);
+                alert(`请求发送失败：${err.response?.status} ${err.response?.data?.message || ""}`);
+            });
     };
 
+    // —— 弹窗逻辑（示例，按需完善） ——
+    const handleReportClick   = () => setShowPopups(true);
+    const handleClosePopup    = () => { setShowPopups(false); setShowPopup2(false); };
+    const togglePopup         = () => setShowPopup2(prev => !prev);
+    const handlePopupOpen     = () => setShowPopup(true);
+    const handlePopupClose    = () => setShowPopup(false);
+    const handleCancelClick   = () => setShowPopup1(true);
+    const handleClose1        = () => setShowPopup1(false);
+    const handleDeleteClick   = () => setIsOpens(true);
+    const handleCloseDelete   = () => setIsOpens(false);
+    const handleConfirmDelete = () => { setIsOpens(false); };
 
-
-
-  return (
-    <div className={styles.headcontainer}>
-    {/* Left-part */}
-
-    <div className={styles.nextoverview01}>
-      <div className={styles.overviewlogo}>
-        <h2 className={styles.overviewheader1} >Fitness</h2>
-        <img src={logoviews} alt=''></img>
-      </div>
-      <div className={styles.nextsection01}>
-
-      <div className={styles.menuItemdb1}>
-      <img src={overviewimg} alt='' className={styles.menuicon} />
-      <Link to= "/overviews" className={styles.menulinksdb}> Overview </Link>
-    </div>
-
-    <div className={styles.menuItemdb1}>
-      <img src={workoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/overviews" className={styles.menulinksdb}> Workout </Link>
-    </div>
-    <div className={styles.menuItemdb1}>
-      <img src={trainerimg} alt='' className={styles.menuicon} />
-      <Link to= "/memberlist" className={styles.menulinksdb}> Trainers </Link>
-    </div>
-    <div className={styles.menuItemdb1}>
-      <img src={schedualimg} alt='' className={styles.menuicon} />
-      <Link to= "/schedual" className={styles.menulinksdb}> My Schedule </Link>
-    </div>
-
-
-    <div className={styles.nextsection02}>
-
-    <div className={styles.menuItemdb01}>
-      <img src={profileimg} alt='' className={styles.menuicon} />
-      <Link to= "/myprofile" className={styles.menulinksdb}> My Profile </Link>
-    </div>
-    <div className={styles.menuItemdb01}>
-      <img src={logoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/" className={styles.menulinksdb}> Logout </Link>
-    </div>
-    </div>
-      </div>
-    </div>
-    {/* right-part */}
-
-    <div className={styles.nextoverview02}>
-
-      <div className={styles.topbarover}>
-        <div className={styles.topbarover01}>
-          <p className={styles.bar01} >Good Morning</p>
-          <p className={styles.bar02} >Welcome Back!</p>
-        </div>
-
-        <div className={styles.topbarover02}>
-          <img src={notify} alt=''></img>
-          <img src={imgprofile} alt=''></img>
-          <span className={styles.bar03} >Member name</span>
-        </div>
-      </div>
-
-      <div className={styles.mainschedual}>
-      <h2 className={styles.schedualheader01}>Calender</h2>
-<div className={styles.mainschedual11} >
-      <div className={styles.smallminischedual}>
-        <p className={styles.schedualtext01}> Weekly</p>
-        <img src={arrowdown} alt=''></img>
-        </div>
-        <div className={styles.smallminicalender01}>
-      <img src={arrowplus} alt=''></img>
-        <Link to="/schedual" className={styles.schedualtext02}> Create Schedual</Link>
-        </div>
-        </div>
-    </div>
-
-    <div className={styles.maincalende12}>
-    <div>
-<p className={styles.calparatxt}>December 2, 2021</p>
-</div>
-<div className={styles.nav}>
-        <img src={arrowlefts} alt=''></img>
-        <img src={arrowrights} alt=''></img>
-        </div>
-  </div>
-  
-  <div  className={styles.schedualparttwomain}>
-  <div className={styles.schedualpartcaltwo}>
-  <div className={styles.calendarparttwo}>
-    <div className={styles.headerparttwo}>
-      <div>Sun</div>
-      <div>Mon</div>
-      <div>Tue</div>
-      <div>Wed</div>
-      <div>Thu</div>
-      <div>Fri</div>
-      <div>Sat</div>
-    </div>
-
-    <div className={styles.timeSlotstwo}>
-      {["9AM-10AM", "10AM-11AM", "11AM-12PM", "12PM-1PM", "1PM-2PM"].map((time, idx) => (
-        <div key={idx} className={styles.timeSlotcaltwo}>
-          <div className={styles.timeparttwo}>{time}</div>
-          <div className={styles.eventsparttwo}>
-            {/* Placing events manually based on the time */}
-            {time === "9AM-10AM" && (
-              <>
-                <div className={`${styles.eventparttwos} ${styles.mon}`}>
-                <div className={styles.dropdownContainercal}>
-      <div className={styles.titleparts01} onClick={handleToggle}>
-        ...
-      </div>
-
-      {isOpen && (
-        <div className={styles.dropdownMenucal}>
-        <>
-      <div className={styles.dropdownItemcal}>
-        <img src={arrowedits} alt='' />
-        <Link to="/schedual" className={styles.dropdwncallink01} onClick={handleReportClick}>
-          Report
-        </Link>
-      </div>
-
-      {showPopups && (
-        <div className={styles.popupOverlayreport}>
-          <div className={styles.popupCardreport} onClick={handleClosePopup}>
-            <img src={badgeIcon} alt="Badge" className={styles.badgeIconreport} />
-            <h2 className={styles.popupheadreport}>Workout Complete</h2>
-            <p className={styles.streakreport}><span className={styles.streakspanreport}>Streak:</span> 10 days</p>
-
-            <div className={styles.progressBarContainerreport}>
-              <div className={styles.progressBarreport}>
-                <div className={styles.progressreport} style={{ width: '70%' }}></div>
-              </div>
-              <span className={styles.progressTextreport}>70%</span>
-            </div>
-
-            <div className={styles.detailsreport}>
-              <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Exercise Completed:</p> <strong className={styles.popupstrongreport}>6</strong></div>
-              <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Duration:</p> <strong className={styles.popupstrongreport}>45 minutes</strong></div>
-              <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Calories burned:</p> <strong className={styles.popupstrongreport}>356 kcal</strong></div>
-              <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Weight lifted:</p> <strong className={styles.popupstrongreport}>1000 lbs</strong></div>
-              <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>TUT accuracy:</p> <strong className={styles.popupstrongreport}>68%</strong></div>
-            </div>
-
-            <div>
-              <button className={styles.summaryButtonreport} onClick={(e) => {
-                e.stopPropagation(); // prevent closing parent popup
-                togglePopup();
-              }}>
-                See full Summary
-              </button>
-            </div>
-
-            {showPopup2 && (
-              <div className={styles.popupOverlaysummary} onClick={(e) => e.stopPropagation()}>
-                <div className={styles.popupsummary} onClick={togglePopup}>
-                  <h2 className={styles.popupheadsummary}>Workout summary</h2>
-                  <div className={styles.progressBarContainersummary}>
-                    <div className={styles.progressBarsummary} style={{ width: '70%' }} />
-                  </div>
-                  <p className={styles.progressTextsummary}>70%</p>
-
-                  <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Overall reps:</p> <strong className={styles.popupstrongreport}>20 reps</strong></div>
-                  <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Overall sets:</p> <strong className={styles.popupstrongreport}>45 minutes</strong></div>
-                  <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>Total calories count:</p> <strong className={styles.popupstrongreport}>356 kcal</strong></div>
-                  <div className={styles.textreporttwo}><p className={styles.popuptxtsreport}>TUT accuracy</p> <strong className={styles.popupstrongreport}>68%</strong></div>
-                  <h3 className={styles.popupheadsummary01}>Exercises completed</h3>
-                  {[1, 2, 3].map((_, i) => (
-                    <div className={styles.exerciseCardsummary} key={i}>
-                      <h4 className={styles.popupheadsummary01}>Push ups</h4>
-                      <div className={styles.textreporttwo}>
-                        <div>
-                        <p className={styles.popuptxtsreport}>Day:</p> 
-                        <strong className={styles.popupstrongreport}>Monday</strong>  </div>
-                        <div>
-                        <p className={styles.popuptxtsreport}>Duration:</p> 
-                        <strong className={styles.popupstrongreport}>115</strong>  </div>
-                        <div>
-                        <p className={styles.popuptxtsreport}>Exercise:</p> 
-                        <strong className={styles.popupstrongreport}>5</strong>  </div>
-                        <div>
-                        <p className={styles.popuptxtsreport}>TUT:</p> 
-                        <strong className={styles.popupstrongreport}>60%</strong>  </div>
-                        {/* <div>
-                        <p className={styles.popuptxtsreport}>Calories count:</p> 
-                        <strong className={styles.popupstrongreport}>3 kcal</strong>  </div> */}
+    return (
+        <div className={styles.headcontainer}>
+            {/* —— 左侧导航栏 —— */}
+            <div className={styles.nextoverview01}>
+                <div className={styles.overviewlogo}>
+                    <h2 className={styles.overviewheader1}>Fitness</h2>
+                    <img src={logoviews} alt="" />
+                </div>
+                <div className={styles.nextsection01}>
+                    <div className={styles.menuItemdb1}>
+                        <img src={overviewimg} className={styles.menuicon} alt="" />
+                        <Link to="/overviews" className={styles.menulinksdb}>Overview</Link>
+                    </div>
+                    <div className={styles.menuItemdb1}>
+                        <img src={workoutimg} className={styles.menuicon} alt="" />
+                        <Link to="/overviews" className={styles.menulinksdb}>Workout</Link>
+                    </div>
+                    <div className={styles.menuItemdb1}>
+                        <img src={trainerimg} className={styles.menuicon} alt="" />
+                        <Link to="/memberlist" className={styles.menulinksdb}>Trainers</Link>
+                    </div>
+                    <div className={styles.menuItemdb1}>
+                        <img src={schedualimg} className={styles.menuicon} alt="" />
+                        <Link to="/schedual" className={styles.menulinksdb}>My Schedule</Link>
+                    </div>
+                    <div className={styles.nextsection02}>
+                        <div className={styles.menuItemdb01}>
+                            <img src={profileimg} className={styles.menuicon} alt="" />
+                            <Link to="/myprofile" className={styles.menulinksdb}>My Profile</Link>
+                        </div>
+                        <div className={styles.menuItemdb01}>
+                            <img src={logoutimg} className={styles.menuicon} alt="" />
+                            <Link to="/" className={styles.menulinksdb}>Logout</Link>
                         </div>
                     </div>
-                  ))}
                 </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </>
-
-    <div className={styles.reshedualcontainer}>
-      <div className={styles.dropdownItemcal}>
-        <img src={arrowedits} alt="" />
-        <Link className={styles.dropdwncallink01} to="/schedual" onClick={handlePopupOpen}>
-          Reschedule
-        </Link>
-      </div>
-
-      {showPopup && (
-        <div className={styles.popupOverlayreshedual}>
-          <div className={styles.popupContentreshedual}>
-            <div className={styles.headerreshedual}>
-              <h2>Reschedule class</h2>
-              <button className={styles.closeButtonreshedual} onClick={handlePopupClose}>×</button>
             </div>
 
-            <div className={styles.badgereshedual}>Fitness class</div>
-
-            <div className={styles.classInforeshedual}>
-              <h3>John Deo</h3>
-              <p>Thursday, December 5<br />12:00pm - 1:00pm<br />Time zone - Original time</p>
-            </div>
-
-            <input
-              className={styles.inputFieldreshedual}
-              type="text"
-              placeholder="Reschedule reason"
-            />
-            <input
-              className={styles.inputFieldreshedual}
-              type="text"
-              placeholder="Select reschedule date & time"
-            />
-
-            <div className={styles.availabilitySectionreshedual}>
-              <h4>John Deo : Classes availability</h4>
-              <p>Friday, December 5 &nbsp; 12:00pm - 1:00pm</p>
-              <p>Friday, December 5 &nbsp; 5:00pm - 6:00pm</p>
-            </div>
-
-            <div className={styles.buttonGroupreshedual}>
-              <button className={styles.closeButtonSecondaryreshedual} onClick={handlePopupClose}>
-                Close
-              </button>
-              <button className={styles.submitButtonreshedual}>Submit</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-
-
-    <div className={styles.dropdownItemcal}>
-    <img src={arrowedits} alt="" />
-    <button className={styles.dropdwncallink01} onClick={handleCancelClick}>
-        Cancel
-      </button>
-
-      {showPopup1 && (
-        <div className={styles.popupOverlaycancle}>
-          <div className={styles.popupBoxcancle}>
-            <div className={styles.headercancle}>
-              <h2>Cancel class</h2>
-              <button className={styles.closeButtoncancle} onClick={handleClose1}>×</button>
-            </div>
-            <div className={styles.tagcancle}>Fitness class</div>
-            <div className={styles.detailscancle}>
-              <p className={styles.namecancle}>John Doe</p>
-              <p>Thursday, December 5</p>
-              <p>12:00pm - 1:00pm</p>
-              <p>Time zone - Original time</p>
-            </div>
-            <p className={styles.confirmTextcancle}>Are you sure, you want cancel this class today?</p>
-            <div className={styles.buttonGroupcancle}>
-              <button className={styles.noButtoncancle} onClick={handleClose1}>No</button>
-              <button className={styles.yesButtoncancle}>Yes, Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-
-
-          <div className={styles.dropdownItemcal}>
-          <img src={arrowdelete} alt=''></img>
-      <button className={styles.dropdwncallink01} onClick={handleDeleteClick}>Delete</button>
-
-      {isOpens && (
-        <div className={styles.popupOverlaydelete}>
-          <div className={styles.popupContainerdelete}>
-            <div className={styles.popupHeaderdelete}>
-              <h3>Delete class</h3>
-              <button className={styles.closeButtondelete} onClick={handleClose}>×</button>
-            </div>
-            <div className={styles.popupContentdelete}>
-              <span className={styles.classTagdelete}>Fitness class</span>
-              <p className={styles.instructordelete}>John Deo</p>
-              <p>Thursday, December 5 &nbsp; 12:00pm - 1:00pm</p>
-              <p>Time zone - Original time</p>
-              <p className={styles.confirmText}>Are you sure, you want delete this class permanently?</p>
-              <div className={styles.buttonGroupdelete}>
-                <button className={styles.closeBtndelete} onClick={handleClose}>Close</button>
-                <button className={styles.deleteBtndelete} onClick={handleConfirmDelete}>Yes, Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-
-        </div>
-      )}
-    </div>
-                  <div className={styles.titleparttwo}>Fitness class</div>
-                  <div className={styles.trainerparttwo}>Big Mac</div>
-                    <button
-                        className={styles.joinparttwo}
-                        onClick={() => handleJoin(5001)}
-                    >Join class</button>
+            {/* —— 右侧内容区 —— */}
+            <div className={styles.nextoverview02}>
+                {/* 顶部栏 */}
+                <div className={styles.topbarover}>
+                    <div className={styles.topbarover01}>
+                        <p className={styles.bar01}>Good Morning</p>
+                        <p className={styles.bar02}>Welcome Back!</p>
+                    </div>
+                    <div className={styles.topbarover02}>
+                        <img src={notify} alt="" />
+                        <img src={imgprofile} alt="" />
+                        <span className={styles.bar03}>Member name</span>
+                    </div>
                 </div>
 
-                <div className={`${styles.eventparttwo} ${styles.wed}`}>
-                <div className={styles.titleparts01}>...</div>
-                  <div className={styles.titleparttwo}>Fitness class</div>
-                  <div className={styles.trainerparttwo}>Sarah Anderson</div>
-                  <button className={styles.joinparttwo}>Join class</button>
+                {/* —— 日历头 & 翻周 —— */}
+                <div className={styles.mainschedual}>
+                    <h2 className={styles.schedualheader01}>Calendar</h2>
+
+                    <div className={styles.calendarNav}>
+                        <img
+                            src={arrowlefts}
+                            alt="Prev Week"
+                            onClick={showPrevWeek}
+                            style={{ cursor: "pointer" }}
+                        />
+                        <span className={styles.weekRange}>
+              {format(currentWeekStart, "MMM d")} –{" "}
+                            {format(endOfWeek(currentWeekStart, { weekStartsOn: 1 }), "MMM d")}
+            </span>
+                        <img
+                            src={arrowrights}
+                            alt="Next Week"
+                            onClick={showNextWeek}
+                            style={{ cursor: "pointer" }}
+                        />
+                    </div>
+
+                    <div className={styles.createSchedule}>
+                        <img src={arrowplus} alt="" />
+                        <Link to="/schedual" className={styles.schedualtext02}>
+                            Create Schedule
+                        </Link>
+                    </div>
                 </div>
-              </>
-            )}
-            {time === "11AM-12PM" && (
-              <div className={`${styles.eventparttwo} ${styles.mon}`}>
-                                <div className={styles.titleparts01}>...</div>
-                <div className={styles.titleparttwo}>Fitness class</div>
-                <div className={styles.trainerparttwo}>Sarah Anderson</div>
-                <button className={styles.joinparttwo}>Join class</button>
-              </div>
-            )}
-            {time === "12PM-1PM" && (
-              <div className={`${styles.eventparttwo} ${styles.tue}`}>
-                                <div className={styles.titleparts01}>...</div>
-                <div className={styles.titleparttwo}>Fitness class</div>
-                <div className={styles.trainerparttwo}>Sarah Anderson</div>
-                <button className={styles.joinparttwo}>Join class</button>
-              </div>
-            )}
-            {time === "1PM-2PM" && (
-              <div className={`${styles.eventparttwo} ${styles.thu}`}>
-                                <div className={styles.titleparts01}>...</div>
-                <div className={styles.titleparttwo}>Fitness class</div>
-                <div className={styles.trainerparttwo}>Sarah Anderson</div>
-                <button className={styles.joinparttwo}>Join class</button>
-              </div>
-            )}
-          </div>
+
+                {/* —— 周视图主体 —— */}
+                <div className={styles.schedualparttwomain}>
+                    <div className={styles.schedualpartcaltwo}>
+                        <div className={styles.calendarparttwo}>
+                            {/* 星期标题 */}
+                            <div className={styles.headerparttwo}>
+                                {days.map(d => (
+                                    <div key={d}>{d}</div>
+                                ))}
+                            </div>
+
+                            {/* 时段 × 星期 */}
+                            <div className={styles.timeSlotstwo}>
+                                {timeSlots.map(({ label, startHour, endHour }) => (
+                                    <div key={label} className={styles.timeSlotcaltwo}>
+                                        <div className={styles.timeparttwo}>{label}</div>
+                                        <div className={styles.eventsparttwo}>
+                                            {days.map((_, dayIdx) => {
+                                                const matches = sessions.filter(sess => {
+                                                    const dt = parseISO(sess.sessionDatetime);
+                                                    return (
+                                                        getDay(dt) === dayIdx &&
+                                                        getHours(dt) >= startHour &&
+                                                        getHours(dt) < endHour
+                                                    );
+                                                });
+                                                return (
+                                                    <div key={dayIdx} className={styles.eventItem}>
+                                                        {matches.map(session => (
+                                                            <div
+                                                                key={session.sessionId}
+                                                                className={styles.eventCard}
+                                                            >
+                                                                <div className={styles.cardHeader}>
+                                  <span>
+                                    {session.goalDescription ||
+                                    "Fitness class"}
+                                  </span>
+                                                                    <div onClick={() => setIsOpen(!isOpen)}>
+                                                                        …
+                                                                    </div>
+                                                                    {isOpen && (
+                                                                        <div
+                                                                            className={styles.dropdownMenucal}
+                                                                        >
+                                                                            <div onClick={handleReportClick}>
+                                                                                Report
+                                                                            </div>
+                                                                            <div onClick={handlePopupOpen}>
+                                                                                Reschedule
+                                                                            </div>
+                                                                            <div onClick={handleCancelClick}>
+                                                                                Cancel
+                                                                            </div>
+                                                                            <div onClick={handleDeleteClick}>
+                                                                                Delete
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <p className={styles.trainerparttwo}>
+                                                                    Coach: {session.trainerId}
+                                                                </p>
+                                                                <button
+                                                                    className={styles.joinparttwo}
+                                                                    onClick={() =>
+                                                                        handleJoin(session.sessionId)
+                                                                    }
+                                                                >
+                                                                    Join class
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* —— 弹窗部分（保留原逻辑） —— */}
+                        {showPopups && (
+                            <div
+                                className={styles.popupOverlayreport}
+                                onClick={handleClosePopup}
+                            >
+                                <div
+                                    className={styles.popupCardreport}
+                                    onClick={e => e.stopPropagation()}
+                                >
+                                    <img
+                                        src={badgeIcon}
+                                        className={styles.badgeIconreport}
+                                        alt=""
+                                    />
+                                    <h2 className={styles.popupheadreport}>
+                                        Workout Complete
+                                    </h2>
+                                    {/* …详情略… */}
+                                    <button onClick={togglePopup}>
+                                        See full Summary
+                                    </button>
+                                    {showPopup2 && (
+                                        <div
+                                            className={styles.popupOverlaysummary}
+                                            onClick={e => e.stopPropagation()}
+                                        >
+                                            {/* …Full Summary … */}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        {showPopup && (
+                            <div className={styles.popupOverlayreshedual}>
+                                {/* …Reschedule 弹窗… */}
+                                <button onClick={handlePopupClose}>Close</button>
+                            </div>
+                        )}
+                        {showPopup1 && (
+                            <div className={styles.popupOverlaycancle}>
+                                {/* …Cancel 弹窗… */}
+                                <button onClick={handleClose1}>Close</button>
+                            </div>
+                        )}
+                        {isOpens && (
+                            <div className={styles.popupOverlaydelete}>
+                                {/* …Delete 确认弹窗… */}
+                                <button onClick={handleCloseDelete}>Close</button>
+                                <button onClick={handleConfirmDelete}>
+                                    Yes, Delete
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
-</div>
+    );
+};
 
-      </div>
-      </div>
-    
-
-  )
-}
-
-export default Schedualcalendrsone
+export default Schedualcalendrsone;
