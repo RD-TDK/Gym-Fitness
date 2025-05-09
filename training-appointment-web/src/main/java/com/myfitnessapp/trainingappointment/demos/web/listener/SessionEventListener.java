@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -25,6 +27,7 @@ public class SessionEventListener {
     public void handleSessionUpdated(SessionUpdatedEvent event) {
         Integer sessionId = event.getSessionInfo().getSessionId();
         String newStatus = event.getSessionInfo().getStatus();
+        SessionInfo session = event.getSessionInfo();
 
 
         QueryWrapper<TrainingRequest> qw = new QueryWrapper<>();
@@ -46,8 +49,19 @@ public class SessionEventListener {
             n.setType("SESSION_UPDATED");
             n.setLink("/sessions/" + sessionId);
             notificationRepository.save(n);
-
             log.info("Sent notification to user {}: {}", memberId, n.getMessage());
+
+            LocalDateTime nextDt = session.getNextSessionDatetime();
+            if (nextDt != null) {
+                Notification nextN = new Notification();
+                nextN.setUserId(memberId);
+                nextN.setType("NEXT_SESSION_CREATED");
+                nextN.setLink("/sessions/" + sessionId);
+                String formatted = nextDt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                nextN.setMessage("Your next lesson is scheduled on " + formatted);
+                notificationRepository.save(nextN);
+                log.info("Sent next-session notification to user {}: {}", memberId, nextN.getMessage());
+            }
         }
     }
 }

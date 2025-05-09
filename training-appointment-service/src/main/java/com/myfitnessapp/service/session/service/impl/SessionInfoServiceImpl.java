@@ -151,7 +151,7 @@ public class SessionInfoServiceImpl implements SessionInfoService {
     public List<SessionInfo> findCourses(LocalDateTime start, LocalDateTime end) {
         QueryWrapper<SessionInfo> w = new QueryWrapper<>();
         w.between("session_datetime", start, end)
-                .eq("status", "ACTIVE");
+                .ne("status", "CANCELED");
         return sessionInfoMapper.selectList(w);
     }
 

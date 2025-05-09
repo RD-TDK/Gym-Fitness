@@ -44,6 +44,8 @@ const MySchedual01 = () => {
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [sessions, setSessions]       = useState({});
+  const [bookingForId, setBookingForId] = useState(null);
+  const [bookingDate, setBookingDate] = useState('');
 
   const handleCancel = async (sessionId) => {
     if (!window.confirm('Confirmed to cancel this class?')) return;
@@ -89,6 +91,74 @@ const MySchedual01 = () => {
       alert('Update failed, please try again');
     }
   };
+  const handleBookNext = async sess => {
+    // 第一次点击：弹出日历输入框
+    if (bookingForId !== sess.sessionId) {
+      setBookingForId(sess.sessionId);
+      // 预填为原课的 nextSessionDatetime 或当前时间
+      const iso16 = sess.nextSessionDatetime
+          ? sess.nextSessionDatetime.slice(0,16)
+          : new Date().toISOString().slice(0,16);
+      setBookingDate(iso16);
+      return;
+    }
+
+    // 第二次点击“Confirm”：执行接口
+    setBookingForId(null);
+    const nextDt = new Date(bookingDate).toISOString().slice(0, 19);
+    try {
+      // 1) 更新当前课：标为 COMPLETED + 写 next_session_datetime
+      await api.put(
+          `/sessions/${sess.sessionId}`,
+          null,
+          {
+            params: {
+              duration: sess.duration,
+              status: 'COMPLETED',
+              nextSessionDatetime: nextDt
+            }
+          }
+      );
+
+      // 2) 新建下一节课
+      const createDto = {
+        trainerId: sess.trainerId,
+        centerId: sess.centerId,
+        sessionDatetime: nextDt,
+        duration: sess.duration,
+        price: sess.price,
+        goalDescription: sess.goalDescription
+      };
+      const { data: newSession } = await api.post('/sessions', createDto);
+
+      // 3) 本地更新：标旧课、插新课
+      setSessions(curr => {
+        const out = { ...curr };
+        const oldDay = new Date(sess.sessionDatetime).getDate();
+        // 标记旧课
+        out[oldDay] = out[oldDay].map(s =>
+            s.sessionId === sess.sessionId
+                ? { ...s, status: 'COMPLETED', nextSessionDatetime: nextDt }
+                : s
+        );
+        // 插入新课
+        const newDay = new Date(newSession.sessionDatetime).getDate();
+        const formatted = new Date(newSession.sessionDatetime)
+            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        out[newDay] = [
+          ...(out[newDay] || []),
+          { ...newSession, formattedTime: formatted }
+        ];
+        return out;
+      });
+
+      alert('Next lesson booked!');
+      // 后端会自动发通知：下一节课已创建
+    } catch (err) {
+      console.error(err);
+      alert('Booking next lesson failed');
+    }
+  };
 
   const generateCalendar = (base) => {
     const year  = base.getFullYear();
@@ -120,13 +190,11 @@ const MySchedual01 = () => {
 
     // ISO 字符串到秒
     const fmt = d => d.toISOString().slice(0,19);
-    // [改] 直接拼 querystring，避免 axios params 报 TS 类型错
     const url = `/sessions?start=${encodeURIComponent(fmt(startDate))}` +
         `&end=${encodeURIComponent(fmt(endDate))}`;
 
     api.get(url)
         .then(res => {
-          // [改] 过滤本教练并分组到 daysOfMonth
           const grouped = res.data
               .filter(s => s.trainerId === trainerId)
               .reduce((acc, s) => {
@@ -172,7 +240,33 @@ const MySchedual01 = () => {
 
                           {sess.status === 'COMPLETED' ? (
                               // 完成后只显示“Complete”
-                              <span className={styles.completedLabel}>Complete</span>
+                              <>
+                                <span className={styles.completedLabel}>Complete</span>
+                                {!sess.nextSessionDatetime && (
+                                    <button
+                                        className={styles.bookNextBtn}
+                                        onClick={() => handleBookNext(sess)}
+                                    >
+                                      Book next lesson
+                                    </button>
+                                )}
+                                {bookingForId === sess.sessionId && (
+                                    <div className={styles.calendarInputWrapper}>
+                                      <input
+                                          type="datetime-local"
+                                          value={bookingDate}
+                                          min={new Date().toISOString().slice(0,16)}
+                                          onChange={e => setBookingDate(e.target.value)}
+                                      />
+                                      <button
+                                          className={styles.confirmBtn}
+                                          onClick={() => handleBookNext(sess)}
+                                      >
+                                        Confirm
+                                      </button>
+                                    </div>
+                                )}
+                              </>
                           ) : (
                               // 原来的 Cancel + Update 按钮
                               <>

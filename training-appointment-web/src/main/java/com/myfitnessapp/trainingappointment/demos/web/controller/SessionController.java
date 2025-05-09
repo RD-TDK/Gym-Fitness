@@ -88,7 +88,7 @@ public class SessionController {
     @PutMapping("/{sessionId}")
     public void updateRecord(@PathVariable Integer sessionId,
                              @RequestParam Integer duration,
-                             @RequestParam(required = false) LocalDateTime nextSessionDatetime,
+                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime nextSessionDatetime,
                              @RequestParam String status) {
         sessionInfoService.updateSessionRecord(sessionId, duration, nextSessionDatetime, status);
     }
