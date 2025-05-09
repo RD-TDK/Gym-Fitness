@@ -128,6 +128,12 @@ public class UserController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer id) {
+        UserResponseDTO dto = userService.getUserById(id);
+        return ResponseEntity.ok(dto);
+    }
+
     /**
      * 更新用户基本信息接口
      *
@@ -142,6 +148,7 @@ public class UserController {
         UserResponseDTO response = userService.updateUser(id, updateDTO);
         return ResponseEntity.ok(response);
     }
+
 
     /**
      * 更新用户密码接口

@@ -214,5 +214,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOne(query);
     }
 
+    @Override
+    public UserResponseDTO getUserById(Integer id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        UserResponseDTO dto = userDtoMapper.toUserResponseDTO(user);
+        // Map the legacy 'phone' field into phoneNumber
+        dto.setPhoneNumber(user.getPhone());
+        return dto;
+    }
+
 
 }

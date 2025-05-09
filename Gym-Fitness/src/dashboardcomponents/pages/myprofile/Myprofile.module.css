@@ -1,9 +1,18 @@
+/* Full-page dark background */
+:global(html, body, #root) {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #292D31;
+}
+
 .headcontainer{
     width: 100%;
     height: 100%;
     background: #292D31;
     display: flex;
-  }
+    min-height: 100vh;
+}
 
   /* left-part */
 
@@ -16,7 +25,7 @@ border-right: 0.5px solid #263238;
 box-shadow: 0px 5px 22px 4px #00000005;
   }
 
- 
+
 
   .overviewlogo{
     display: flex;
@@ -42,7 +51,7 @@ color: #F97316;
   }
   .nextsection02{
     margin-top: 12rem;
- 
+
   }
 
   .menuItemdb1 ,  .menuItemdb01 {
@@ -55,7 +64,7 @@ color: #F97316;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+
    .menuItemdb1:hover {
     background: #F97316;
 border-radius: 12px;
@@ -70,12 +79,12 @@ letter-spacing: 0%;
 color: #FFFFFF;
 text-decoration: none;
    }
- 
+
 /* Right-part */
 
    .nextoverview02{
     width: 80%;
-    
+
       }
 
       .topbarover{
@@ -126,13 +135,18 @@ color: #FFFFFF;
      /* myprofile-section */
 
      .profileheader{
-        color: #FFFFFF;
-        padding: 1rem;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 2.5rem;
+    font-weight: 800;
+    padding: 1.5rem 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
      }
 
      .profilesection{
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 2rem;
         width: 100%;
         padding: 1.5rem;
      }
@@ -146,7 +160,9 @@ border: 1px solid #E9EAF0;
      }
 
      .profilesec02{
-        width: 65%;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
         padding: 10px;
         background: #1D2023;
         border: 1px solid #0000001A;
@@ -154,13 +170,13 @@ border: 1px solid #E9EAF0;
 
 
      /* copy-profile */
-/* 
+/*
      .accountsec1 {
         height: 110vh;
         border: 1px solid #0000001A;
       padding: 24px;
       border-radius: 15px;
-      
+
       }
 
       .accountsec2 {
@@ -170,17 +186,17 @@ border: 1px solid #E9EAF0;
         border: 1px solid #0000001A;
       padding: 24px;
       border-radius: 15px;
-      
+
       } */
 
       .accountnxt1{
         display: flex;
       padding: 10px;
-         justify-content: space-between; 
+         justify-content: space-between;
          width: 100%;
       }
 
-     .accountsectitle { 
+     .accountsectitle {
         margin-bottom: 20px;
     font-family: 'Public Sans';
     font-size: 18px;
@@ -189,14 +205,14 @@ border: 1px solid #E9EAF0;
     letter-spacing: 0.005em;
     color: #FFFFFF;
     }
-    
+
     .formgroupacc {
         margin-bottom: 15px;
         width: 100%;
-      
-    
+
+
     }
-    
+
     .formlabelacc {
         display: flex;
         margin-bottom: 5px;
@@ -206,9 +222,9 @@ border: 1px solid #E9EAF0;
     line-height: 20px;
     letter-spacing: 0.005em;
     color: #777980;
-    
+
     }
-    
+
     .forminputacc {
       width: 90%;
         padding: 8px 10px;
@@ -220,29 +236,29 @@ border: 1px solid #E9EAF0;
     font-weight: 700;
     line-height: 20px;
     letter-spacing: 0.005em;
-     color:#FFFFFF; 
+     color:#FFFFFF;
     outline: none;
     background: #1D2023;
 
-    
+
     }
-    
-    
+
+
     .forminputacc::placeholder{
-        color:#FFFFFF; 
+        color:#FFFFFF;
     }
-    
+
     .formactions {
         display: flex;
         justify-content: flex-start;
         gap: 15px;
     }
-    
+
     .accountbtns, .accountbtns1 , .accountbtns2 {
         cursor: pointer;
         border: none;
         text-decoration: none;
-     
+
     }
     .accountbtns{
     width: Hug (104px)px;
@@ -250,7 +266,7 @@ border: 1px solid #E9EAF0;
     padding: 10px 14px;
     border-radius: 8px ;
     background: #E87819;
-    
+
     font-family: 'Public Sans';
     font-size: 14px;
     font-weight: 600;
@@ -258,14 +274,14 @@ border: 1px solid #E9EAF0;
     letter-spacing: 0.005em;
     color: #FFFFFF;
     }
-    
+
     .accountbtns1 {
       width: Hug (147px)px;
     height: Hug (40px)px;
     padding: 10px 14px;
     border-radius: 8px ;
     background: #E87819;
-    
+
     font-family: 'Public Sans';
     font-size: 14px;
     font-weight: 600;
@@ -273,7 +289,7 @@ border: 1px solid #E9EAF0;
     letter-spacing: 0.005em;
     color: #FFFFFF;
     }
-    
+
     .accountbtns2{
       width: Hug (75px)px;
     height: Hug (40px)px;
@@ -281,7 +297,7 @@ border: 1px solid #E9EAF0;
     border-radius: 8px ;
     background: #F0F1F3;
     border: 1px solid #00000026;
-    
+
     font-family: 'Public Sans';
     font-size: 14px;
     font-weight: 600;
@@ -289,24 +305,24 @@ border: 1px solid #E9EAF0;
     letter-spacing: 0.005em;
     color: #000000;
     }
-    
-    
+
+
     .accountbtns:hover, .accountbtns1:hover {
       background: #E87819;
-    
+
     }
-    
-     .accountbtns2:hover{ 
+
+     .accountbtns2:hover{
       background: #F0F1F3;
     }
-    
-    
+
+
     .divider {
       margin: 20px 0;
       border: 1px solid #DDE7EE;
     }
-    
-    
+
+
     .sectiontitle{
     font-family: 'Public Sans';
     font-size: 18px;
@@ -316,8 +332,8 @@ border: 1px solid #E9EAF0;
     color: #FFFFFF;
     margin-bottom: 1rem;
     }
-    
-    .accountpara1{  
+
+    .accountpara1{
     font-family: 'Inter';
     font-size: 14px;
     font-weight: 700;
@@ -328,33 +344,33 @@ border: 1px solid #E9EAF0;
     text-align: center;
     }
 
-    
+
 .profileImage{
     cursor: pointer;
 margin-left: 1rem;
-    
+
   }
-    
-    
+
+
     .accountupdatedsec{
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
     }
-    
+
     .accountupdatedsec1{
       width: 48%;
     }
-    
+
     .accountupdatedsec2{
       width: 50%;
     }
-    
+
     .inputfield01 {
       margin-bottom: 20px;
     }
-    
+
     .accountemailing {
       display: block;
       margin-bottom: 8px;
@@ -363,9 +379,9 @@ margin-left: 1rem;
     font-weight: 400;
     line-height: 20px;
     color: #777980;
-    
+
     }
-    
+
      .accountmails1 {
       display: flex;
       align-items: center;
@@ -374,7 +390,7 @@ margin-left: 1rem;
       padding: 8px 12px;
       outline: none;
     }
-    
+
     .accountpasswordcontainer {
       display: flex;
       border: none;
@@ -382,14 +398,36 @@ margin-left: 1rem;
       flex: 1;
       outline: none;
     }
-    
-    
+
+
     .accountpasswrd{
       outline: none;
     border: none;
     color: black;
-    
+
     }
-    
-    
-    
+
+
+/* Center container for Save button */
+.formactionsCenter {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+/* Larger, elevated Save button */
+.accountbtnsCenter {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  background: #F97316;
+  color: #FFF;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s, transform 0.2s;
+}
+.accountbtnsCenter:hover {
+  background: #ec7a18;
+  transform: translateY(-2px);
+}
