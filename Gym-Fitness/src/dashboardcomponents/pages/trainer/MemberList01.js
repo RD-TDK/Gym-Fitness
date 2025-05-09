@@ -104,9 +104,8 @@ const MemberList01 = () => {
                             <h2 className={styles.memberheader01}>Members List</h2>
                             <div className={styles.membertwobtns}>
                                 <div className={styles.membertwobtns02}>
-                                    <Link to="/memberlists" className={styles.Memberlinklist}>Members Requests</Link>
-                                    <Link to="/memberlists" className={styles.Memberlinklist}>Approved members</Link>
-                                    <Link to="/memberlists" className={styles.Memberlinklist}>Rejected members</Link>
+                                    <Link to="/memberlists" className={styles.Memberlinklist}>Back</Link>
+
                                 </div>
                                 <div className={styles.membertwobtns0101}>
                                     <input

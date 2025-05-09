@@ -1800,19 +1800,20 @@ font-size: 1.1rem;
 
 
 .dropdownMenucal {
-  position: absolute;
-  top: 40px; /* Adjust based on your button size */
-  background: #292D31;
-  border-radius: 13px;
-  overflow: hidden;
-  left: 4rem;
-  box-shadow: 0px 10px 20px 0px #0000001A;
-  min-width: 160px;
-  z-index: 1000;
-  padding: 10px;
+    position: absolute;
+    top: 100%;        /* 紧贴容器底部 */
+    right: 0;         /* 紧贴容器右侧 */
+    left: auto;       /* 覆盖原来的 left:4rem */
+    background: #292D31;
+    border-radius: 13px;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+    min-width: 160px;
+    padding: 8px 0;   /* 根据需要微调 */
+    z-index: 1000;
 }
 
-.dropdownItemcal {
+.dropdownMenucal > .dropdownItemcal  {
   display: flex;
   align-items: center;
   padding: 12px;
@@ -1824,7 +1825,7 @@ font-size: 1.1rem;
   text-align: left;
   cursor: pointer;
   background: #000000;
-margin-top: 5px;
+  margin-top: 5px;
 }
 
 

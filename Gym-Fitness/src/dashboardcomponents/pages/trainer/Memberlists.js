@@ -92,8 +92,6 @@ const Memberlists = () => {
             <div className={styles.membertwobtns}>
               <div className={styles.membertwobtns02}>
                 <Link to="/memberList01" className={styles.Memberlinklist}>Members Requests</Link>
-                <Link to="/memberlists" className={styles.Memberlinklist}>Approved members</Link>
-                <Link to="/memberlists" className={styles.Memberlinklist}>Rejected members</Link>
               </div>
               <div className={styles.membertwobtns01}>
                 <input className={styles.memberinput} type='text' placeholder='Search' />

@@ -11,10 +11,13 @@ import com.myfitnessapp.service.session.model.SessionInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,15 +29,18 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
     @Autowired
     private SessionInfoMapper sessionMapper;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Override
     public TrainingRequest createRequest(Integer sessionId, Integer memberId) {
-        // 拿到要请求的那节课
+        // Get the lesson the member wants to request.
         SessionInfo target = sessionMapper.selectById(sessionId);
         if (target == null) {
-            throw new ResourceNotFoundException("课程不存在");
+            throw new ResourceNotFoundException("Course does not exist");
         }
 
-        // 查所有「已批准」的请求，看看有没有同时间段的
+        // Check all ‘approved’ requests to see if there are any for the same time period
         QueryWrapper<TrainingRequest> w1 = new QueryWrapper<>();
         w1.eq("member_id", memberId)
                 .eq("status", "APPROVED");
@@ -44,21 +50,21 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
             SessionInfo s = sessionMapper.selectById(r.getSessionId());
             if (s.getSessionDatetime().equals(target.getSessionDatetime())) {
                 throw new InvalidBusinessRuleException(
-                        "时间冲突：您已在 "
+                        "Time conflict: You have already enrolled at "
                                 + s.getSessionDatetime()
-                                + " 报名了另一门课");
+                                + " for another course");
             }
         }
 
-        // 再检查有没有重复发过同一个 session 的请求
+        // Check to see if the same session request has been sent repeatedly.
         QueryWrapper<TrainingRequest> w2 = new QueryWrapper<>();
         w2.eq("session_id", sessionId)
                 .eq("member_id", memberId);
         if (!mapper.selectList(w2).isEmpty()) {
-            throw new InvalidBusinessRuleException("已对该课程发起过请求");
+            throw new InvalidBusinessRuleException("Requests for this course have been initiated");
         }
 
-        // 真正插入
+        // Real insertion of data
         TrainingRequest r = new TrainingRequest();
         r.setSessionId(sessionId);
         r.setMemberId(memberId);
@@ -71,23 +77,50 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
 
     @Override
     public List<TrainingRequest> findRequests(Integer trainerId) {
-        // 简单实现：查询所有，前端或 Service 可根据 sessionId 再过滤
-        return mapper.selectList(null);
+        List<SessionInfo> allSessions = sessionMapper.selectList(null);
+        log.info(">> Debug: selectList(null) 从 session_info 拿到所有 sessions = {}", allSessions);
+        // 1. 查出这个 trainerId 在 session_info 里对应的所有 session
+        QueryWrapper<SessionInfo> qwSession = new QueryWrapper<>();
+        qwSession.eq("trainer_id", trainerId);
+        List<SessionInfo> sessions = sessionMapper.selectList(qwSession);
+
+        // 日志打印出查到的 SessionInfo 对象列表
+        log.info(">> Debug: sessions for trainerId {} = {}", trainerId, sessions);
+
+        // 提取出 session_id 列表
+        List<Integer> sessionIds = sessions.stream()
+                .map(SessionInfo::getSessionId)
+                .collect(Collectors.toList());
+        log.info(">> Debug: sessionIds for trainerId {} = {}", trainerId, sessionIds);
+
+        // 如果没有任何 session，直接返回空
+        if (sessionIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // 2. 用 in 过滤出 training_request 里，这些 session_id 对应的请求
+        QueryWrapper<TrainingRequest> qwReq = new QueryWrapper<>();
+        qwReq.in("session_id", sessionIds);
+        List<TrainingRequest> requests = mapper.selectList(qwReq);
+
+        log.info(">> Debug: fetched {} TrainingRequest rows for trainerId {}",
+                requests.size(), trainerId);
+        return requests;
     }
 
     @Override
     public TrainingRequest reviewRequest(Integer requestId, String status, String reason) {
         TrainingRequest r = mapper.selectById(requestId);
         if (r == null) {
-            throw new ResourceNotFoundException("请求不存在");
+            throw new ResourceNotFoundException("Request does not exist");
         }
         if (!"PENDING".equals(r.getStatus())) {
-            throw new InvalidBusinessRuleException("请求已被处理");
+            throw new InvalidBusinessRuleException("Request processed");
         }
 
-        // 如果教练同意
+        // If the tutor permits
         if ("APPROVED".equals(status)) {
-            // 再次检查：该会员在该时段是否已有已批准的课程
+            // Re-check: whether the member already has an approved course for that time slot
             SessionInfo target = sessionMapper.selectById(r.getSessionId());
             QueryWrapper<TrainingRequest> w3 = new QueryWrapper<>();
             w3.eq("member_id", r.getMemberId())
@@ -97,12 +130,12 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
                 SessionInfo s = sessionMapper.selectById(ex.getSessionId());
                 if (s.getSessionDatetime().equals(target.getSessionDatetime())) {
                     throw new InvalidBusinessRuleException(
-                            "时间冲突：会员已在此时段参加其它课程");
+                            "Time conflict: the member is already attending another course at this point in time");
                 }
             }
         }
 
-        // 更新状态和拒绝原因
+        //Update status and reason for rejection
         r.setStatus(status);
         r.setReason(reason);
         r.setUpdatedAt(LocalDateTime.now());

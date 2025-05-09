@@ -24,7 +24,9 @@ const daysOfWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 
 const MySchedual01 = () => {
   const navigate = useNavigate();
-  const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
+  const currentUser = getCurrentUser();
+  const trainerId = currentUser ? currentUser.userId : null;
+  //const trainerId = parseInt(localStorage.getItem('trainerId'), 10);
   /*const dates = [
     '', '', '', 1, 2, 3, 4,
     5, 6, 7, 8, 9, 10, 11,
@@ -63,6 +65,28 @@ const MySchedual01 = () => {
     } catch (err) {
       console.error(err);
       alert('Cancellation failed, please try again');
+    }
+  };
+  const handleUpdate = async (sessionId, duration, day) => {
+    if (!window.confirm('Mark this class as completed?')) return;
+    try {
+      await api.put(
+          `/sessions/${sessionId}`,
+          null,
+          { params: { duration, status: 'COMPLETED' } }
+      );
+      // 不要删除，只是更新状态
+      setSessions(prev => ({
+        ...prev,
+        [day]: prev[day].map(s =>
+            s.sessionId === sessionId
+                ? { ...s, status: 'COMPLETED' }
+                : s
+        )
+      }));
+    } catch (err) {
+      console.error(err);
+      alert('Update failed, please try again');
     }
   };
 
@@ -130,6 +154,7 @@ const MySchedual01 = () => {
             {has && (
                 <div className={styles.events}>
                   {sessions[slot].map(sess => {
+                    const day = slot;
                     const descKey = (sess.goalDescription || "")
                         .toLowerCase()
                         .replace(/\s+/g,"");
@@ -145,11 +170,24 @@ const MySchedual01 = () => {
                             {sess.formattedTime}
                           </div>
 
-                          <button
-                              onClick={() => handleCancel(sess.sessionId)}
-                          >
-                            Cancel
-                          </button>
+                          {sess.status === 'COMPLETED' ? (
+                              // 完成后只显示“Complete”
+                              <span className={styles.completedLabel}>Complete</span>
+                          ) : (
+                              // 原来的 Cancel + Update 按钮
+                              <>
+                                <button onClick={() => handleCancel(sess.sessionId)}>
+                                  Cancel
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        handleUpdate(sess.sessionId, sess.duration, day)
+                                    }
+                                >
+                                  Update
+                                </button>
+                              </>
+                          )}
                         </div>
                     );
                   })}

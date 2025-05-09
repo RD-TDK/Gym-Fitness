@@ -64,11 +64,11 @@ public class SessionInfoServiceImpl implements SessionInfoService {
             throw new ResourceNotFoundException("训练会话不存在: " + sessionId);
         }
 
-        // 2) 业务校验：下次训练时间至少要晚于当前时间 1 小时
+        /* 2) 业务校验：下次训练时间至少要晚于当前时间 1 小时
         if (nextSessionDatetime != null &&
                 nextSessionDatetime.isBefore(LocalDateTime.now().plusHours(1))) {
             throw new InvalidBusinessRuleException("下次训练时间必须至少在 1 小时后");
-        }
+        }*/
 
         // 3) 更新
         session.setDuration(duration);
@@ -118,18 +118,18 @@ public class SessionInfoServiceImpl implements SessionInfoService {
 
     @Override
     public SessionInfo createCourse(SessionInfo session) {
-        // 校验：同一私教同一时段无重复
+        // Calibration: no duplicates of the same private tutor in the same session
         QueryWrapper<SessionInfo> w = new QueryWrapper<>();
         w.eq("trainer_id", session.getTrainerId())
                 .eq("session_datetime", session.getSessionDatetime());
         if (!sessionInfoMapper.selectList(w).isEmpty()) {
-            throw new InvalidBusinessRuleException("此时段您已发布过课程");
+            throw new InvalidBusinessRuleException("You have already published a course at this time");
         }
         session.setStatus("ACTIVE");
         session.setCreatedAt(LocalDateTime.now());
         session.setUpdatedAt(LocalDateTime.now());
         sessionInfoMapper.insert(session);
-        log.info("课程已创建: {}", session);
+        log.info("Course Created: {}", session);
         return session;
     }
 

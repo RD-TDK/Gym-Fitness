@@ -11,7 +11,7 @@ import {
 import styles from "./Member.module.css";
 import { Link } from "react-router-dom";
 import api from "../../../api";
-
+import { getCurrentUser } from '../../../utils/auth'
 import logoviews    from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg  from "../../../../src/assets/Dashbaord-icons.png";
 import workoutimg   from "../../../../src/assets/Workout-icons.png";
@@ -35,6 +35,9 @@ const Schedualcalendrsone = () => {
     const [showPopup, setShowPopup]   = useState(false);
     const [showPopup1, setShowPopup1] = useState(false);
     const [isOpens, setIsOpens]       = useState(false);
+    const [openMenuSessionId, setOpenMenuSessionId] = useState(null);
+    const currentUser = getCurrentUser();
+    const memberId = currentUser ? currentUser.userId : null;
 
     // —— 翻周状态 ——
     const [currentWeekStart, setCurrentWeekStart] = useState(
@@ -43,7 +46,7 @@ const Schedualcalendrsone = () => {
 
     // —— 本周课程列表 ——
     const [sessions, setSessions] = useState([]);
-    const memberId = parseInt(localStorage.getItem("memberId"), 10);
+    //const memberId = parseInt(localStorage.getItem("memberId"), 10);
 
     // —— 星期和时段定义 ——
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -67,7 +70,7 @@ const Schedualcalendrsone = () => {
             params: { start: startStr, end: endStr }
         })
             .then(res => setSessions(res.data))
-            .catch(err => console.error("获取本周课程失败", err));
+            .catch(err => console.error("Failed to get this week's lesson", err));
     }, [currentWeekStart]);
 
     // —— 翻到上一周/下一周 ——
@@ -77,14 +80,14 @@ const Schedualcalendrsone = () => {
     // —— 加入课程 ——
     const handleJoin = sessionId => {
         api.post(`/requests/sessions/${sessionId}`, { memberId })
-            .then(() => alert("请求已发送，等待教练审核"))
+            .then(() => alert("Request sent, awaiting tutor review"))
             .catch(err => {
                 console.error("Join request failed:", err.response || err);
-                alert(`请求发送失败：${err.response?.status} ${err.response?.data?.message || ""}`);
+                alert(`Failed to send request：${err.response?.status} ${err.response?.data?.message || ""}`);
             });
     };
 
-    // —— 弹窗逻辑（示例，按需完善） ——
+    // —— 弹窗逻辑 ——
     const handleReportClick   = () => setShowPopups(true);
     const handleClosePopup    = () => { setShowPopups(false); setShowPopup2(false); };
     const togglePopup         = () => setShowPopup2(prev => !prev);
@@ -218,10 +221,17 @@ const Schedualcalendrsone = () => {
                                     {session.goalDescription ||
                                     "Fitness class"}
                                   </span>
-                                                                    <div onClick={() => setIsOpen(!isOpen)}>
+                                                                    <div
+                                                                        onClick={() =>
+                                                                            setOpenMenuSessionId(
+                                                                                openMenuSessionId === session.sessionId ? null : session.sessionId
+                                                                            )
+                                                                        }
+                                                                        style={{ cursor: 'pointer' }}
+                                                                    >
                                                                         …
                                                                     </div>
-                                                                    {isOpen && (
+                                                                    {openMenuSessionId === session.sessionId && (
                                                                         <div
                                                                             className={styles.dropdownMenucal}
                                                                         >
