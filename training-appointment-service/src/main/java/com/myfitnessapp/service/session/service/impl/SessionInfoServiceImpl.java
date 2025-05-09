@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -152,5 +153,13 @@ public class SessionInfoServiceImpl implements SessionInfoService {
         w.between("session_datetime", start, end)
                 .eq("status", "ACTIVE");
         return sessionInfoMapper.selectList(w);
+    }
+
+    @Override
+    public List<SessionInfo> getSessionsByIds(List<Integer> sessionIds) {
+        if (sessionIds == null || sessionIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return sessionInfoMapper.selectBatchIds(sessionIds);
     }
 }

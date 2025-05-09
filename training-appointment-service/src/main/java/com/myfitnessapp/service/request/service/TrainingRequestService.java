@@ -10,4 +10,6 @@ public interface TrainingRequestService {
     List<TrainingRequest> findRequests(Integer trainerId);
 
     TrainingRequest reviewRequest(Integer requestId, String status, String reason);
+
+    List<TrainingRequest> findByMemberIdAndStatus(Integer memberId, String status);
 }

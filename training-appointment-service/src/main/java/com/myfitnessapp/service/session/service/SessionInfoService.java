@@ -24,4 +24,6 @@ public interface SessionInfoService {
     boolean deleteCourse(Integer sessionId, Integer trainerId);
     /** 按月/周查询所有可加入课程 */
     List<SessionInfo> findCourses(LocalDateTime start, LocalDateTime end);
+
+    List<SessionInfo> getSessionsByIds(List<Integer> sessionIds);
 }

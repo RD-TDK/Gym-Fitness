@@ -142,4 +142,12 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
         mapper.updateById(r);
         return r;
     }
+
+    @Override
+    public List<TrainingRequest> findByMemberIdAndStatus(Integer memberId, String status) {
+        QueryWrapper<TrainingRequest> qw = new QueryWrapper<>();
+        qw.eq("member_id", memberId)
+                .eq("status", status);
+        return mapper.selectList(qw);
+    }
 }

@@ -1,5 +1,7 @@
 package com.myfitnessapp.trainingappointment.demos.web.controller;
 
+import com.myfitnessapp.service.request.model.TrainingRequest;
+import com.myfitnessapp.service.request.service.TrainingRequestService;
 import com.myfitnessapp.service.session.model.SessionInfo;
 import com.myfitnessapp.service.session.service.SessionInfoService;
 import com.myfitnessapp.trainingappointment.demos.web.dto.CreateSessionDto;
@@ -8,11 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/sessions")
@@ -21,6 +26,9 @@ import java.util.List;
 public class SessionController {
     @Autowired
     private SessionInfoService sessionInfoService;
+
+    @Autowired
+    private TrainingRequestService trainingRequestService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,9 +59,22 @@ public class SessionController {
     }
 
     @GetMapping("/history/{memberId}")
-    public List<SessionInfo> getHistory(@PathVariable Integer memberId) {
-        return sessionInfoService.getSessionsByMember(memberId);
+    public ResponseEntity<List<SessionInfo>> getHistory(@PathVariable Integer memberId) {
+        List<TrainingRequest> approved =
+                trainingRequestService.findByMemberIdAndStatus(memberId, "APPROVED");
+
+        if (approved.isEmpty()) {
+            return ResponseEntity.ok(Collections.<SessionInfo>emptyList());
+        }
+
+        List<Integer> sessionIds = approved.stream()
+                .map(TrainingRequest::getSessionId)
+                .collect(Collectors.toList());
+
+        List<SessionInfo> history = sessionInfoService.getSessionsByIds(sessionIds);
+        return ResponseEntity.ok(history);
     }
+
 
     @GetMapping("/total-duration/{memberId}")
     public Integer getTotalDuration(@PathVariable Integer memberId,

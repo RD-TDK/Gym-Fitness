@@ -129,7 +129,7 @@ const Overviews = ({ notify }) => {
 
       <div className={styles.menuItemdb1}>
         <img src={workoutimg} alt='' className={styles.menuicon} />
-        <Link to= "/overviews" className={styles.menulinksdb}> Workout </Link>
+        <Link to= "/history" className={styles.menulinksdb}> My Training History </Link>
       </div>
       <div className={styles.menuItemdb1}>
         <img src={trainerimg} alt='' className={styles.menuicon} />

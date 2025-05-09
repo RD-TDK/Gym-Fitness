@@ -1492,40 +1492,31 @@ padding: 5px;
     .membermaintable {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
 
 
-    .membertr{
-      background: #1E1E1E;
-      box-shadow: 0px 5px 20px 0px #0000000D;
-border-radius: 20px;
-margin-bottom: 10px; /* Space between rows */
-display: flex; /* To apply padding and alignment properly */
-padding: 12px ;
-align-items: center;
-width: 100%;
-gap: 0.6rem;
-    }
-
-    .membertr1{
-      box-shadow: 0px 5px 20px 0px #0000000D;
-      border-radius: 20px;
-      margin-bottom: 10px; /* Space between rows */
-      display: flex; /* To apply padding and alignment properly */
-      align-items: center;
-      width: 100%;
-      gap: 4.2rem;
-      padding: 15px;
-    }
+.membertr,
+.membertr1 {
+  display: table-row !important;
+  margin: 0;              /* 行不再有 margin */
+  padding: 0;             /* 行不用 padding */
+  box-shadow: none;       /* 阴影改到单元格上 */
+  border-radius: 0;       /* 圆角改到单元格上 */
+  gap: 0;                 /* Flex 的 gap 去掉 */
+}
 
     .membertd {
-      color: #ffffff; /* White text */
-      font-size: 14px;
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family:  DM Sans;
+      display: table-cell !important;  /* 还原单元格本质 */
+      text-align: center;              /* 文字居中 */
+      vertical-align: middle;          /* 垂直居中 */
+      padding: 12px;                   /* 适当内边距 */
+      background: #1E1E1E;             /* 你原来的行背景 */
+      border-radius: 8px;              /* 圆角改到单元格上 */
+      box-shadow: 0px 5px 20px rgba(0,0,0,0.05); /* 单元格阴影 */
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
     }
 

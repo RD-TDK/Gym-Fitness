@@ -25,6 +25,7 @@ import VisitorChoice from "./dashboardcomponents/pages/visitor/VisitorChoice";
 import Entry from './entry/Entry';
 import CreateSessionForm from "./dashboardcomponents/pages/trainer/CreateSessionForm";
 import VisitorRegistration from "./dashboardcomponents/pages/visitor/VisitorRegistration";
+import History from "./dashboardcomponents/pages/member/History";
 
 
 
@@ -56,6 +57,7 @@ const App = () => {
       <Route path='/schedual' element={<Schedual />} />
       <Route path='/schedualcalmember' element={<Schedualcalendrsone />} />
       <Route path='/create-session' element={<CreateSessionForm />} />
+      <Route path='/history' element={<History />} />
 
       {/* trainer-db */} 
 

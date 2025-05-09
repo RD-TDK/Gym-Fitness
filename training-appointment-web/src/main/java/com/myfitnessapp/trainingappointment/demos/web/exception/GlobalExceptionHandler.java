@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException ex) {
-        // 返回 404 状态码和异常消息
+        // Returns a 404 status code and an exception message
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneralException(Exception ex) {
-        ex.printStackTrace();  // 打印异常日志
+        ex.printStackTrace();  // Printing the Exception Log
         return new ResponseEntity<>("Internal Server Error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
