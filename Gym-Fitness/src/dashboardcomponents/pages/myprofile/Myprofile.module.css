@@ -190,16 +190,18 @@ border: 1px solid #E9EAF0;
       } */
 
       .accountnxt1{
-        display: flex;
+      display: flex;
+      align-items: center;      /* ensure inputs and buttons align vertically */
       padding: 10px;
-         justify-content: space-between;
-         width: 100%;
-      }
+      justify-content: space-between;
+      width: 100%;
+    }
 
      .accountsectitle {
-        margin-bottom: 20px;
-    font-family: 'Public Sans';
-    font-size: 18px;
+         margin-bottom: 24px;
+         font-family: 'Public Sans';
+         font-size: 20px;            /* enlarged from 18px */
+         text-align: center;         /* center title */
     font-weight: 600;
     line-height: 28px;
     letter-spacing: 0.005em;
@@ -295,7 +297,7 @@ border: 1px solid #E9EAF0;
     height: Hug (40px)px;
     padding: 10px 14px ;
     border-radius: 8px ;
-    background: #F0F1F3;
+    background: #E87819;
     border: 1px solid #00000026;
 
     font-family: 'Public Sans';
@@ -325,12 +327,13 @@ border: 1px solid #E9EAF0;
 
     .sectiontitle{
     font-family: 'Public Sans';
-    font-size: 18px;
+        font-size: 20px;            /* enlarged from 18px */
+        text-align: center;         /* center title */
     font-weight: 600;
     line-height: 28px;
     letter-spacing: 0.005em;
     color: #FFFFFF;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     }
 
     .accountpara1{

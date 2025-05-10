@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import api from '../../../api';
 import styles from "./Myprofile.module.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import workoutimg from "../../../../src/assets/Workout-icons.png";
@@ -26,6 +26,27 @@ const Myprofile = () => {
     birthday: user.birthday || ''
   });
   const [email, setEmail] = useState(user.email || '');
+  const [pwData, setPwData] = useState({
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    verificationCode: ''
+  });
+  // Send verification code to user's email
+  const sendCode = useCallback(async () => {
+    if (!email) {
+      alert('Email is missing');
+      return;
+    }
+    try {
+      await api.post(`/users/sendVerificationCode?email=${encodeURIComponent(email)}`);
+      alert('Verification code sent');
+    } catch (err) {
+      console.error('Failed to send code', err);
+      alert('Error sending code: ' + (err.response?.data || err.message));
+    }
+  }, [email]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchUser() {
@@ -217,12 +238,99 @@ const Myprofile = () => {
                 </button>
               </div>
               <div className={styles.divider}></div>
-              <div className={styles.sectiontitle}>Update Password</div>
-              <div className={styles.formactions}>
-                <Link to="/updateaccount">
-                  <button className={styles.accountbtns1}>Change Password</button>
-                </Link>
-              </div>
+
+              <div className={styles.sectiontitle}>Change Password</div>
+
+      {/* Row 1: Old Password (half width) */}
+      <div className={styles.accountnxt1}>
+        <div className={styles.formgroupacc}>
+          <label className={styles.formlabelacc} htmlFor="oldPassword">Old Password</label>
+          <input
+            className={styles.forminputacc}
+            type="password"
+            id="oldPassword"
+            value={pwData.oldPassword}
+            onChange={e => setPwData({ ...pwData, oldPassword: e.target.value })}
+          />
+        </div>
+        <div className={styles.formgroupacc}>
+          {/* empty to align with second column */}
+        </div>
+      </div>
+
+      {/* Row 2: New Password & Confirm Password */}
+      <div className={styles.accountnxt1}>
+        <div className={styles.formgroupacc}>
+          <label className={styles.formlabelacc} htmlFor="newPassword">New Password</label>
+          <input
+            className={styles.forminputacc}
+            type="password"
+            id="newPassword"
+            value={pwData.newPassword}
+            onChange={e => setPwData({ ...pwData, newPassword: e.target.value })}
+          />
+        </div>
+        <div className={styles.formgroupacc}>
+          <label className={styles.formlabelacc} htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            className={styles.forminputacc}
+            type="password"
+            id="confirmPassword"
+            value={pwData.confirmPassword}
+            onChange={e => setPwData({ ...pwData, confirmPassword: e.target.value })}
+          />
+        </div>
+      </div>
+
+      {/* Row 3: Verification Code + Send Code (simpler button) */}
+      <div className={styles.accountnxt1}>
+        <div className={styles.formgroupacc}>
+          <label className={styles.formlabelacc} htmlFor="verificationCode">Verification Code</label>
+          <input
+            className={styles.forminputacc}
+            type="text"
+            id="verificationCode"
+            value={pwData.verificationCode}
+            onChange={e => setPwData({ ...pwData, verificationCode: e.target.value })}
+          />
+        </div>
+        <div className={styles.formgroupacc}>
+          <button
+            type="button"
+            className={styles.accountbtns2}
+            onClick={sendCode}
+          >
+            Send Code
+          </button>
+        </div>
+      </div>
+
+      {/* Row 4: Update Password button */}
+      <div className={styles.formactionsCenter}>
+        <button
+          type="button"
+          className={styles.accountbtnsCenter}
+          onClick={async () => {
+            if (!storedUserId) {
+              alert('User ID missing');
+              return;
+            }
+            try {
+              await api.put(`/users/${storedUserId}/password`, pwData);
+              alert('Password changed successfully, please login again');
+              // Redirect to sign-in so user can re-login
+              navigate('/signin');
+            } catch (err) {
+              console.error('Password change failed', err);
+              // Display exact server error (e.g., "Old password is incorrect")
+              const serverMsg = err.response?.data?.message || err.response?.data || err.message;
+              alert(serverMsg);
+            }
+          }}
+        >
+          Update Password
+        </button>
+      </div>
 
             </div>
           </div>
