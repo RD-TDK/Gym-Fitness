@@ -434,3 +434,206 @@ margin-left: 1rem;
   background: #ec7a18;
   transform: translateY(-2px);
 }
+/* —— 头像+用户名 触发区 —— */
+.profileTrigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.profileTrigger img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* —— 通知弹窗样式（复制自 Overview） —— */
+.notifypopup1 {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 300px;
+    background: linear-gradient(210.96deg, #292D31 0.01%, rgba(41,45,49,0.78) 42.05%, rgba(41,45,49,0.51) 104.81%);
+    color: white;
+    border-radius: 10px;
+    padding: 15px;
+    backdrop-filter: blur(20px);
+    box-shadow: -24px 49px 73px rgba(23,18,43,0.55);
+    z-index: 1000;
+}
+
+/* —— 公共模态框遮罩层 —— */
+.modalOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* —— 公共模态框内容区 —— */
+.modalContent {
+    background: #1D2023;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+
+/* —— 右上角关闭按钮 —— */
+.modalClose {
+    position: absolute;
+    top: 8px; right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* —— 模态框标题 —— */
+.modalContent h3 {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+
+/* —— 升级说明文字 —— */
+.upgradeNote {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    color: #E0E0E0;
+    margin: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Modal overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal content */
+.modalContent {
+  background: #1D2023;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+
+/* Close button */
+.modalClose {
+  position: absolute;
+  top: 8px; right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Plan cards container */
+.planCards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+/* Individual plan card */
+.planCard {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 200px;
+  text-align: center;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.planCard:hover {
+  box-shadow: 0 4px 20px rgba(255, 116, 0, 0.5);
+  transform: translateY(-4px);
+}
+.planCard h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #F47521;
+}
+.planCard p {
+  margin: 0.5rem 0;
+  color: #ccc;
+  font-size: 0.95rem;
+}
+.planCardSelected {
+  border-color: #FF8C2F;
+  box-shadow: 0 6px 24px rgba(255, 116, 0, 0.7);
+}
+
+/* Plan description paragraph */
+.planDescription {
+  margin: 0.5rem 0;
+  color: #ccc;
+  font-size: 0.95rem;
+}
+
+/* Note below plan cards */
+.upgradeNote {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.95rem;
+  color: #E0E0E0;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* "Update Plan" button in modal */
+.signInButton {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  background: #F97316;
+  color: #FFF;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background 0.3s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.signInButton:hover {
+  background: #ec7a18;
+  transform: translateY(-2px);
+}
+
+/* Full-width helper for the modal's bottom button */
+.fullWidthButton {
+  width: 100%;
+  margin-top: 1rem;
+}
+.membershipBtn:hover {
+    background: #FF8C2F;
+    transform: translateY(-2px);
+}

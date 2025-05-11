@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../../api';
 import qs from 'qs';
@@ -18,6 +18,9 @@ import searchicon    from '../../../../src/assets/search-icons.png';
 import arrowdown     from '../../../../src/assets/downarrow-icon.png';
 import traineravatar from '../../../../src/assets/trainer-avatar.png';
 import arrowSort     from '../../../../src/assets/NewArrow - Down.png';
+import notifyIcon from "../../../../src/assets/notification-icon.png";
+import defaultUser from '../../../../src/assets/default-user.png';
+
 
 /* 列⇆后端字段映射 */
 const COLS = [
@@ -56,11 +59,37 @@ export default function Memberlist() {
 
   /* ---------- 固定侧边栏 ---------- */
   const [sticky, setSticky] = useState(false);
+  // notification & profile popup
+  const [showNotifPopup, setShowNotifPopup] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [loadingNotifs, setLoadingNotifs] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  // membership plan modal
+  const [membership, setMembership] = useState(null);
+  const [showPlanModal, setShowPlanModal] = useState(false);
+  const [planType, setPlanType] = useState('BASIC');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
   useEffect(() => {
     const onScroll = () => setSticky(window.scrollY > 60);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Fetch membership info
+  useEffect(() => {
+    if (!user.userId) return;
+    api.get(`memberships/users/${user.userId}`)
+      .then(({ data }) => {
+        setMembership({
+          membershipId: data.membershipId,
+          planType: data.planType,
+          isActive: data.isActive,
+          startDate: data.startDate,
+          endDate: data.endDate
+        });
+      })
+      .catch(console.error);
+  }, [user.userId]);
 
   /* ---------- 拉取数据 ---------- */
   useEffect(() => {
@@ -112,9 +141,9 @@ export default function Memberlist() {
         <div className={styles.nextsection01}>
           {[
             { to:'/overviews', icon:overviewimg , text:'Overview' },
-            { to:'/overviews', icon:workoutimg  , text:'Workout'  },
+            { to:'/history', icon:workoutimg  , text:'My Training History'  },
             { to:'/memberlist',icon:trainerimg  , text:'Trainers' },
-            { to:'/schedual'  , icon:schedualimg, text:'My Schedule'}
+            { to:'/schedualcalmember'  , icon:schedualimg, text:'My Schedule'}
           ].map(m=>(
             <div key={m.text} className={styles.menuItemdb1}>
               <img src={m.icon} className={styles.menuicon} alt="" /><Link to={m.to} className={styles.menulinksdb}>{m.text}</Link>
@@ -135,8 +164,55 @@ export default function Memberlist() {
       <main className={styles.nextoverview02}>
         {/* topbar */}
         <header className={styles.topbarover}>
-          <div className={styles.topbarover01}><p className={styles.bar01}>Good Morning</p><p className={styles.bar02}>Welcome Back!</p></div>
-          <div className={styles.topbarover02}><img src={notify} alt=""/><img src={avatarTopbar} alt=""/><span className={styles.bar03}>Member name</span></div>
+          <div className={styles.topbarover01}>
+            <p className={styles.bar01}>Good Morning</p>
+            <p className={styles.bar02}>Welcome Back!</p>
+          </div>
+          <div className={styles.topbarover02}>
+            {/* Notification icon */}
+            <div className={styles.notifypopcontainer}>
+              <img src={notify} className={styles.topnotifyimg} alt=""
+                onClick={() => setShowNotifPopup(v => !v)} />
+              {showNotifPopup && (
+                <div className={styles.notifypopup1}>
+                  <h3>Notifications</h3>
+                  {loadingNotifs ? <p>Loading...</p>
+                    : notifications.length
+                      ? notifications.map(n => (
+                          <div key={n.notificationId} className={styles.notificationItem}>
+                            <p>{n.message}</p>
+                            <button onClick={() => {/* mark read logic */}} className={styles.viewLink}>View</button>
+                          </div>
+                        ))
+                      : <p>No new notifications</p>}
+                </div>
+              )}
+            </div>
+            {/* Profile trigger */}
+            <div className={styles.profileTrigger} onClick={() => setShowProfilePopup(v => !v)}>
+              <img src={defaultUser} alt="Avatar" />
+              <span className={styles.bar03}>{user.name || 'Member'}</span>
+            </div>
+            {showProfilePopup && (
+              <div className={styles.notifypopup1} style={{ right: '20px', top: '60px' }}>
+                <h3>Member Info</h3>
+                <p><strong>Name:</strong> {user.name}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <hr className={styles.divider}/>
+                {membership && (
+                  <div className={styles.membershipInfo}>
+                    <h4>Membership Details</h4>
+                    <p><strong>ID:</strong> {membership.membershipId}</p>
+                    <p><strong>Plan:</strong> {membership.planType}</p>
+                    <button className={styles.membershipBtn} onClick={() => setShowPlanModal(true)}>Manage Plan</button>
+                    <p><strong>Active:</strong> {membership.isActive ? 'Yes':'No'}</p>
+                    <p><strong>Start:</strong> {new Date(membership.startDate).toLocaleDateString()}</p>
+                    <p><strong>End:</strong> {new Date(membership.endDate).toLocaleDateString()}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </header>
 
         {/* list */}
@@ -224,7 +300,45 @@ export default function Memberlist() {
             </div>
           </div>
         </section>
-      </main>
-    </div>
-  );
+    {/* Plan Modal */}
+    {showPlanModal && (
+      <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+          <button className={styles.modalClose} onClick={() => setShowPlanModal(false)}>×</button>
+          <h3>Update Plan</h3>
+          <div className={styles.planCards}>
+            {['BASIC','GOLD','PREMIUM'].map(p => (
+              <div key={p}
+                   className={`${styles.planCard} ${planType===p?styles.planCardSelected:''}`}
+                   onClick={()=>setPlanType(p)}>
+                <h3>{p}</h3>
+                <p className={styles.planDescription}>
+                  {p==='BASIC'
+                    ? 'Access to gym equipment and group classes.'
+                    : p==='GOLD'
+                    ? 'Includes Basic, one personal session per month.'
+                    : 'All Premium benefits plus unlimited training.'}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className={styles.upgradeNote}>
+            Note: The plan can only be upgraded according to Basic → Gold → Premium. Downgrading not possible.
+          </p>
+          <button className={`${styles.signInButton} ${styles.fullWidthButton}`}
+            onClick={async ()=>{
+              try {
+                await api.post('/memberships/update',{ planType });
+                setShowPlanModal(false);
+                window.location.reload();
+              } catch(e){console.error(e);}
+            }}>
+            Update Plan
+          </button>
+        </div>
+      </div>
+    )}
+    </main>
+  </div>
+);
 }

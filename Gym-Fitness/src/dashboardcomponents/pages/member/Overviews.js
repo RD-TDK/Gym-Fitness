@@ -11,6 +11,7 @@ import  profileimg  from "../../../../src/assets/profile-icons.png";
 import  logoutimg from "../../../../src/assets/Logout-icons.png";
  import  notify1 from "../../../../src/assets/notification-icon.png";
 import  imgprofile from "../../../../src/assets/Avatar-photo.png";
+import  defaultUser from "../../../../src/assets/default-user.png";
 import  yogapose from "../../../../src/assets/workout-overview.png";
 import  cardworkout from "../../../../src/assets/db-workout.png";
 import  cardcalories  from "../../../../src/assets/db-calories.png";
@@ -48,18 +49,53 @@ const activityData = [
   { name: 'Sat', cal: 220 },
   { name: 'Sun', cal: 200 },
 ];
-  
- 
-const Overviews = ({ notify }) => {
 
+
+const Overviews = ({ notify }) => {
   // 搜索关键词，用于 overview 页面
   const [overviewKeyword, setOverviewKeyword] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-
   // 新增：存储 Top 3 教练
   const [topTrainers, setTopTrainers] = useState([]);
+  // Profile popup state and user info
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+    const [membership, setMembership] = useState(null);
+    const [showPlanModal, setShowPlanModal] = useState(false);
+// 复用 Createacc 里 planType
+    const [planType, setPlanType] = useState('BASIC');
+  // Load current user from localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log('User id:', user.userId);
+  const toggleProfilePopup = () => setShowProfilePopup(prev => !prev);
+
+  // Fetch membership info via new membership endpoint
+  useEffect(() => {
+    const fetchMembership = async () => {
+      try {
+        // Fetch via our new membership endpoint
+          // 去掉多余的斜杠，直接走 api 底层的 baseURL
+          // Overviews.js 中 fetchMembership 函数里
+          const { data } = await api.get(
+              `memberships/users/${user.userId}`,
+              { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+          );
+        setMembership({
+          membershipId: data.membershipId,
+          planType    : data.planType,
+          isActive    : data.isActive,
+          startDate   : data.startDate,
+          endDate     : data.endDate
+        });
+      } catch (err) {
+        console.error('Failed to fetch membership via user endpoint', err);
+      }
+    };
+    if (user?.userId) {
+      fetchMembership();
+    }
+  }, [user?.userId]);
 
   useEffect(() => {
     (async () => {
@@ -98,6 +134,7 @@ const Overviews = ({ notify }) => {
             setLoading(false);
         }
     };
+
     const handleView = async (notif) => {
         try {
 
@@ -111,7 +148,9 @@ const Overviews = ({ notify }) => {
         }
     };
 
+
   return (
+    <>
     <div className={styles.headcontainer}>
       {/* Left-part */}
 
@@ -135,18 +174,18 @@ const Overviews = ({ notify }) => {
         <img src={trainerimg} alt='' className={styles.menuicon} />
         <Link to= "/memberlist" className={styles.menulinksdb}> Trainers </Link>
       </div>
-      <div className={styles.menuItemdb1}>
-        <img src={schedualimg} alt='' className={styles.menuicon} />
-        <Link to= "/schedual" className={styles.menulinksdb}> My Schedule </Link>
-      </div>
+            <div className={styles.menuItemdb1}>
+                <img src={schedualimg} alt='' className={styles.menuicon}/>
+                <Link to="/schedualcalmember" className={styles.menulinksdb}>My Schedule</Link>
+            </div>
 
 
-      <div className={styles.nextsection02}>
+            <div className={styles.nextsection02}>
 
-      <div className={styles.menuItemdb01}>
-        <img src={profileimg} alt='' className={styles.menuicon} />
-        <Link to= "/myprofile" className={styles.menulinksdb}> My Profile </Link>
-      </div>
+                <div className={styles.menuItemdb01}>
+                    <img src={profileimg} alt='' className={styles.menuicon}/>
+                    <Link to="/myprofile" className={styles.menulinksdb}> My Profile </Link>
+                </div>
       <div className={styles.menuItemdb01}>
         <img src={logoutimg} alt='' className={styles.menuicon} />
         <Link to= "/signin" className={styles.menulinksdb}> Logout </Link>
@@ -165,72 +204,98 @@ const Overviews = ({ notify }) => {
           </div>
 
           <div className={styles.topbarover02}>
-            
             {/* pop-up1 */}
-          <div className={styles.notifypopcontainer}>
-      <img 
-        src={notify1}
-        className={styles.topnotifyimg} 
-        alt='' 
-        onClick={togglePopup}
-      />
-
-      {showPopup && (
-          <div className={styles.notifypopup1}>
-                      <h3>Notifications</h3>
-                      {loading ? (
-                          <p>Loading...</p>
-                      ) : notifications.length ? (
-                          notifications.map(n => (
-                              <div key={n.notificationId} className={styles.notificationItem}>
-                                  <div className={styles.textContent}>
-                                      <p>{n.message}</p>
-                                      <button
-                                          onClick={() => handleView(n)}
-                                          className={styles.viewLink}
-                                      >
-                                          View
-                                      </button>
-                                      <span className={styles.timestamp}>
-                    {formatDistanceToNow(new Date(n.createdAt))} ago
-                  </span>
-                                  </div>
-                              </div>
-                          ))
-                      ) : (
-                          <p>No new notifications</p>
-                      )}
-          </div>
-      )}
-    </div>
-
-
-            <img src={imgprofile} alt=''></img>
-            <span className={styles.bar03} >Member name</span>
+            <div className={styles.notifypopcontainer}>
+              <img
+                src={notify1}
+                className={styles.topnotifyimg}
+                alt=''
+                onClick={togglePopup}
+              />
+              {showPopup && (
+                <div className={styles.notifypopup1}>
+                  <h3>Notifications</h3>
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : notifications.length ? (
+                    notifications.map(n => (
+                      <div key={n.notificationId} className={styles.notificationItem}>
+                        <div className={styles.textContent}>
+                          <p>{n.message}</p>
+                          <button
+                            onClick={() => handleView(n)}
+                            className={styles.viewLink}
+                          >
+                            View
+                          </button>
+                          <span className={styles.timestamp}>
+                            {formatDistanceToNow(new Date(n.createdAt))} ago
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No new notifications</p>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className={styles.profileTrigger} onClick={toggleProfilePopup}>
+              <img src={defaultUser} alt='User avatar' />
+              <span className={styles.bar03}>{user?.name || 'Member'}</span>
+            </div>
+            {showProfilePopup && (
+                <div className={styles.notifypopup1} style={{right: '20px', top: '60px'}}>
+                    <h3>Member Info</h3>
+                    <p><strong>Name:</strong> {user?.name}</p>
+                    <p><strong>Email:</strong> {user?.email}</p>
+                    <hr className={styles.divider}/>
+                    {membership && (
+                        <div className={styles.membershipInfo}>
+                            <h4>Membership Details</h4>
+                            <p><strong>ID:</strong> {membership.membershipId}</p>
+                            <p><strong>Plan:</strong> {membership.planType}</p>
+                            <button
+                                className={styles.membershipBtn}
+                                onClick={() => setShowPlanModal(true)}
+                            >
+                                Manage Plan
+                            </button>
+                            <p><strong>Active:</strong> {membership.isActive ? 'Yes' : 'No'}</p>
+                            <p>
+                                <strong>Start:</strong> {membership.startDate ? new Date(membership.startDate).toLocaleDateString() : ''}
+                            </p>
+                            <p>
+                                <strong>End:</strong> {membership.endDate ? new Date(membership.endDate).toLocaleDateString() : ''}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            )}
           </div>
         </div>
-      
-      {/* rightside-next down part */}
+
+          {/* rightside-next down part */}
 
       <div className={styles.rightdownpart} >
         <div className={styles.rightdownpart01}>
           <div className={styles.rightdowntextpart}>
-          <img className={styles.rightdownpic} src={yogapose} alt=''></img> 
+          <img className={styles.rightdownpic} src={yogapose} alt=''></img>
              <div className={styles.textparts}>
             <h2 className={styles.rightdownhead1}>Track Your Daily Activities</h2>
-            <p className={styles.rightdowntext1}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+            <p className={styles.rightdowntext1}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-               sed do eiusmod </p> 
+               sed do eiusmod </p>
                </div>
           </div>
-        
+
         <div className={styles.rightdowncardspart} >
 
         <div className={styles.rightbgdown}>
 <img src={cardworkout1} className={styles.rightimgcards} alt=''></img>
 
-  </div>    
-        <div className={styles.rightdowncardspart01}>           
+  </div>
+        <div className={styles.rightdowncardspart01}>
           <img src={cardworkout} alt=''></img>
           <div>
           <p className={styles.rightdowncardstexts01}>Workout</p>
@@ -242,7 +307,7 @@ const Overviews = ({ notify }) => {
         <div className={styles.rightbgdown1}>
 <img src={cardcalories1} className={styles.rightimgcards} alt=''></img>
 
-  </div> 
+  </div>
         <div className={styles.rightdowncardspart02}>
         <img src={cardcalories} alt=''></img>
           <div>
@@ -257,7 +322,7 @@ const Overviews = ({ notify }) => {
         <div className={styles.rightbgdown2}>
 <img src={cardstep1} className={styles.rightimgcards} alt=''></img>
 
-  </div> 
+  </div>
         <div className={styles.rightdowncardspart03}>
         <img src={cardstep} alt=''></img>
           <div>
@@ -299,7 +364,7 @@ const Overviews = ({ notify }) => {
           <h3 className={styles.calorieshead2} >Total Calories burned</h3>
           </div>
           <div className={styles.circular}>
-            <div className={styles.smallcircular} > 
+            <div className={styles.smallcircular} >
             <span className={styles.calValue}>3,600</span>
             <span className={styles.calValue1}>cal</span>
             </div>
@@ -338,8 +403,8 @@ const Overviews = ({ notify }) => {
 <p className={styles.smallpartpara01}>Vs. Yesterday</p>
 </div>
 </div>
-          
-         
+
+
           <div className={styles.burnInfo}>
             <p className={styles.smallspnpart}>93 <span className={styles.smallpartpara01}> Kcal</span></p>
             <p className={styles.smallpartpara01}>Burned</p>
@@ -404,7 +469,7 @@ const Overviews = ({ notify }) => {
 <button className={styles.smallbtn02}> <Link to="/schedual" className={styles.completedlink} >Join class </Link> </button>
           </div>
           </div>
-        
+
           <div className={styles.rightcorners1} >
           <div >
           <h2 className={styles.rightschedual01}>Trainers</h2>
@@ -475,6 +540,57 @@ const Overviews = ({ notify }) => {
       </div>
 
     </div>
+    {showPlanModal && (
+      <div className={styles.modalOverlay}>
+        <div className={styles.modalContent}>
+          <button
+            className={styles.modalClose}
+            onClick={() => setShowPlanModal(false)}
+          >
+            ×
+          </button>
+          <h3>Update Plan</h3>
+          <div className={styles.planCards}>
+            {['BASIC','GOLD','PREMIUM'].map(p => (
+              <div
+                key={p}
+                className={`${styles.planCard} ${
+                  planType === p ? styles.planCardSelected : ''
+                }`}
+                onClick={() => setPlanType(p)}
+              >
+                <h3>{p.charAt(0)+p.slice(1).toLowerCase()}</h3>
+                <p className={styles.planDescription}>
+                  {p === 'BASIC'
+                    ? 'Access to gym equipment and group classes.'
+                    : p === 'GOLD'
+                    ? 'Includes Basic, one personal session per month.'
+                    : 'All Premium benefits plus unlimited training.'}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className={styles.upgradeNote}>
+              Note: The plan can only be upgraded and updated according to Basic-> Gold-> Premium. Downgrading is not possible
+          </p>
+          <button
+            className={`${styles.signInButton} ${styles.fullWidthButton}`}
+            onClick={async () => {
+              try {
+                await api.post('/memberships/update', { planType });
+                setShowPlanModal(false);
+                window.location.reload();
+              } catch (err) {
+                console.error('更新套餐失败', err);
+              }
+            }}
+          >
+            Update Plan
+          </button>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
 

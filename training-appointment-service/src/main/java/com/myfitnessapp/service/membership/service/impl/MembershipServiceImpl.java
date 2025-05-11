@@ -132,6 +132,21 @@ public class MembershipServiceImpl implements MembershipService {
     return membershipDtoMapper.toMembershipResponseDTO(membership);
     }
 
+    @Override
+    public MembershipResponseDTO getMembershipByUser(User user) {
+        // Query the most recent membership record for this user
+        QueryWrapper<Membership> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user.getUserId())
+                    .orderByDesc("start_date")
+                    .last("LIMIT 1");
+        Membership membership = membershipMapper.selectOne(queryWrapper);
+        if (membership == null) {
+            throw new RuntimeException("No membership found for user id: " + user.getUserId());
+        }
+        // Convert entity to DTO
+        return membershipDtoMapper.toMembershipResponseDTO(membership);
+    }
+
     private int planPriority(String planType) {
         if (planType == null) {
             return 1;

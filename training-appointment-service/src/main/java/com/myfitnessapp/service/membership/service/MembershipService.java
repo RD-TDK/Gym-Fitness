@@ -17,4 +17,6 @@ public interface MembershipService {
     MembershipResponseDTO registerMembership(MembershipRegistrationDTO dto, User currentUser);
 
     MembershipResponseDTO updateMembership(MembershipUpdateDTO dto, User currentUser);
+
+    MembershipResponseDTO getMembershipByUser(User user);
 }

@@ -47,34 +47,35 @@ export default function Createacc() {
                 >
                     <h3>Basic</h3>
                     <p>Access to gym equipment and group classes.</p>
-                    <p><strong>$19.99/mo</strong></p>
+                    <p><strong>$19.99 - one-month</strong></p>
+                </div>
+
+                <div
+                    className={`${styles.planCard} ${planType === 'GOLD' ? styles.planCardSelected : ''}`}
+                    onClick={() => setPlanType('GOLD')}
+                >
+                    <h3>Gold</h3>
+                    <p>Includes Basic, plus one personal training session each month.</p>
+                    <p><strong>$59.99 - six-month</strong></p>
                 </div>
                 <div
                     className={`${styles.planCard} ${planType === 'PREMIUM' ? styles.planCardSelected : ''}`}
                     onClick={() => setPlanType('PREMIUM')}
                 >
                     <h3>Premium</h3>
-                    <p>Includes Basic, plus one personal training session each month.</p>
-                    <p><strong>$39.99/mo</strong></p>
-                </div>
-                <div
-                    className={`${styles.planCard} ${planType === 'GOLD' ? styles.planCardSelected : ''}`}
-                    onClick={() => setPlanType('GOLD')}
-                >
-                    <h3>Gold</h3>
                     <p>All Premium benefits, plus unlimited personal training.</p>
-                    <p><strong>$59.99/mo</strong></p>
+                    <p><strong>$99.99 - annual</strong></p>
                 </div>
             </div>
 
             <div className={styles.memberWrapper}>
             <form onSubmit={handleSubmit} className={styles.rightSection}>
-                <button type="submit" className={`${styles.signInButton} ${styles.fullWidthButton}`}>
-                    Sign Up as Member
-                </button>
-                {error && <p className={styles.errorText}>{error}</p>}
-            </form>
-        </div>
+                    <button type="submit" className={`${styles.signInButton} ${styles.fullWidthButton}`}>
+                        Sign Up as Member
+                    </button>
+                    {error && <p className={styles.errorText}>{error}</p>}
+                </form>
+            </div>
 
         </div>
     );

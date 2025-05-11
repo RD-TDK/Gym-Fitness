@@ -54,7 +54,6 @@ const App = () => {
       <Route path='/member/signup' element={<Createacc />} />
       <Route path='/memberlist' element={<Memberlist />} />
       <Route path='/overviews' element={<Overviews />} />
-      <Route path='/schedual' element={<Schedual />} />
       <Route path='/schedualcalmember' element={<Schedualcalendrsone />} />
       <Route path='/create-session' element={<CreateSessionForm />} />
       <Route path='/history' element={<History />} />

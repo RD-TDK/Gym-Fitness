@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../../api';
 import styles from "./Myprofile.module.css";
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,9 +11,21 @@ import  profileimg  from "../../../../src/assets/profile-icons.png";
 import  logoutimg from "../../../../src/assets/Logout-icons.png";
 import  notify from "../../../../src/assets/notification-icon.png";
 import  imgprofile from "../../../../src/assets/Avatar-photo.png";
+import notifyIcon from "../../../../src/assets/notification-icon.png";
+import defaultUser from "../../../../src/assets/default-user.png";
 
 
 const Myprofile = () => {
+// 通知弹窗
+  const [notifications, setNotifications] = useState([]);
+  const [loadingNotifications, setLoadingNotifications] = useState(false);
+  const [showNotifyPopup, setShowNotifyPopup] = useState(false);
+
+// 个人信息弹窗 & 套餐管理弹窗
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [membership, setMembership] = useState(null);
+  const [showPlanModal, setShowPlanModal] = useState(false);
+  const [planType, setPlanType] = useState('BASIC');
   // Form state matches UserUpdateDTO
   const user = JSON.parse(localStorage.getItem('user')) || {};
   const storedUserId = localStorage.getItem('userId') || user.userId;
@@ -71,7 +83,49 @@ const Myprofile = () => {
 
     fetchUser();
   }, [storedUserId]);
+// —— 获取通知 ——
+  async function loadNotifications() {
+    setLoadingNotifications(true);
+    try {
+      const { data } = await api.get('/notifications/unread');
+      setNotifications(data);
+    } catch (e) {
+      console.error('通知获取失败', e);
+    } finally {
+      setLoadingNotifications(false);
+    }
+  }
+  function toggleNotifyPopup() {
+    if (!showNotifyPopup) loadNotifications();
+    setShowNotifyPopup(v => !v);
+  }
+  async function markRead(notif) {
+    try {
+      const { data } = await api.post(`/notifications/${notif.notificationId}/read`);
+      setNotifications(ns => ns.filter(n => n.notificationId !== data.notificationId));
+    } catch (e) {
+      console.error('标记已读失败', e);
+    }
+  }
 
+// —— 获取会员信息 ——
+  useEffect(() => {
+    if (!user?.userId) return;
+    (async () => {
+      try {
+        const { data } = await api.get(`memberships/users/${user.userId}`);
+        setMembership({
+          membershipId: data.membershipId,
+          planType:    data.planType,
+          isActive:    data.isActive,
+          startDate:   data.startDate,
+          endDate:     data.endDate,
+        });
+      } catch (e) {
+        console.error('拉取会员信息失败', e);
+      }
+    })();
+  }, [user?.userId]);
 
   return (
       <div className={styles.headcontainer}>
@@ -91,7 +145,7 @@ const Myprofile = () => {
 
             <div className={styles.menuItemdb1}>
               <img src={workoutimg} alt='' className={styles.menuicon}/>
-              <Link to="/overviews" className={styles.menulinksdb}> Workout </Link>
+              <Link to="/history" className={styles.menulinksdb}> My Training History </Link>
             </div>
             <div className={styles.menuItemdb1}>
               <img src={trainerimg} alt='' className={styles.menuicon}/>
@@ -99,7 +153,7 @@ const Myprofile = () => {
             </div>
             <div className={styles.menuItemdb1}>
               <img src={schedualimg} alt='' className={styles.menuicon}/>
-              <Link to="/schedual" className={styles.menulinksdb}> My Schedule </Link>
+              <Link to="/schedualcalmember" className={styles.menulinksdb}>My Schedule</Link>
             </div>
 
 
@@ -127,9 +181,61 @@ const Myprofile = () => {
             </div>
 
             <div className={styles.topbarover02}>
-              <img src={notify} alt=''></img>
-              <img src={imgprofile} alt=''></img>
-              <span className={styles.bar03}>Member name</span>
+              {/* 通知图标 */}
+              <img
+                  src={notifyIcon}
+                  alt="Notify"
+                  className={styles.topnotifyimg}
+                  onClick={toggleNotifyPopup}
+                  style={{cursor: 'pointer'}}
+              />
+              {showNotifyPopup && (
+                  <div className={styles.notifypopup1}>
+                    <h3>Notifications</h3>
+                    {loadingNotifications
+                        ? <p>Loading...</p>
+                        : notifications.length
+                            ? notifications.map(n => (
+                                <div key={n.notificationId} className={styles.notificationItem}>
+                                  <p>{n.message}</p>
+                                  <button onClick={() => markRead(n)} className={styles.viewLink}>
+                                    View
+                                  </button>
+                                </div>
+                            ))
+                            : <p>No new notifications</p>}
+                  </div>
+              )}
+
+              {/* 头像 + 昵称，触发个人信息弹窗 */}
+              <div className={styles.profileTrigger} onClick={() => setShowProfilePopup(v => !v)}>
+                <img src={defaultUser} alt="Avatar"/>
+                <span className={styles.bar03}>{user?.name || 'Member'}</span>
+              </div>
+              {showProfilePopup && (
+                  <div className={styles.notifypopup1} style={{top: '60px', right: '20px'}}>
+                    <h3>Member Info</h3>
+                    <p><strong>Name:</strong> {user.name}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
+                    <hr className={styles.divider}/>
+                    {membership && (
+                        <>
+                          <h4>Membership Details</h4>
+                          <p><strong>ID:</strong> {membership.membershipId}</p>
+                          <p><strong>Plan:</strong> {membership.planType}</p>
+                          <button
+                              className={styles.membershipBtn}
+                              onClick={() => setShowPlanModal(true)}
+                          >
+                            Manage Plan
+                          </button>
+                          <p><strong>Active:</strong> {membership.isActive ? 'Yes' : 'No'}</p>
+                          <p><strong>Start:</strong> {new Date(membership.startDate).toLocaleDateString()}</p>
+                          <p><strong>End:</strong> {new Date(membership.endDate).toLocaleDateString()}</p>
+                        </>
+                    )}
+                  </div>
+              )}
             </div>
           </div>
           <div>
@@ -177,7 +283,7 @@ const Myprofile = () => {
                   />
                 </div>
                 <div className={styles.formgroupacc}>
-                  <label className={styles.formlabelacc} htmlFor="address">Address</label>
+                <label className={styles.formlabelacc} htmlFor="address">Address</label>
                   <input
                       className={styles.forminputacc}
                       type="text"
@@ -336,6 +442,49 @@ const Myprofile = () => {
           </div>
 
         </div>
+        {showPlanModal && (
+            <div className={styles.modalOverlay}>
+              <div className={styles.modalContent}>
+                <button className={styles.modalClose} onClick={() => setShowPlanModal(false)}>×</button>
+                <h3>Update Plan</h3>
+                <div className={styles.planCards}>
+                  {['BASIC','GOLD','PREMIUM'].map(p => (
+                      <div
+                          key={p}
+                          className={`${styles.planCard} ${planType === p ? styles.planCardSelected : ''}`}
+                          onClick={() => setPlanType(p)}
+                      >
+                        <h3>{p}</h3>
+                        <p className={styles.planDescription}>
+                          {p === 'BASIC'
+                              ? 'Access to gym equipment and group classes.'
+                              : p === 'GOLD'
+                                  ? 'Includes Basic, one personal session per month.'
+                                  : 'All Premium benefits plus unlimited training.'}
+                        </p>
+                      </div>
+                  ))}
+                </div>
+                <p className={styles.upgradeNote}>
+                  Note: The plan can only be upgraded and updated according to Basic→Gold→Premium. Downgrading is not possible
+                </p>
+                <button
+                    className={`${styles.signInButton} ${styles.fullWidthButton}`}
+                    onClick={async () => {
+                      try {
+                        await api.post('/memberships/update', { planType });
+                        setShowPlanModal(false);
+                        window.location.reload();
+                      } catch (err) {
+                        console.error('更新套餐失败', err);
+                      }
+                    }}
+                >
+                  Update Plan
+                </button>
+              </div>
+            </div>
+        )}
       </div>
   )
 }

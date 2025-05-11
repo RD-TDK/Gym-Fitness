@@ -91,4 +91,24 @@ public class MembershipController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Get current user's membership info by userId.
+     */
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<MembershipResponseDTO> getMembershipByUser(
+            @PathVariable Integer userId,
+            Authentication authentication) {
+        // ensure logged in
+        if (!(authentication != null && authentication.getPrincipal() instanceof CustomUserDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        // only allow self
+        if (!userDetails.getUser().getUserId().equals(userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        // fetch membership
+        MembershipResponseDTO dto = membershipService.getMembershipByUser(userDetails.getUser());
+        return ResponseEntity.ok(dto);
+    }
 }

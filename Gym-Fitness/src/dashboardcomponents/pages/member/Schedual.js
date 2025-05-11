@@ -53,15 +53,16 @@ const Schedual = () => {
       <Link to= "/overviews" className={styles.menulinksdb}> Overview </Link>
     </div>
 
-    <div className={styles.menuItemdb1}>
-      <img src={workoutimg} alt='' className={styles.menuicon} />
-      <Link to= "/overviews" className={styles.menulinksdb}> Workout </Link>
-    </div>
-    <div className={styles.menuItemdb1}>
-      <img src={trainerimg} alt='' className={styles.menuicon} />
-      <Link to= "/memberlist" className={styles.menulinksdb}> Trainers </Link>
-    </div>
-    <div className={styles.menuItemdb1}>
+
+        <div className={styles.menuItemdb1}>
+          <img src={workoutimg} alt='' className={styles.menuicon}/>
+          <Link to="/history" className={styles.menulinksdb}> My Training History </Link>
+        </div>
+        <div className={styles.menuItemdb1}>
+          <img src={trainerimg} alt='' className={styles.menuicon}/>
+          <Link to="/memberlist" className={styles.menulinksdb}> Trainers </Link>
+        </div>
+        <div className={styles.menuItemdb1}>
       <img src={schedualimg} alt='' className={styles.menuicon} />
       <Link to= "/schedual" className={styles.menulinksdb}> My Schedule </Link>
     </div>
