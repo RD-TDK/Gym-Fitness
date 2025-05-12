@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "./Trainer.module.css";
+import api from '../../../api';
+import { getCurrentUser } from '../../../utils/auth'
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import  trainerimg from "../../../../src/assets/trainer-icons.png";
@@ -33,6 +35,33 @@ const Overviews1 = ({ notify }) => {
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
+
+  const [memberCount, setMemberCount] = useState(0);
+  const [classCount, setClassCount] = useState(0);
+  const [loadingCount, setLoadingCount] = useState(true);
+  const currentUser = getCurrentUser();
+  const trainerId = currentUser ? currentUser.userId : null;
+  const userName = currentUser?.name || 'Member';
+
+    useEffect(() => {
+        if (!trainerId) return;
+        const fetchMemberCount = async () => {
+            try {
+                const { data } = await api.get(`/requests/trainers/${trainerId}`);
+                // 过滤已批准请求，去重 memberId
+                const approved = data.filter(r => r.status === 'APPROVED');
+                const uniqueIds = new Set(approved.map(r => r.memberId));
+                setMemberCount(uniqueIds.size);
+                const uniqueSessions = new Set(approved.map(r => r.sessionId));
+                setClassCount(uniqueSessions.size);
+            } catch (error) {
+                console.error('获取会员列表失败：', error);
+            } finally {
+                setLoadingCount(false);
+            }
+        };
+        fetchMemberCount();
+    }, [trainerId]);
 
   return (
     <div className={styles.headcontainer}>
@@ -91,13 +120,13 @@ const Overviews1 = ({ notify }) => {
 
             {/* pop-up1 */}
           <div className={styles.notifypopcontainer}>
-      <img 
+      <img
         src={notify1}
-        className={styles.topnotifyimg} 
-        alt='' 
+        className={styles.topnotifyimg}
+        alt=''
         onClick={togglePopup}
       />
-      
+
       {showPopup && (
         <div className={styles.notifypopup1}>
           <h3>NOTIFICATIONS</h3>
@@ -137,10 +166,10 @@ const Overviews1 = ({ notify }) => {
 
 
             <img src={imgprofile} alt=''></img>
-            <span className={styles.bar03} >Member name</span>
+            <span className={styles.bar03} >{userName}</span>
           </div>
         </div>
-      
+
       {/* rightdown */}
       <div className={styles.trainercarsect} >
         <div className={styles.trainersec01}>
@@ -148,41 +177,26 @@ const Overviews1 = ({ notify }) => {
 
 <div className={styles.rightbgdown}>
 <img src={cardworkout1} className={styles.rightimgcards} alt=''></img>
+</div>
 
-</div>    
-<div className={styles.rightdowncardspart01}>           
+<div className={styles.rightdowncardspart01}>
   <img src={cardworkout} alt=''></img>
   <div>
-  <p className={styles.rightdowncardstexts01}>Total members</p>
-  <p className={styles.rightdowncardstexts02}>100</p>
+  <p className={styles.rightdowncardstexts01}>Total Members</p>
+      <p className={styles.rightdowncardstexts02}>{loadingCount ? 'Loading...' : memberCount}</p>
   </div>
 </div>
-<div>
 
-<div className={styles.rightbgdown1}>
-<img src={cardcalories1} className={styles.rightimgcards} alt=''></img>
-
-</div> 
-<div className={styles.rightdowncardspart02}>
-<img src={cardcalories} alt=''></img>
-  <div>
-  <p className={styles.rightdowncardstexts01}>No of classes </p>
-  <p className={styles.rightdowncardstexts02}>50</p>
-  </div>
-
-</div>
-</div>
 <div>
 
 <div className={styles.rightbgdown2}>
 <img src={cardstep1} className={styles.rightimgcards} alt=''></img>
-
-</div> 
+</div>
 <div className={styles.rightdowncardspart03}>
 <img src={cardstep} alt=''></img>
   <div>
   <p className={styles.rightdowncardstexts01}>Total Classes</p>
-  <p className={styles.rightdowncardstexts02}>50</p>
+  <p className={styles.rightdowncardstexts02}> {loadingCount ? 'Loading...' : classCount}</p>
   </div>
   </div>
 </div>
@@ -221,11 +235,11 @@ const Overviews1 = ({ notify }) => {
           >
             {day}
           </div>
-          
+
         ))}
-        
+
       </div>
-      
+
     </div>
     <div className={styles.smallminicalender01}>
     <Link to="/myschedual01" className={styles.schedualtext02}> My Schedule</Link>
@@ -252,7 +266,7 @@ const Overviews1 = ({ notify }) => {
   <div className={styles.minicorner} >
     <div>
           <img src={avatarpic} alt=''></img>
-          </div>          
+          </div>
 <div>
   <p className={styles.smalltraintext01}>Alex</p>
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
@@ -264,7 +278,7 @@ const Overviews1 = ({ notify }) => {
   <div className={styles.minicorner} >
     <div>
           <img src={avatarpic} alt=''></img>
-          </div>          
+          </div>
 <div>
   <p className={styles.smalltraintext01}>Alex</p>
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
@@ -275,7 +289,7 @@ const Overviews1 = ({ notify }) => {
   <div className={styles.minicorner} >
     <div>
           <img src={avatarpic} alt=''></img>
-          </div>          
+          </div>
 <div>
   <p className={styles.smalltraintext01}>Alex</p>
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
@@ -286,7 +300,7 @@ const Overviews1 = ({ notify }) => {
   <div className={styles.minicorner} >
     <div>
           <img src={avatarpic} alt=''></img>
-          </div>          
+          </div>
 <div>
   <p className={styles.smalltraintext01}>Alex</p>
   <p className={styles.smalltraintext02}>Fitness, Boxing</p>
