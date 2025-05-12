@@ -26,6 +26,7 @@ import Entry from './entry/Entry';
 import CreateSessionForm from "./dashboardcomponents/pages/trainer/CreateSessionForm";
 import VisitorRegistration from "./dashboardcomponents/pages/visitor/VisitorRegistration";
 import History from "./dashboardcomponents/pages/member/History";
+import Myprofile1 from "./dashboardcomponents/pages/myprofile/Myprofile1";
 
 
 
@@ -69,7 +70,7 @@ const App = () => {
       <Route path='/myschedual02' element={< MySchedual02/>} />
 
       <Route path='/myprofile' element={<Myprofile />} />
-
+      <Route path='/myprofile1' element={<Myprofile1 />} />
       </Routes>
       </BrowserRouter>
     </div>

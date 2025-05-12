@@ -25,7 +25,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "com.myfitnessapp.service.user.*",
         "com.myfitnessapp.service.membership.*",
         "com.myfitnessapp.service.trainer.*",
-        "com.myfitnessapp.service.request.*"
+        "com.myfitnessapp.service.request.*",
+        "com.myfitnessapp.service.admin.*"
 })
 @EnableScheduling
 public class TrainingAppointmentApplication {

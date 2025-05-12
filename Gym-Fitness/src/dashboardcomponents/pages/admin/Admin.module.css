@@ -1473,8 +1473,8 @@ gap: 0.6rem;
   }
   
   .avatar {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     margin-right: 10px;
   }
@@ -1484,7 +1484,7 @@ gap: 0.6rem;
     align-items: center;
     gap: 1rem;
   }
-  
+
   .membertablebtns {
     background: #78E38D;
     border: none;
@@ -1509,7 +1509,7 @@ gap: 0.6rem;
   }
 
 
-  
+
 .lastmemberthree{
   color: #FFFFFF;
   font-size: 33px;
@@ -1518,7 +1518,7 @@ text-align: center;
 margin-top: -15px;
 cursor: pointer;
 }
-  
+
 /* memberlist01-table */
 /* Container */
 .member01tablenxtcontnr {
@@ -1675,7 +1675,7 @@ color: #FFFFFF;
 
 
 
-  
+
 /* pop-up1 for  top notificatio */
 
 .notifypopcontainer {
@@ -1683,10 +1683,17 @@ position: relative;
 display: inline-block;
 }
 
-.topnotifyimg {
-cursor: pointer;
+  .topnotifyimg {
+    cursor: pointer;
+  }
 
-}
+  /* default user avatar in topbar */
+  .topbarover02 img[src*="default-user"] {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 
 .notifypopup1{
 position: absolute;

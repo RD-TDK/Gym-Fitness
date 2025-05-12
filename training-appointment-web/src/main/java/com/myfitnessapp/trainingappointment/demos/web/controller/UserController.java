@@ -119,7 +119,8 @@ public class UserController {
             case VISITOR: targetPage = "/visitor/choice";   break;
             case MEMBER:  targetPage = "/overviews"; break;
             case TRAINER: targetPage = "/overviews1";break;
-            default:      targetPage = "/home";             break;
+            case ADMIN: targetPage = "/overview"; break;
+            default:      targetPage = "/signin";             break;
         }
 
         // 返回 token + user + targetPage

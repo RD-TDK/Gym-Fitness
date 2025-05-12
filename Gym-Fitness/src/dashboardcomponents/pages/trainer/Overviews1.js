@@ -28,7 +28,8 @@ import avatarpic from "../../../../src/assets/trainer-avatar.png";
 const Overviews1 = ({ notify }) => {
 
   const [showPopup, setShowPopup] = useState(false);
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('User id:', user.userId);
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -67,7 +68,7 @@ const Overviews1 = ({ notify }) => {
 
       <div className={styles.menuItemdb01}>
         <img src={profileimg} alt='' className={styles.menuicon} />
-        <Link to= "/myprofile" className={styles.menulinksdb}> My Profile </Link>
+        <Link to= "/myprofile1" className={styles.menulinksdb}> My Profile </Link>
       </div>
       <div className={styles.menuItemdb01}>
         <img src={logoutimg} alt='' className={styles.menuicon} />
