@@ -196,7 +196,7 @@ const Overviews1 = ({ notify }) => {
 
         <div className={styles.schedualcalender}>
       <div className={styles.schedualheader11}>
-        <span className={styles.dechead}>December 2, 2021</span>
+        <span className={styles.dechead}>May, 2025</span>
         <div className={styles.nav}>
         <img src={arrowlefts} alt=''></img>
         <img src={arrowrights} alt=''></img>
@@ -208,15 +208,15 @@ const Overviews1 = ({ notify }) => {
       </div>
       <div className={styles.calenderdates}>
         {[
-          "", "", "1", "2", "3", "4", "5",
-          "6", "7", "8", "9", "10", "11", "12",
-          "13", "14", "15", "16", "17", "18", "19",
-          "20", "21", "22", "23", "24", "25", "26",
-          "27", "28", "29", "30", "31", "1", "2"
+            "", "", "", "", "1", "2", "3",
+            "4", "5", "6", "7", "8", "9", "10",
+            "11", "12", "13", "14", "15", "16", "17",
+            "18", "19", "20", "21", "22", "23", "24",
+            "25", "26", "27", "28", "29", "30", "31"
         ].map((day, index) => (
           <div
             key={index}
-            className={`${styles.caldate} ${day === "3" ? styles.active : ""} ${["29", "30", "1", "2"].includes(day) && index < 7 ? styles.faded : ""} ${["1", "2"].includes(day) && index > 30 ? styles.faded : ""}`}
+            className={`${styles.caldate} ${day === "14" ? styles.active : ""}`}
           >
             {day}
           </div>
