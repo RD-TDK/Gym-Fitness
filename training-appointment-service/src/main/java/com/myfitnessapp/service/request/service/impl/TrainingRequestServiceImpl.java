@@ -150,4 +150,18 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
                 .eq("status", status);
         return mapper.selectList(qw);
     }
+
+    @Override
+    public List<Integer> getApprovedSessionIdsByMember(Integer memberId) {
+        QueryWrapper<TrainingRequest> qw = new QueryWrapper<>();
+        qw.eq("member_id", memberId)
+                .eq("status", "APPROVED");
+        List<TrainingRequest> approved = mapper.selectList(qw);
+        if (approved.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return approved.stream()
+                .map(TrainingRequest::getSessionId)
+                .collect(Collectors.toList());
+    }
 }

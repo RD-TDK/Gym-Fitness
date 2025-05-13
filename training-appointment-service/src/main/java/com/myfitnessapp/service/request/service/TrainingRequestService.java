@@ -12,4 +12,6 @@ public interface TrainingRequestService {
     TrainingRequest reviewRequest(Integer requestId, String status, String reason);
 
     List<TrainingRequest> findByMemberIdAndStatus(Integer memberId, String status);
+
+    List<Integer> getApprovedSessionIdsByMember(Integer memberId);
 }

@@ -1,7 +1,9 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 
 import styles from "./Member.module.css";
 import api from '../../../api';
+import dayjs from 'dayjs';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
 import overviewimg from "../../../../src/assets/Dashbaord-icons.png";
 import workoutimg from "../../../../src/assets/Workout-icons.png";
@@ -40,7 +42,7 @@ import {formatDistanceToNow} from "date-fns";
 
 
 
-const activityData = [
+const caloriesData = [
   { name: 'Mon', cal: 120 },
   { name: 'Tue', cal: 210 },
   { name: 'Wed', cal: 170 },
@@ -69,8 +71,11 @@ const Overviews = ({ notify }) => {
   const user = JSON.parse(localStorage.getItem('user'));
   console.log('User id:', user.userId);
   const toggleProfilePopup = () => setShowProfilePopup(prev => !prev);
-
-  // Fetch membership info via new membership endpoint
+  //训练时间相关
+  const [durationType, setDurationType] = useState('week');
+  const [totalDuration, setTotalDuration] = useState(0);
+  const [activityData, setActivityData] = useState([]);
+    // Fetch membership info via new membership endpoint
   useEffect(() => {
     const fetchMembership = async () => {
       try {
@@ -115,6 +120,53 @@ const Overviews = ({ notify }) => {
       }
     })();
   }, [overviewKeyword]);
+
+    useEffect(() => {
+        if (!user?.userId) return;
+
+        // ===== 以下为修改内容：拉取总时长 =====
+        const fetchTotal = async () => {
+            try {
+                const res = await api.get(
+                    `/sessions/total-duration/${user.userId}`,
+                    { params: { durationType: durationType === 'today' ? 'week' : durationType } }
+                );
+                setTotalDuration(res.data);  // 后端返回分钟
+            } catch (err) {
+                console.error('获取总时长失败', err);
+            }
+        };
+
+        const fetchHistory = async () => {
+            try {
+                const res = await api.get(`/sessions/history/${user.userId}`);
+                const sessions = res.data; // Array<SessionInfo>
+                const start = durationType === 'month'
+                    ? dayjs().subtract(1, 'month')
+                    : durationType === 'week'
+                        ? dayjs().subtract(7, 'day')
+                        : dayjs().startOf('day');
+                const buckets = {};
+                sessions.forEach(s => {
+                    const d = dayjs(s.sessionDatetime);
+                    if (d.isBefore(start)) return;
+                    const name = durationType === 'month'
+                        ? d.format('MM/DD')
+                        : durationType === 'week'
+                            ? d.format('ddd')
+                            : d.format('HH:mm');
+                    buckets[name] = (buckets[name] || 0) + s.duration;
+                });
+                const data = Object.entries(buckets).map(([name, duration]) => ({ name, duration }));
+                setActivityData(data);
+            } catch (err) {
+                console.error('获取历史记录失败', err);
+            }
+        };
+
+        fetchTotal();
+        fetchHistory();
+    }, [user?.userId, durationType]);
 
     const togglePopup = () => {
         if (!showPopup) {
@@ -299,7 +351,7 @@ const Overviews = ({ notify }) => {
           <img src={cardworkout} alt=''></img>
           <div>
           <p className={styles.rightdowncardstexts01}>Workout</p>
-          <p className={styles.rightdowncardstexts02}>4 hrs</p>
+          <p className={styles.rightdowncardstexts02}>{(totalDuration / 60).toFixed(1)} hrs</p>
           </div>
         </div>
         <div>
@@ -344,15 +396,25 @@ const Overviews = ({ notify }) => {
    <div className={styles.leftPanel}>
     <h2 className={styles.panelheader2}>Total workout Hours </h2>
         <div className={styles.dateTabs}>
-          <button className={styles.activeTab01}>Today</button>
-          <button className={styles.activeTab01}>Week</button>
-          <button className={styles.activeTab01}>Month</button>
+          <button  className={durationType === 'today' ? styles.activeTab01 : ''}
+                   onClick={() => setDurationType('today')}>Today</button>
+          <button  className={durationType === 'week' ? styles.activeTab01 : ''}
+                   onClick={() => setDurationType('week')}>Week</button>
+          <button className={durationType === 'month' ? styles.activeTab01 : ''}
+                  onClick={() => setDurationType('month')}>Month</button>
         </div>
-
+       <ResponsiveContainer width="100%" height={150}>
+           <BarChart data={activityData}>
+               <XAxis dataKey="name" />
+               <YAxis />
+               <Tooltip />
+               <Bar dataKey="duration" fill="#F47521" />
+           </BarChart>
+       </ResponsiveContainer>
         <div className={styles.dateRow}>
           {["1", "2", "3", "4", "5", "6", "7"].map((d, i) => (
             <button key={i} className={ styles.activeDate}>
-              {d}  <br /> Feb
+              {d}  <br /> May
             </button>
           ))}
         </div>
@@ -378,7 +440,9 @@ const Overviews = ({ notify }) => {
           <div className={styles.summaryItem}>
             <h5 className={styles.bottomsummary}>Workout</h5>
             <img src={workoutpic} className={styles.bottomsummarypic} alt=''></img>
-              <p className={styles.bottomspansummary}>3 <span className={styles.bottomsp} >Hours</span></p>
+              <p className={styles.bottomspansummary}>
+                  {(totalDuration / 60).toFixed(1)}<span className={styles.bottomsp} >Hours</span>
+              </p>
           </div>
           <div className={styles.summaryItem1}>
             <h5 className={styles.bottomsummary}>Water</h5>
@@ -417,7 +481,7 @@ const Overviews = ({ notify }) => {
         </div>
 
         <ResponsiveContainer width="80%" height={170}>
-          <BarChart data={activityData}>
+          <BarChart data={caloriesData}>
             <XAxis dataKey="name" />
             <YAxis hide />
             <Tooltip />

@@ -2,6 +2,7 @@ package com.myfitnessapp.service.session.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myfitnessapp.service.exception.InvalidBusinessRuleException;
+import com.myfitnessapp.service.request.service.TrainingRequestService;
 import com.myfitnessapp.service.session.event.SessionUpdatedEvent;
 import com.myfitnessapp.service.session.mapper.SessionInfoMapper;
 import com.myfitnessapp.service.session.model.SessionInfo;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -25,6 +27,9 @@ public class SessionInfoServiceImpl implements SessionInfoService {
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    private TrainingRequestService trainingRequestService;
 
     @Override
     public SessionInfo createSession(SessionInfo sessionInfo) {
@@ -103,17 +108,30 @@ public class SessionInfoServiceImpl implements SessionInfoService {
     }
 
     @Override
-    public Integer getTotalDuration(Integer memberId, LocalDateTime startTime, LocalDateTime endTime) {
+    public Integer getTotalDuration(Integer memberId,
+                                    LocalDateTime startTime,
+                                    LocalDateTime endTime) {
+        List<Integer> sessionIds =
+                trainingRequestService.getApprovedSessionIdsByMember(memberId);
+        if (sessionIds.isEmpty()) {
+            log.info("会员 {} 无已批准课程，返回 0 分钟", memberId);
+            return 0;
+        }
+
         QueryWrapper<SessionInfo> wrapper = new QueryWrapper<>();
-        wrapper.eq("member_id", memberId)
-                .between("session_datetime", startTime, endTime);
-        // 使用 selectObjs 获取所有训练时长（duration）数据
-        List<Object> durations = sessionInfoMapper.selectObjs(wrapper.select("duration"));
+        wrapper.in("session_id", sessionIds)
+                .between("session_datetime", startTime, endTime)
+                .select("duration");
+
+        List<Object> durations = sessionInfoMapper.selectObjs(wrapper);
+
         int total = durations.stream()
-                .filter(obj -> obj != null)
-                .mapToInt(obj -> (Integer) obj)
+                .filter(Objects::nonNull)
+                .mapToInt(obj -> ((Number) obj).intValue())
                 .sum();
-        log.info("统计会员 {} 在 {} 到 {} 期间的总训练时长：{} 分钟", memberId, startTime, endTime, total);
+
+        log.info("统计会员 {} 在 {} 到 {} 期间的总训练时长：{} 分钟",
+                memberId, startTime, endTime, total);
         return total;
     }
 
