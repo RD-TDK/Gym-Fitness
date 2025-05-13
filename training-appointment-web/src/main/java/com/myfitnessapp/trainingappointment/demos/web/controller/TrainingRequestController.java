@@ -23,7 +23,7 @@ public class TrainingRequestController {
     @ResponseStatus(HttpStatus.CREATED)
     public TrainingRequest createRequest(@PathVariable Integer sessionId,
                                          @RequestBody @Validated CreateRequestDto dto) {
-        return service.createRequest(sessionId, dto.getMemberId());
+        return service.createRequest(sessionId, dto.getMemberId(), dto.getReason());
     }
 
     @GetMapping("/trainers/{trainerId}")

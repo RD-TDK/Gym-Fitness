@@ -2719,3 +2719,28 @@ color: #FFFFFF;
     font-style: italic;
     line-height: 1.4;
 }
+
+/* 新增模态背景 */
+.modalOverlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+/* 新增模态内容容器 */
+.modalContent {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: .5rem;
+    max-width: 400px;
+    width: 90%;
+}
+
+/* 新增按钮区 */
+.modalActions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}

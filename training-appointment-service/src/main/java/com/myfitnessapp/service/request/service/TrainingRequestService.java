@@ -5,7 +5,7 @@ import com.myfitnessapp.service.request.model.TrainingRequest;
 import java.util.List;
 
 public interface TrainingRequestService {
-    TrainingRequest createRequest(Integer sessionId, Integer memberId);
+    TrainingRequest createRequest(Integer sessionId, Integer memberId,String reason);
 
     List<TrainingRequest> findRequests(Integer trainerId);
 

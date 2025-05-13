@@ -54,6 +54,11 @@ const Schedualcalendrsone = () => {
     const currentUser = getCurrentUser();
     const memberId = currentUser ? currentUser.userId : null;
 
+    // —— 新增：加入课程理由弹窗状态 ——
+    const [showJoinModal, setShowJoinModal] = useState(false);
+    const [joinReason, setJoinReason] = useState("");
+    const [joinSessionId, setJoinSessionId] = useState(null);
+
     // —— 翻周状态 ——
     const [currentWeekStart, setCurrentWeekStart] = useState(
         startOfWeek(new Date(), { weekStartsOn: 1 })
@@ -143,6 +148,21 @@ const Schedualcalendrsone = () => {
                 console.error("Join request failed:", err.response || err);
                 alert(`Failed to send request：${err.response?.status} ${err.response?.data?.message || ""}`);
             });
+    };
+
+    const submitJoinRequest = async () => {
+        try {
+            await api.post(
+                `/requests/sessions/${joinSessionId}`,
+                { memberId, reason: joinReason }
+            );
+            alert("Request sent, awaiting tutor review");
+            setShowJoinModal(false);
+            setJoinReason("");
+        } catch (err) {
+            console.error("Join request failed:", err.response || err);
+            alert(`Failed to send request：${err.response?.status} ${err.response?.data?.message || ""}`);
+        }
     };
 
     // —— 弹窗逻辑 ——
@@ -366,9 +386,11 @@ const Schedualcalendrsone = () => {
                                                                 </p>
                                                                 <button
                                                                     className={styles.joinparttwo}
-                                                                    onClick={() =>
-                                                                        handleJoin(session.sessionId)
-                                                                    }
+                                                                    onClick={() => {
+                                                                        // 修改：点击按钮先打开输入理由弹窗，而非直接调用 API
+                                                                        setJoinSessionId(session.sessionId);
+                                                                        setShowJoinModal(true);
+                                                                    }}
                                                                 >
                                                                     Join class
                                                                 </button>
@@ -383,6 +405,33 @@ const Schedualcalendrsone = () => {
                             </div>
                         </div>
 
+                        {showJoinModal && (
+                            <div
+                                className={styles.modalOverlay}  // 需要在 Member.module.css 中新增样式
+                                onClick={() => setShowJoinModal(false)}
+                            >
+                                <div
+                                    className={styles.modalContent}  // 需要在 Member.module.css 中新增样式
+                                    onClick={e => e.stopPropagation()}
+                                >
+                                    <h3 style={{ color: '#333' }}>Please enter your training objectives</h3>
+                                    <textarea
+                                        value={joinReason}
+                                        onChange={e => setJoinReason(e.target.value)}
+                                        placeholder="For example, I want to improve my back strength"
+                                    />
+                                    <div className={styles.modalActions}>
+                                        <button onClick={() => setShowJoinModal(false)}>Cancel</button>
+                                        <button
+                                            disabled={!joinReason.trim()}
+                                            onClick={submitJoinRequest}
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         {/* —— 弹窗部分（保留原逻辑） —— */}
                         {showPopups && (
                             <div

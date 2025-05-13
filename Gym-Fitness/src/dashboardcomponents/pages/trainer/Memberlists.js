@@ -106,25 +106,31 @@ const Memberlists = () => {
                 <tr className={styles.membertr1}>
                   <th
                       className={styles.memberth}
-                      style={{ width: '25%', textAlign: 'center' }}
+                      style={{ width: '20%', textAlign: 'center' }}
                   >
                     Member ID
                   </th>
                   <th
                       className={styles.memberth}
-                      style={{ width: '25%', textAlign: 'center' }}
+                      style={{ width: '20%', textAlign: 'center' }}
                   >
                     Session ID
                   </th>
                   <th
                       className={styles.memberth}
-                      style={{ width: '25%', textAlign: 'center' }}
+                      style={{ width: '20%', textAlign: 'center' }}
                   >
                     Status
                   </th>
                   <th
                       className={styles.memberth}
-                      style={{ width: '25%', textAlign: 'center' }}
+                      style={{ width: '20%', textAlign: 'center' }}
+                  >
+                    Training Goals
+                  </th>
+                  <th
+                      className={styles.memberth}
+                      style={{ width: '20%', textAlign: 'center' }}
                   >
                     Actions
                   </th>
@@ -150,6 +156,12 @@ const Memberlists = () => {
                           style={{ textAlign: 'center' }}
                       >
                         {req.status}
+                      </td>
+                      <td
+                          className={styles.membertd}
+                          style={{ textAlign: 'center' }}
+                      >
+                        {req.reason}
                       </td>
                       <td
                           className={styles.membertd}

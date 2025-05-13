@@ -8,4 +8,6 @@ import javax.validation.constraints.NotNull;
 public class CreateRequestDto {
     @NotNull
     private Integer memberId;
+
+    private String reason;
 }

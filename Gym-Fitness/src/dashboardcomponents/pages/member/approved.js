@@ -44,7 +44,7 @@ const Approved = () => {
                             className={styles.fullWidthButton}
                             onClick={handleConfirm}
                         >
-                            I know 确认
+                            I know
                         </button>
                     </div>
                 </div>

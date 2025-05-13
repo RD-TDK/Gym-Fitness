@@ -33,7 +33,7 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public TrainingRequest createRequest(Integer sessionId, Integer memberId) {
+    public TrainingRequest createRequest(Integer sessionId, Integer memberId,String reason) {
         // Get the lesson the member wants to request.
         SessionInfo target = sessionMapper.selectById(sessionId);
         if (target == null) {
@@ -68,6 +68,7 @@ public class TrainingRequestServiceImpl implements TrainingRequestService {
         TrainingRequest r = new TrainingRequest();
         r.setSessionId(sessionId);
         r.setMemberId(memberId);
+        r.setReason(reason);
         r.setStatus("PENDING");
         r.setCreatedAt(LocalDateTime.now());
         r.setUpdatedAt(LocalDateTime.now());
