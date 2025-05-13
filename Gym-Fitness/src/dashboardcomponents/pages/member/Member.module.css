@@ -320,10 +320,13 @@ cursor: pointer;
   /* Overview-module */
 
   .headcontainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     min-height: 100vh;
     background: #292D31; /* ensure full height dark background */
-    display: flex;
   }
 
   /* left-part */
@@ -400,11 +403,11 @@ text-decoration: none;
       }
 
       .topbarover{
+        width: 100%;
         background: #1D2023;
         border-bottom: 1px solid #1D2023;
         display: flex;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
+        padding: 1rem 0;
         padding-left: 3rem;
         padding-right: 3rem;
         justify-content: space-between;
@@ -433,7 +436,7 @@ color: #FFFFFF;
 
       .bar01 {
         margin-bottom: 10px;
-        font-size: 12px;
+        /* font-size overridden inline in Approved.js */
       }
 .bar03 {
   font-family: 'Manrope', sans-serif;

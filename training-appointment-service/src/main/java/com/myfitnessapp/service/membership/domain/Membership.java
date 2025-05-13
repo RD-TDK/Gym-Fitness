@@ -20,7 +20,8 @@ public class Membership {
     private String planType;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+//    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField("is_active")
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

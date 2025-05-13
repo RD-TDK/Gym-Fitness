@@ -1,6 +1,9 @@
 package com.myfitnessapp.service.membership.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myfitnessapp.service.membership.domain.Membership;
 import com.myfitnessapp.service.membership.dto.MembershipRegistrationDTO;
@@ -126,7 +129,6 @@ public class MembershipServiceImpl implements MembershipService {
     membership.setPlanType(dto.getPlanType());
     membership.setStartDate(newStartDate);
     membership.setEndDate(newEndDate);
-    membership.setIsActive(true);
     membership.setUpdatedAt(now);
     membershipMapper.updateById(membership);
     return membershipDtoMapper.toMembershipResponseDTO(membership);
@@ -162,5 +164,20 @@ public class MembershipServiceImpl implements MembershipService {
             default:
                 return 1;
         }
+    }
+    @Override
+    public Membership getByUserId(Integer userId) {
+        QueryWrapper<Membership> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId)
+               .orderByDesc("start_date")
+               .last("LIMIT 1");
+        return membershipMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public List<Membership> getPendingMemberships() {
+        QueryWrapper<Membership> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_active", 0);
+        return membershipMapper.selectList(wrapper);
     }
 }

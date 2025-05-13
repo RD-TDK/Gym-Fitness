@@ -96,7 +96,7 @@ export default function Trainers() {
           {[
             {to:'/overview', icon:overviewimg, text:'Overview'},
             {to:'/scheduale',   icon:workoutimg,  text:'Members'},
-            {to:'/memberlist',icon:trainerimg,  text:'Trainers'},
+            {to:'//trainer',icon:trainerimg,  text:'Trainers'},
           ].map(m=>(
             <div key={m.text} className={styles.menuItemdb1}>
               <img src={m.icon} alt="" className={styles.menuicon}/>

@@ -1,4 +1,6 @@
 package com.myfitnessapp.trainingappointment.demos.web.controller;
+import com.myfitnessapp.service.membership.service.MembershipService;
+import com.myfitnessapp.service.membership.domain.Membership;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,13 +31,18 @@ public class UserController {
     private final UserService userService;
     private final VerificationCodeService verificationCodeService;
     private final JwtUtil jwtUtil;
+    private final MembershipService membershipService;
 
 
     @Autowired
-    public UserController(UserService userService, VerificationCodeService verificationCodeService, JwtUtil jwtUtil) {
+    public UserController(UserService userService,
+                          VerificationCodeService verificationCodeService,
+                          JwtUtil jwtUtil,
+                          MembershipService membershipService) {
         this.userService = userService;
         this.verificationCodeService = verificationCodeService;
         this.jwtUtil = jwtUtil;
+        this.membershipService = membershipService;
     }
 
 
@@ -101,6 +108,9 @@ public class UserController {
         // 业务校验：邮箱/密码/状 态
         UserResponseDTO userResponse = userService.loginUser(loginDTO);
 
+        // Load membership for this user
+        Membership membership = membershipService.getByUserId(userResponse.getUserId());
+
         // 手动构建 Spring Security Authentication
         User domainUser = userService.loadDomainUserByEmail(loginDTO.getEmail());
         CustomUserDetails userDetails = new CustomUserDetails(domainUser);
@@ -116,11 +126,26 @@ public class UserController {
         // 根据角色决定前端跳转页面
         String targetPage;
         switch (userResponse.getRole()) {
-            case VISITOR: targetPage = "/visitor/choice";   break;
-            case MEMBER:  targetPage = "/overviews"; break;
-            case TRAINER: targetPage = "/overviews1";break;
-            case ADMIN: targetPage = "/overview"; break;
-            default:      targetPage = "/signin";             break;
+            case VISITOR:
+                targetPage = "/visitor/choice";
+                break;
+            case MEMBER:
+                // If a member's account is not active, redirect to approval page
+                if (membership == null || !Boolean.TRUE.equals(membership.getIsActive())) {
+                    targetPage = "/approved";
+                } else {
+                    targetPage = "/overviews";
+                }
+                break;
+            case TRAINER:
+                targetPage = "/overviews1";
+                break;
+            case ADMIN:
+                targetPage = "/overview";
+                break;
+            default:
+                targetPage = "/signin";
+                break;
         }
 
         // 返回 token + user + targetPage

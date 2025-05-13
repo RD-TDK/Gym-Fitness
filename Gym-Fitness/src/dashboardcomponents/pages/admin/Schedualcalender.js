@@ -1,4 +1,6 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from "./Admin.module.css";
 import { Link } from 'react-router-dom';
 import logoviews from "../../../../src/assets/fitnessWorkout-iconsorange.png";
@@ -16,11 +18,34 @@ import  imgprofile from "../../../../src/assets/Avatar-photo.png";
  import phone from "../../../../src/assets/phone.png";
  import address from "../../../../src/assets/location.png";
 
+// Retrieve token from localStorage (or wherever you store it)
+const token = localStorage.getItem('token');
+// Set default Authorization header for all Axios requests
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
 
 
 
 
 const Schedualcalender = () => {
+
+  const [members, setMembers] = useState([]);
+
+  // Fetch pending (inactive) members on mount
+  useEffect(() => {
+    axios.get('/api/admin/memberships/pending')
+      .then(res => setMembers(res.data))
+      .catch(err => console.error('Error loading members', err));
+  }, []);
+
+  const handleActivate = (membershipId) => {
+    axios.put(`/api/admin/member/${membershipId}/activate`)
+      .then(() => {
+        // Remove activated member from list
+        setMembers(prev => prev.filter(m => m.membershipId !== membershipId));
+      })
+      .catch(err => console.error('Activation failed', err));
+  };
 
 
 
@@ -88,22 +113,15 @@ const Schedualcalender = () => {
         <div className={styles.Memberlistsection01}>
           <h2 className={styles.memberheader01}> Members List </h2>
           <div className={styles.membertwobtns}>
-<div className={styles.membertwobtns02}>
-  <Link to="/memberlists" className={styles.Memberlinklist}>Members Requests</Link>
-  <Link to="/memberlists" className={styles.Memberlinklist}>Approved members</Link>
-  <Link to="/memberlists" className={styles.Memberlinklist}>Rejected members</Link>
-
-
-</div>
 
 <div className={styles.membertwobtns0101}>
 <input className={styles.memberinput} type='text' placeholder='Search'></input>
 <img src={searchicon} alt=''></img>
- 
+
 </div>
           </div>
           {/* memberlist01-table */}
-         
+
           <div className= {styles.member01tablenxtcontnr}>
       <div className={styles.member01tableheader}>
         <div className= {styles.member01tableheaderitem}>Name</div>
@@ -115,24 +133,23 @@ const Schedualcalender = () => {
 
 
 
-      {[...Array(5)].map((_, index) => (
-        <div key={index} className= {styles.member01tablerow}>
+      {members.map(member => (
+        <div key={member.membershipId} className={styles.member01tablerow}>
           <div className={styles.member01tablerowitemmember01tableuser}>
-          <img src={trainerprofile} alt="avatar" className={styles.avatar} />
-            <span className= {styles.member01tableusername}>Arora</span>
+            <img src={trainerprofile} alt="avatar" className={styles.avatar} />
+            <span className={styles.member01tableusername}>{member.name}</span>
           </div>
-         
 
-
-          <div className= {styles.member01tablerowitem}>aror@gmail.com</div>
-          <div className= {styles.member01tablerowitem}>+49 587 2547</div>
-          <div className= {styles.member01tablerowitem}>Male</div>
-          <div className= {styles.member01tablerowitemmember01tableactions}>
-            <button className={styles.member01tableacceptbtn}>Accept</button>
-            <button className= {styles.member01tablerejectbtn}>Reject</button>
-            <div className={styles.lastmemberthree}>
-        ...
-      </div>
+          <div className={styles.member01tablerowitem}>{member.email}</div>
+          <div className={styles.member01tablerowitem}>{member.phone}</div>
+          <div className={styles.member01tablerowitem}>{member.gender}</div>
+          <div className={styles.member01tablerowitemmember01tableactions}>
+            <button
+              className={styles.member01tableacceptbtn}
+              onClick={() => handleActivate(member.membershipId)}
+            >
+              Activate
+            </button>
           </div>
         </div>
       ))}
@@ -140,42 +157,6 @@ const Schedualcalender = () => {
 
 
           </div>
-
-        </div>
-        <div className={styles.mainmembertwo02}>
-          <div className={styles.mainmembertwosub02}>
-        <img src={trainerinfoprofile} alt="avatar" className={styles.avtarinfos} />
-        <h2 className={styles.mebsubhead}>Arrora gaur</h2>
-        <p className={styles.mebsubpara}>Male</p>
-        <Link to="/scheduale" className={styles.mebsublink}>Approved</Link>
-        </div>
-
-        <div className={styles.mainmembertwosub03}>
-          <h2 className={styles.mebsubhead}>Profile Info</h2>
-
-          <div className={styles.mainmembertwosubs11}>
-          <img src={email} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Email:</Link> arroragaur@gmail.com</p>
-          </div>
-
-          <div className={styles.mainmembertwosubs11}>
-          <img src={phone} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Phone:</Link> +49 587 2547</p>
-          </div>
-
-          <div className={styles.mainmembertwosubs11}>
-          <img src={phone} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Date of Birth:</Link>  6 April 1997  </p>
-          </div>
-
-          <div className={styles.mainmembertwosubs11}>
-          <img src={address} alt="avatar" className={styles.emailinfo} />
-          <p className={styles.mebsubtxtpara}> <Link to="/scheduale"className={styles.mebsublinkmail} >Address:</Link>  2239  Hog Camp Road</p>
-          </div>
-
-
-        </div>
-
 
         </div>
 </div>

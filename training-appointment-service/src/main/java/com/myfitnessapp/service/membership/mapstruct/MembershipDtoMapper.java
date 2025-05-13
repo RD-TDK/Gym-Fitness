@@ -23,7 +23,7 @@ public interface MembershipDtoMapper {
     // 根据套餐类型计算 endDate
     @Mapping(target = "endDate", expression = "java(calculateEndDate(dto.getPlanType()))")
     // 默认激活状态设为 true
-    @Mapping(target = "isActive", constant = "true")
+//    @Mapping(target = "isActive", constant = "false")
     // 记录创建和更新时间设为当前时间（也可以在数据库设置默认值）
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")

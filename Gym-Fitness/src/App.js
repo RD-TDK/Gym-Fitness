@@ -27,7 +27,7 @@ import CreateSessionForm from "./dashboardcomponents/pages/trainer/CreateSession
 import VisitorRegistration from "./dashboardcomponents/pages/visitor/VisitorRegistration";
 import History from "./dashboardcomponents/pages/member/History";
 import Myprofile1 from "./dashboardcomponents/pages/myprofile/Myprofile1";
-
+import Approved  from "./dashboardcomponents/pages/member/approved";
 
 
 const App = () => {
@@ -58,7 +58,7 @@ const App = () => {
       <Route path='/schedualcalmember' element={<Schedualcalendrsone />} />
       <Route path='/create-session' element={<CreateSessionForm />} />
       <Route path='/history' element={<History />} />
-
+          <Route path="/approved" element={<Approved />} />
       {/* trainer-db */} 
 
       {/* <Route path='/login' element={<Login />} /> */}

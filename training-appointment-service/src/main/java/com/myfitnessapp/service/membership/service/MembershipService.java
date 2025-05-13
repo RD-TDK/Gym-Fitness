@@ -1,9 +1,12 @@
 package com.myfitnessapp.service.membership.service;
 
+import com.myfitnessapp.service.membership.domain.Membership;
 import com.myfitnessapp.service.membership.dto.MembershipRegistrationDTO;
 import com.myfitnessapp.service.membership.dto.MembershipResponseDTO;
 import com.myfitnessapp.service.membership.dto.MembershipUpdateDTO;
 import com.myfitnessapp.service.user.domain.User;
+
+import java.util.List;
 
 public interface MembershipService {
     /**
@@ -19,4 +22,14 @@ public interface MembershipService {
     MembershipResponseDTO updateMembership(MembershipUpdateDTO dto, User currentUser);
 
     MembershipResponseDTO getMembershipByUser(User user);
+
+    /**
+     * 查询指定用户的最新会员记录
+     *
+     * @param userId 用户主键
+     * @return 对应的 Membership 实体，如果不存在返回 null
+     */
+    Membership getByUserId(Integer userId);
+
+    List<Membership> getPendingMemberships();
 }
